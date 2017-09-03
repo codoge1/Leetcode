@@ -1,0 +1,20 @@
+class Solution {
+    public int maxArea(int[] height) {
+        int max = 0;
+        int left = 0,right = height.length - 1;
+        while (left < right) {
+            int h = Math.min(height[left],height[right]);
+            max = Math.max(max,(right - left) * h);
+            if (height[left] == h){
+                left++;
+            }
+            else {
+                right--;
+            }
+        }
+        return max;
+    }
+}
+
+//这道题作图帮助理解 设置两个指针left right 然后求最小值 为h 更新max
+//移动指针方法为 谁的height小 移谁（木桶原理）
