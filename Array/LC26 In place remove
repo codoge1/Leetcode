@@ -1,0 +1,17 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int i = 1;
+        for (int num : nums) {
+            if (num > nums[i - 1]) {
+                nums[i] = num;
+                i++;
+            }
+        }
+        return i;
+    }
+}
+
+//有点绕...题目要求去除重复元素 in place 在原数组基础上改
+//所以需要单独用一个 无重复元素的指针i来记录长度
+//因为0位置不会重复 所以i从1开始  遍历数组 只有出现num > nums[i-1] 才更新nums[i]的数字
+//最后i 就是所求的长度
