@@ -1,0 +1,41 @@
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(nums);
+        for (int i = 0;i < nums.length - 2;i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int left = i + 1,right = nums.length - 1;
+            while (left < right) {
+                if (nums[left] + nums[right] == -nums[i]) {
+                    List<Integer> temp = new ArrayList<>();
+                    temp.add(nums[left]);
+                    temp.add(nums[right]);
+                    temp.add(nums[i]);
+                    res.add(temp);
+                    while (left < right && nums[left + 1] == nums[left]) {
+                        left++;
+                    }
+                    while (left < right && nums[right - 1] == nums[right]) {
+                        right--;
+                    }
+                    left++;
+                    right--;
+                }
+                else if (nums[left] + nums[right] > -nums[i]) {
+                    right--;
+                }
+                else {
+                    left++;
+                }
+            }
+        }
+        return res;
+    }
+}
+
+//这道题 类似2sum 确定一个i 然后剩下的两指针靠拢即可
+//需要注意的是 不能有重复的组合 最开始思路为set 转list 但时间复杂度很高
+//所以 需要在遍历的过程中处理  可以看做三个数分别为i left right  所以在遍历i的过程中 判断出现重复即continue
+//在取得left right时同理 用while循环来跳过相同的值即可！
