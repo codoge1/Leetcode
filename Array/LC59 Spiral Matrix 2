@@ -1,0 +1,45 @@
+class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] res = new int[n][n];
+        int top = 0,down = n - 1;
+        int left = 0,right = n - 1;
+        int count = 1;
+        while (top < down && left < right) {
+            for (int i = left;i < right;i++) {
+                res[top][i] = count;
+                count++;
+            }
+            for (int i = top;i < down;i++) {
+                res[i][right] = count;
+                count++;
+            }
+            for (int i = right;i > left;i--) {
+                res[down][i] = count;
+                count++;
+            }
+            for (int i = down;i > top;i--) {
+                res[i][left] = count;
+                count++;
+            }
+            top++;
+            left++;
+            down--;
+            right--;
+        }
+        if (top == down) {
+            for (int i = left;i <= right;i++) {
+                res[top][i] = count;
+                count++;
+            }
+        }
+        else if (right == left) {
+            for (int i = top;i <= down;i++) {
+                res[i][left] = count;
+                count++;
+            }
+        }
+        return res;
+    }
+}
+
+//和I没任何区别 遍历顺序都是这样 这里需要一个count 依次填充 递增即可
