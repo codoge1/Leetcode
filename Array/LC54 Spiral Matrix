@@ -1,0 +1,41 @@
+class Solution {
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> res = new ArrayList<>();
+        if (matrix == null || matrix.length == 0) {
+            return res;
+        }
+        int top = 0,down = matrix.length - 1;
+        int left = 0,right = matrix[0].length - 1;
+        while (top < down && right > left) {
+            for (int i = left;i < right;i++) {
+                res.add(matrix[top][i]);
+            }
+            for (int i = top;i < down;i++) {
+                res.add(matrix[i][right]);
+            }
+            for (int i = right;i > left;i--) {
+                res.add(matrix[down][i]);
+            }
+            for (int i = down;i > top;i--) {
+                res.add(matrix[i][left]);
+            }
+            top++;
+            down--;
+            right--;
+            left++;
+        }
+        if (top == down) {
+            for (int i = left;i <= right;i++) {
+                res.add(matrix[top][i]);
+            }
+        }
+        else if (left == right) {
+            for (int i = top;i <= down;i++) {
+                res.add(matrix[i][left]);
+            }
+        }
+        return res;
+    }
+}
+
+//这题思路很简单 只是需要小心考虑各种情况 画几个矩阵 跟着索引走即可
