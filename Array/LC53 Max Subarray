@@ -1,0 +1,23 @@
+public class Solution {
+    public int maxSubArray(int[] nums) {
+        int max = nums[0];
+        int localMax = nums[0];
+        for (int i = 1;i < nums.length;i++) {
+            if (localMax < 0) {
+                localMax = nums[i];
+            }
+            else {
+                localMax = localMax + nums[i];
+            }
+            max = Math.max(localMax,max);
+        }
+        return max;
+    }
+}
+
+//动态规划题...
+//这里是subarray 即是连续的子数组
+//所以遇到nums[i] 不可能跳过 必须带上
+//而 我们需要考虑是否带上前面的localMax
+//如果前面的localMax 已经为负了 就不带上 从nums[i]另起炉灶
+//否则 带上前面的  实时更新max即可
