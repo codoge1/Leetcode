@@ -1,0 +1,16 @@
+class Solution {
+    public boolean canJump(int[] nums) {
+        int reachable = 0;
+        for (int i = 0;i < nums.length;i++) {
+            if (i > reachable) {
+                return false;
+            }
+            reachable = Math.max(reachable,i + nums[i]);
+        }
+        return true;
+    }
+}
+
+//greedy 设置一个reachable变量 初始为0
+//遍历数组 如果出现i > reachable 即到不了i 则就到不了最后 false
+//否则 则更新reachable 循环完后返回true即可
