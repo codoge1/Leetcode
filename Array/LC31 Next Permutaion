@@ -1,0 +1,41 @@
+class Solution {
+    public void nextPermutation(int[] nums) {
+        int i;
+        for (i = nums.length - 1;i > 0;i--) {
+            if (nums[i] > nums[i - 1]) {
+                break;
+            }
+        }
+        if (i == 0) {
+            nums = reverse(nums,0,nums.length - 1);
+            return;
+        }
+        int justBiggerIndex = i;
+        for (int j = i + 1;j < nums.length;j++) {
+            if (nums[j] > nums[i - 1] && nums[j] < nums[justBiggerIndex]) {
+                justBiggerIndex = j;
+            }
+        }
+        int t = nums[i - 1];
+        nums[i - 1] = nums[justBiggerIndex];
+        nums[justBiggerIndex] = t;
+        Arrays.sort(nums,i,nums.length);
+    }
+    public int[] reverse(int[] nums,int left,int right) {
+        while (left < right) {
+            int temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            left++;
+            right--;
+        }
+        return nums;
+    }
+}
+
+//这一次做这道题 就能一次AC了 后面有类似的题
+//这题是需要找下一个 permutation  即刚好大于这个数的下一个数
+//思路是 从后往前找 找到第一个比左边数大的数 则需要换的就是左边那个数
+//然后在后面区间 找一个 刚好大于左边数的数 换一下
+//然后右边升序排列即可
+//如果没找到这样的数 则原数是全部降序排列 则reverse原数组 返回即可
