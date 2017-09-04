@@ -1,0 +1,15 @@
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        int i = 0;
+        for (int num : nums) {
+            if (num != val) {
+                nums[i] = num;
+                i++;
+            }
+        }
+        return i;
+    }
+}
+
+//和上一题思路完全一样 这种in place的题 就单独设置一个索引 在原数组上修改数组即可！
+//这道题即 只有出现不等于val的值 才能赋值到i i才递增
