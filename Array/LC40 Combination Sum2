@@ -1,0 +1,31 @@
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        Arrays.sort(candidates);
+        backtrack(res,temp,candidates,target,0);
+        return res;
+    }
+    public void backtrack(List<List<Integer>> res,List<Integer> temp,int[] candidates,int remain,int start) {
+        if (remain < 0) {
+            return;
+        }
+        if (remain == 0) {
+            res.add(new ArrayList(temp));
+            return;
+        }
+        for (int i = start;i < candidates.length;i++) {
+            if (i > start && candidates[i] == candidates[i - 1]) {
+                continue;
+            }
+            temp.add(candidates[i]);
+            backtrack(res,temp,candidates,remain - candidates[i],i + 1);
+            temp.remove(temp.size() - 1);
+        }
+    }
+}
+
+//几个需要注意的地方
+//因为同一个数只能用一次 所以回溯从i+1开始 
+//由于原数组可能出现重复数 例如1 6 1这样的 即使设置start 也会出现16 61重复解 所以需要排序！
+//排序后 1 1 6这样的情况 也会出现16 16重复解 所以for循环时 需要判断 重复即continue
