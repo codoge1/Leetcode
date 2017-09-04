@@ -1,0 +1,26 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        backtrack(res,temp,candidates,target,0);
+        return res;
+    }
+    public void backtrack(List<List<Integer>> res,List<Integer> temp,int[] candidates,int remain,int start) {
+        if (remain < 0) {
+            return;
+        }
+        if (remain == 0) {
+            res.add(new ArrayList(temp));
+            return;
+        }
+        for (int i = start;i < candidates.length;i++) {
+            temp.add(candidates[i]);
+            backtrack(res,temp,candidates,remain - candidates[i],i);
+            temp.remove(temp.size() - 1);
+        }
+    }
+}
+
+//回溯法 也可以看做是DFS 需要区别的是组合 排列
+//组合是 没有顺序的 即123 321是同一解
+//所以需要start参数 保证不走回头路  但是因为同一数组可以用多次 所以回溯时 start为i 而不是i + 1
