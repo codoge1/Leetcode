@@ -1,0 +1,49 @@
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        int[] res = new int[2];
+        res[0] = findLeft(nums,target);
+        res[1] = findRight(nums,target);
+        return res;
+    }
+    public int findLeft(int[] nums,int target) {
+        int low = 0,high = nums.length - 1;
+        int i = -1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target) {
+                i = mid;
+            }
+            if (nums[mid] >= target) {
+                high = mid - 1;
+            }
+            else {
+                low = mid + 1;
+            }
+        }
+        return i;
+    }
+    public int findRight(int[] nums,int target) {
+        int low = 0,high = nums.length - 1;
+        int i = -1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target) {
+                i = mid;
+            }
+            if (nums[mid] <= target) {
+                low = mid + 1;
+            }
+            else {
+                high = mid - 1;
+            }
+        }
+        return i;
+    }
+}
+
+//这道题也是二分查找法变体
+//需要找到一个区间值等于target
+//即找到left 和right  和普通查找不同的是 以left为例
+//找到==target的值时，只是更新i 而不跳出循环 只要mid >= target 都继续往左找
+//同理 right  只要mid <= target 都继续往右找
+
