@@ -1,0 +1,24 @@
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        Map<Integer,Integer> map = new HashMap<>();
+        int sum = 0;
+        map.put(0,1);
+        int count = 0;
+        for (int i = 0;i < nums.length;i++) {
+            sum = sum + nums[i];
+            if (map.containsKey(sum - k)) {
+                count = count + map.get(sum - k);
+            }
+            map.put(sum,map.getOrDefault(sum,0) + 1);
+        }
+        return count;
+    }
+}
+
+//这道题提供的思路是 当用到连续子数组的和 可以将其看做是两个从0开始的数组的差值
+//从0开始遍历 记录到每一位的sum 放入map 统计次数（因为数组可能有负数 所以会出现相同sum的情况）
+//每一次得到sum 就查找map里面有没有 sum - k 有的话 从sum - k 到sum的那一段数组 就是和为k的数组
+//这个方法实际是 分别检查了 以i结尾的所有子数组 是否等于k
