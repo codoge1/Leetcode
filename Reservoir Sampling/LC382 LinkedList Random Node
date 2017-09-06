@@ -1,0 +1,42 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    ListNode head;
+    java.util.Random random;
+    /** @param head The linked list's head.
+        Note that the head is guaranteed to be not null, so it contains at least one node. */
+    public Solution(ListNode head) {
+        this.head = head;
+        random = new Random();
+    }
+    
+    /** Returns a random node's value. */
+    public int getRandom() {
+        ListNode node = head;
+        int val = node.val;
+        for (int i = 1;node.next != null;i++) {
+            node = node.next;
+            if (random.nextInt(i + 1) == i) {
+                val = node.val;
+            }
+        }
+        return val;
+    }
+}
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(head);
+ * int param_1 = obj.getRandom();
+ */
+ 
+ //水池取样问题  先在类中声明 域 和一个随机数 然后构造函数中new 一个random
+ //为了保证概率相等 所以链表中每一个值都可能被取到 初始化val为第一个
+ //然后只要出现random.nextInt(i + 1) == i  （从0 到 i 中随机一个 恰好等于i）
+ //则更新val值  不跳出  直到遍历完整个链表返回
