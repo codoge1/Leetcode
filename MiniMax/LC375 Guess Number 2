@@ -1,0 +1,24 @@
+class Solution {
+    public int getMoneyAmount(int n) {
+        int[][] dp = new int[n + 2][n + 1];
+        for (int len = 1;len < n;len++) {
+            for (int start = 1;start + len <= n;start++) {
+                int end = start + len;
+                dp[start][end] = Integer.MAX_VALUE;
+                for (int guess = start;guess <= end;guess++) {
+                    dp[start][end] = Math.min(dp[start][end],guess + Math.max(dp[start][guess - 1],dp[guess + 1][end]));
+                }
+            }
+        }
+        return dp[1][n];
+    }
+}
+
+//MiniMax DP   理解如下
+//需要求最小的cost来保证完成 最小cost意味着你是用最好的策略 但保证完成 意味着只要不是只有一个数 你每次都猜不对 即最坏的运气
+//设置dp数组 两位分别表示数组的开始和结尾
+//遍历方式 不寻常 是因为每猜一个数 把区间分成了两半 我们dp需要求这两半的最大值 所以每当求一个dp时 我们需要知道 比当前dp长度小的所有值
+//所以 我们从长度1 到n - 1开始填充dp
+//对于每一个区间 我们要有最佳策略 所以从start到end遍历猜测 求最小值
+//但是我们每次都猜不中 因为要保证完成 所以加上花销最大的那一半 这里由于我们的填充方式始终保证start < end 所以其余的值为default 0
+//就可以不另行判断 唯一需要注意的是guess + 1存在越界可能 所以我们把dp的第一位增加一位即可~
