@@ -1,0 +1,10 @@
+class Solution {
+    public int bulbSwitch(int n) {
+        return (int)Math.sqrt(n);
+    }
+}
+
+//n个灯泡全off 在1-n轮 分别是1-n的倍数的灯泡变化
+//即是考察 某一个数因子的个数 例如6  在1 2 3 6 会发生变化  偶数次变化保持不变 即off
+//那么最后on的 是奇数次变   因为因子一般是成对出现的 只有完全平方数是奇数个因子
+//所以实际求得就是 1- n 完全平方数的个数  则直接sqrt即可 注意转换为int
