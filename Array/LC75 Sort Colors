@@ -1,0 +1,24 @@
+class Solution {
+    public void sortColors(int[] nums) {
+        int left = 0,right = nums.length - 1;
+        for (int i = 0;i <= right;i++) {
+            if (nums[i] == 0) {
+                nums[i] = nums[left];
+                nums[left] = 0;
+                left++;
+            }
+            else if (nums[i] == 2) {
+                nums[i] = nums[right];
+                nums[right] = 2;
+                right--;
+                i--;
+            }
+        }
+    }
+}
+
+//思路是 遇见0就往前扔 遇见2就往后扔
+//一些细节地方需要注意 right右边的 全是2 left左边的全是0
+//i指针只需要扫到right即可结束 否则就重复交换了
+//i的前面 是已经排序好了的 0000111形式的 所以遇见0 往前交换即可
+//但遇见2 往后交换时 因为后面也可能是2 所以i-- 来抵消i递增 再次判断i位置的值
