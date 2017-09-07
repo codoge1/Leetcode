@@ -1,0 +1,37 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        boolean[][] map = new boolean[numCourses][numCourses];
+        int[] pres = new int[numCourses];
+        for (int i = 0;i < prerequisites.length;i++) {
+            int toLearn = prerequisites[i][0];
+            int pre = prerequisites[i][1];
+            map[pre][toLearn] = true;
+            pres[toLearn]++;
+        }
+        Queue<Integer> q = new LinkedList();
+        for (int i = 0;i < numCourses;i++) {
+            if (pres[i] == 0) {
+                q.add(i);
+            }
+        }
+        int count = 0;
+        while (!q.isEmpty()) {
+            int course = q.poll();
+            count++;
+            for (int i = 0;i < numCourses;i++) {
+                if (map[course][i]) {
+                    pres[i]--;
+                    if (pres[i] == 0) {
+                        q.add(i);
+                    }
+                }
+            }
+        }
+        return count == numCourses;
+    }
+}
+
+//hint 队列queue是接口不能实例化 linkedlist实现了queue接口 所以可以new 一个出来（arraylist没有实现queue）
+//遍历先修课数组 对每一个toLearn 和 pre建立关系设置为true 然后对每一个课所需的先修课数进行计数 
+//总体思路是 先把没有先修要求的课程放入queue 然后每出队一个 计数 然后看以这个course为先修的课程 的pres -1  
+//若等于0 则表示可以开始学了 加入队列
