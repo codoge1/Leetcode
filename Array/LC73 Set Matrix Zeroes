@@ -1,0 +1,45 @@
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return;
+        }
+        boolean firstRow = false,firstCol = false;
+        for (int i = 0;i < matrix.length;i++) {
+            for (int j = 0;j < matrix[0].length;j++) {
+                if (matrix[i][j] == 0) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                    if (i == 0) {
+                        firstRow = true;
+                    }
+                    if (j == 0) {
+                        firstCol = true;
+                    }
+                }
+            }
+        }
+        for (int i = 1;i < matrix.length;i++) {
+            for (int j = 1;j < matrix[0].length;j++) {
+                if (matrix[0][j] == 0 || matrix[i][0] == 0) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        if (firstRow) {
+            for (int i = 0;i < matrix[0].length;i++) {
+                matrix[0][i] = 0;
+            }
+        }
+        if (firstCol) {
+            for (int i = 0;i < matrix.length;i++) {
+                matrix[i][0] = 0;
+            }
+        }
+    }
+}
+
+//这道题 一看思路第一次遍历记录出现过0的i 和 j  第二次将有这些i j的全变为0
+//但如果要in place  就需要用别的想法来记录
+//只要出现0  则把i j 这个位置投影到最左边和最上边（已经遍历过 不会影响值）
+//把投影值设为0来记录i j 下一次遍历 跳过第一行和第一列 主要出现i or j在最左or最上是0  则设为0即可
+//然后单独处理第一行和第一列 需要在第一次遍历时 判断下出现0的 是否为第一行or第一列 如果是 则单独全部设为0即可
