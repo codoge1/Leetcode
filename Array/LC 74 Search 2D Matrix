@@ -1,0 +1,27 @@
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0) {
+            return false;
+        }
+        int row = matrix.length,col = matrix[0].length;
+        int low = 0,high = row * col - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            int num = matrix[mid / col][mid % col];
+            if (num == target) {
+                return true;
+            }
+            else if (num > target) {
+                high = mid - 1;
+            }
+            else {
+                low = mid + 1;
+            }
+        }
+        return false;
+    }
+}
+
+//可以把这个排好的二维数组看做是一个sorted一维数组
+//全部统一编号 二分查找即可  对于统一编号后的n
+//位于 n/col行 n%col列
