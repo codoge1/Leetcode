@@ -1,0 +1,28 @@
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i = m - 1, j = n - 1, index = m + n - 1;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[index] = nums1[i];
+                i--;
+            }
+            else {
+                nums1[index] = nums2[j];
+                j--;
+            }
+            index--;
+        }
+        while (j >= 0) {
+            nums1[index] = nums2[j];
+            j--;
+            index--;
+        }
+    }
+}
+
+//这道题是把nums2 全部插入nums1使nums1还是sorted 
+//问题在于nums1是sorted的  居然后面还有足够的空间来contain nums2
+//只能理解为nums1初始化了的值 是sorted
+//思路很简单 用索引index为两者合并后的最后一个数开始  较大的数放入index 然后递归
+//当有数组用完时退出循环 若2用完 则1的剩下的数不用动即可
+//若1用完了 则把2的数按顺序插入即可
