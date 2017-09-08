@@ -1,0 +1,17 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if (nums.length <= 2) {
+            return nums.length;
+        }
+        int i = 2;
+        for (int j = 2;j < nums.length;j++) {
+            if (nums[j] > nums[i - 2]) {
+                nums[i] = nums[j];
+                i++;
+            }
+        }
+        return i;
+    }
+}
+
+//和I很类似 只是允许有2个重复的值 所以j可以等于i-1  但必须大于i - 2才能放入i中~
