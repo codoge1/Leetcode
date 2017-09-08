@@ -1,0 +1,24 @@
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        backtrack(res,temp,nums,0);
+        return res;
+    }
+    public void backtrack(List<List<Integer>> res, List<Integer> temp, int[] nums, int start) {
+        res.add(new ArrayList(temp));
+        for (int i = start;i < nums.length;i++) {
+            if (i > start && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            temp.add(nums[i]);
+            backtrack(res,temp,nums,i + 1);
+            temp.remove(temp.size() - 1);
+        }
+    }
+}
+
+//与I不同点是有可能有重复数字 需要理解 不重复取自己 和 有重复数字时 两者都存在的区别
+//只需要在同一位 遍历时 加上一个去除重复的条件 即与当前位上一个数相等时continue
+//注意理解 当前位！ 即i > start 的含义
