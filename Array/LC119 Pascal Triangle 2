@@ -1,0 +1,17 @@
+class Solution {
+    public List<Integer> getRow(int rowIndex) {
+        List<Integer> res = new ArrayList<>();
+        while (res.size() <= rowIndex) {
+            res.add(1);
+            for (int i = res.size() - 2;i > 0;i--) {
+                res.set(i,res.get(i - 1) + res.get(i));
+            }
+        }
+        return res;
+    }
+}
+
+//这题只需要得到pascal中的某一行 笨办法即是得出pascal的整个 然后返回这一行 但空间太浪费
+//所以考虑 用list 在list上面改变   因为每一个i 都等于 他前面一个 + 自己  
+//如果正向遍历 则改变了i后 i+1的值会因为i的改变而错误
+//所以从后往前设置即可 为了避免超界 每次循环的开始 则add一个1 然后从倒数第二个数开始设置 直到第二个数结束即可
