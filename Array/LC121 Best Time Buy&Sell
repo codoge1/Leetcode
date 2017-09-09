@@ -1,0 +1,19 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        if (prices == null || prices.length == 0) {
+            return 0;
+        }
+        int max = 0, min = prices[0];
+        for (int i = 1;i < prices.length;i++) {
+            if (prices[i] > min) {
+                max = Math.max(max,prices[i] - min);
+            }
+            else {
+                min = prices[i];
+            }
+        }
+        return max;
+    }
+}
+
+//最简单的dp了...遍历一遍 只要出现价格大于min 就更新max  出现价格小于min 则更新min
