@@ -1,0 +1,15 @@
+class Solution {
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int[][] sumSoFar = new int[triangle.size() + 1][triangle.size() + 1];
+        for (int i = triangle.size() - 1;i >= 0;i--) {
+            for (int j = 0;j < triangle.get(i).size();j++) {
+                sumSoFar[i][j] = triangle.get(i).get(j) + Math.min(sumSoFar[i + 1][j],sumSoFar[i + 1][j + 1]);
+            }
+        }
+        return sumSoFar[0][0];
+    }
+}
+
+//DP 这道题需要注意的点在于 如果你自上而下 每一个位置i j的最小值，等于其上一层 i-1 的j-1 和j位置的最小值再加上自身
+//这样就会出现最左边的数超界问题 而且无法通过扩大数组解决
+//所以类似的 用自下而上的方法 每个位置ij 可延续i+1层的j j + 1的最小值 这样只需注意最下层的最右边值可能超界 数组扩大1即可
