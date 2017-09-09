@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        return build(postorder.length - 1, 0, inorder.length - 1,inorder, postorder);
+    }
+    public TreeNode build(int postIndex, int left, int right, int[] inorder, int[] postorder) {
+        if (postIndex < 0 || left > right) {
+            return null;
+        }
+        TreeNode node = new TreeNode(postorder[postIndex]);
+        int inIndex = 0;
+        for (int i = left;i <= right;i++) {
+            if (inorder[i] == postorder[postIndex]) {
+                inIndex = i;
+                break;
+            }
+        }
+        node.left = build(postIndex - (right - inIndex) - 1, left, inIndex - 1, inorder, postorder);
+        node.right = build(postIndex - 1, inIndex + 1, right, inorder, postorder);
+        return node;
+    }
+}
+
+//这里总结一下 已知inorder 和另外一个order的情况 可以创建出二叉树
+//inorder用根来划分数组 递归   pre or post 用来找根
+//这题和前面基本一样  post中最后一个是root 然后 root.right 是往前一位，root.left的话 则类似
+//pre的情况 是在inIndex的右边的数之前一个遍历的  即是postIndex - 右子树的结点数 - 1
