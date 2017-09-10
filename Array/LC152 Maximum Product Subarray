@@ -1,0 +1,20 @@
+class Solution {
+    public int maxProduct(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int localMin = nums[0];
+        int localMax = nums[0];
+        int max = nums[0];
+        for (int i = 1;i < nums.length;i++) {
+            int temp = localMax;
+            localMax = Math.max(Math.max(localMax * nums[i], nums[i]),localMin * nums[i]);
+            localMin = Math.min(Math.min(localMin * nums[i], nums[i]),temp * nums[i]);
+            max = Math.max(max,localMax);
+        }
+        return max;
+    }
+}
+
+//一定记住这类型 连续的subarray 每遇到一个数 不可能跳过他 只能比较用这个数另起炉灶 or 带上前面的！
+//这道题是乘法 由于负负得正 所以需要多记录，比较一个局部最小值
