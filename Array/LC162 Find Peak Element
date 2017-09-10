@@ -1,0 +1,16 @@
+class Solution {
+    public int findPeakElement(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        for (int i = 1;i < nums.length;i++) {
+            if (nums[i] < nums[i - 1]) {
+                return i - 1;
+            }
+        }
+        return nums.length - 1;
+    }
+}
+
+//很easy思路 从第二个开始遍历 只要出现比左边小的数 则返回左边的索引即可
+//若没返回 则代表数字一直递增 返回最后一个索引即可
