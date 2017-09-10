@@ -1,0 +1,8 @@
+class Solution {
+    public int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        return nums[(nums.length - 1) / 2];
+    }
+}
+
+//easy题 超过半数的数 直接sort后 必定覆盖中点  返回中点的数即可
