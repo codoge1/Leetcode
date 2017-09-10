@@ -1,0 +1,23 @@
+class Solution {
+    public int findMin(int[] nums) {
+        int low = 0, high = nums.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (mid > 0 && nums[mid] < nums[mid - 1]) {
+                return nums[mid];
+            }
+            if (nums[mid] > nums[high]) {
+                low = mid + 1;
+            }
+            else {
+                high = mid - 1;
+            }
+        }
+        return nums[0];
+    }
+
+
+//类似的二分查找 都写例子出来观察数之间的关系
+//在这样的数组中 只有min 是小于其左边的那个数 所以就找mid < mid - 1的数
+//但为避免越界 mid > 0才能进行判断  所以当循环结束后仍没找到 最小值就肯定在0位置 返回即可
+//至于二分查哪边数组 则观察和两边的大小关系即可
