@@ -1,0 +1,24 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        int total = 0, i = 0;
+        while (i < prices.length) {
+            while (i < prices.length - 1 && prices[i] >= prices[i + 1]) {
+                i++;
+            }
+            int min = prices[i];
+            i++;
+            while (i < prices.length - 1 && prices[i] <= prices[i + 1]) {
+                i++;
+            }
+            total = total + (i == prices.length ? 0 : prices[i] - min);
+            i++;
+        }
+        return total;
+    }
+}
+
+//第一遍时 没太仔细思考解法 直接就是遍历数组 只要出现i+1 大于i 就加上差值 ac了
+//现在想来 这种思路的意义是 出现了2 4 6 这样 2买 4卖 然后4买 6卖 即同一天先卖 然后买
+//如果不允许这样的话 这次的解法是比较通用的 即遍历数组 找到局部最小值买入 再找到局部最大值卖出
+//这种情况有一些越界or edge情况需要考虑 例如第一个while后 直接买入了最后一个 则没机会卖出 所以会需要
+//判断条件i==prices.length 还需要记住i累加
