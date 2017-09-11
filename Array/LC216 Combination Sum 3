@@ -1,0 +1,31 @@
+class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        backtrack(res, temp, n, k, 1);
+        return res;
+    }
+    public void backtrack(List<List<Integer>> res, List<Integer> temp, int remain, int len, int start) {
+        if (remain < 0 || temp.size() > len) {
+            return;
+        }
+        if (remain == 0) {
+            if (temp.size() == len) {
+                res.add(new ArrayList(temp));
+            }
+            else {
+                return;
+            }
+        }
+        else {
+            for (int i = start; i <= 9; i++) {
+                temp.add(i);
+                backtrack(res, temp, remain - i, len, i + 1);
+                temp.remove(temp.size() - 1);
+            }
+        }
+    }
+}
+
+//多增加了条件是 返回固定长度的组合
+//所以只有当temp.size() == len 
