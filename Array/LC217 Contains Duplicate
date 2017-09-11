@@ -1,0 +1,17 @@
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (set.add(nums[i])) {
+                continue;
+            }
+            else {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+//很简单的方法 可以sort数组 也可以用set做
+//set.contains可以用 set.add这个方法 是会返回boolean值的  如果加入已经存在的值 返回false
