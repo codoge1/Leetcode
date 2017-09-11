@@ -1,0 +1,20 @@
+class Solution {
+    public int minSubArrayLen(int s, int[] nums) {
+        int low = 0, high = 0, sum = 0, min = Integer.MAX_VALUE;
+        while (high < nums.length) {
+            sum = sum + nums[high];
+            high++;
+            while (sum >= s) {
+                min = Math.min(min, high - low);
+                sum = sum - nums[low];
+                low++;
+            }
+        }
+        return min == Integer.MAX_VALUE ? 0 : min;
+    }
+}
+
+//brute force的话 就利用数组和 - 数组和 挨个判断  TLE
+//最佳思路是滑动窗口法  但是实现时 需要注意一些细节
+//用两个while循环就能实现 大循环只要high不越界即可
+//然后一直加high 更新sum 如果sum >= s了 则进入小循环 更新min 然后减去low 直到<s 重新进入大循环 high右移
