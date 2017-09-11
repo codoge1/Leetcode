@@ -1,0 +1,20 @@
+class Solution {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > k) {
+                set.remove(nums[i - k - 1]);
+            }
+            if (set.contains(nums[i])) {
+                return true;
+            }
+            else {
+                set.add(nums[i]);
+            }
+        }
+        return false;
+    }
+}
+
+//这道题要求重复的数 出现在范围k之内  可以用map做 记录索引来判断 
+//更优解法还是用set做 只是当遍历到超过k之后 每遇见一个数 就删去超过范围k的那个数 一直保持set的size为k即可
