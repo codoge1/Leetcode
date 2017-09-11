@@ -1,0 +1,16 @@
+class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+        Set<Integer> res = new HashSet<>();
+        Arrays.sort(nums);
+        for (int i = 0; i + nums.length / 3 < nums.length; i++) {
+            if (nums[i] == nums[i + nums.length / 3]) {
+                res.add(nums[i]);
+                i = i + nums.length / 3;
+            }
+        }
+        return new ArrayList(res);
+    }
+}
+
+//思路和I类似 排序后 从0 开始找 如果i 和i + len/3相等 则这个数是超过1/3的
+//然后更新索引  注意for循环本来的递增 为了避免重复 先set 再转list即可
