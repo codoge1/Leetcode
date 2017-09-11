@@ -1,0 +1,20 @@
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int[] res = new int[nums.length];
+        res[0] = 1;
+        for (int i = 1; i < nums.length; i++) {
+            res[i] = res[i - 1] * nums[i - 1];
+        }
+        int right = nums[nums.length - 1];
+        for (int i = nums.length - 2; i >= 0; i--) {
+            res[i] = res[i] * right;
+            right = right * nums[i];
+        }
+        return res;
+    }
+}
+
+//不能用除法 则每个位置的值 应该为其左边的乘积 * 右边的乘积
+//很容易想到 左到右 和右到左都遍历一次
+//第一次遍历 把res的值 都记录为其左边所有数的乘积
+//从右遍历时 因为res已经用于存储左边乘积的值了  所以需要另外设置一个right变量来记录右边的乘积 更新res即可
