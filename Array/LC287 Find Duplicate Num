@@ -1,0 +1,26 @@
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int low = 1, high = nums.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            int count = 0;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] <= mid) {
+                    count++;
+                }
+            }
+            if (count > mid) {
+                high = mid - 1;
+            }
+            else {
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+}
+
+//原题是 不能改动原数组 所以 用鸽笼原理  二分法来找重复
+//1 到 len -1的区间 可以看做是鸽笼 某个笼子装有两只
+//所以找到mid 然后mid左边的鸽子数 若大于mid值 则在左边找
+// 可以分1-9 和1- 10两种情况验证
