@@ -1,0 +1,14 @@
+class Solution {
+    public int missingNumber(int[] nums) {
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != i) {
+                return i;
+            }
+        }
+        return nums.length;
+    }
+}
+
+//只缺一个数 如果不缺的话 nums[i] 和i应该是相等的  所以遍历 如果不等 则缺的就是i
+//注意一下 如果遍历完没返回 因为必定缺数 所以缺的是最后一个数 即nums.length
