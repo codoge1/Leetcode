@@ -1,0 +1,81 @@
+public class NumArray {
+    public class segmentTreeNode {
+        int start, end;
+        segmentTreeNode left, right;
+        int sum;
+        public segmentTreeNode(int start, int end) {
+            this.start = start;
+            this.end = end;
+            this.left = null;
+            this.right = null;
+            this.sum = 0;
+        }
+    }
+    segmentTreeNode root;
+    public NumArray(int[] nums) {
+        root = buildTree(nums, 0, nums.length - 1);
+    }
+    public segmentTreeNode buildTree(int[] nums, int i, int j) {
+        if (i > j) {
+            return null;
+        }
+        segmentTreeNode root = new segmentTreeNode(i, j);
+        if (i == j) {
+            root.sum = nums[i];
+        }
+        else {
+            int mid = i + (j - i) / 2;
+            root.left = buildTree(nums, i, mid);
+            root.right = buildTree(nums, mid + 1, j);
+            root.sum = root.left.sum + root.right.sum;
+        }
+        return root;
+    }
+    
+    public void update(int i, int val) {
+        update(root, i, val);
+    }
+    public void update(segmentTreeNode root, int i, int val) {
+        if (root.start == root.end) {
+            root.sum = val;
+        }
+        else {
+            int mid = root.start + (root.end - root.start) / 2;
+            if (i <= mid) {
+                update(root.left, i, val);
+            }
+            else {
+                update(root.right, i, val);
+            }
+            root.sum = root.left.sum + root.right.sum;
+        }
+    }
+    
+    public int sumRange(int i, int j) {
+        return sumRange(root, i, j);
+    }
+    public int sumRange(segmentTreeNode root, int i, int j) {
+        if (root.start == i && root.end == j) {
+            return root.sum;
+        }
+        int mid = root.start + (root.end - root.start) / 2;
+        if (j <= mid) {
+            return sumRange(root.left, i, j);
+        }
+        else if (i >= mid + 1) {
+            return sumRange(root.right, i, j);
+        }
+        else {
+            return sumRange(root.left, i, mid) + sumRange(root.right, mid + 1, j);
+        }
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * obj.update(i,val);
+ * int param_2 = obj.sumRange(i,j);
+ */
+ 
+ //第二遍做这题了  创建内部类 线段树 然后用线段树及各种带树的重载方法实现即可！
