@@ -1,0 +1,23 @@
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        int[] alpha = new int[26];
+        for (char c : tasks) {
+            alpha[c - 'A']++;
+        }
+        Arrays.sort(alpha);
+        int res = (alpha[25] - 1) * (n + 1) + 1;
+        int i = 24;
+        while (alpha[i] == alpha[25]) {
+            res++;
+            i--;
+        }
+        return Math.max(res, tasks.length);
+    }
+}
+
+//这道题第一遍理解错了 对return的max有误解
+//有一点不好理解的地方 我们先对任务计数 然后从数量最多的任务开始排 每一个任务 带领一个n区间 
+//注意 这是底线！！而且 如果有和最大值并列的数 底线还得往后加上并列的一个or more
+//对这个排法可以这样理解 若只有3个A  n=2  那么是A--A--A 意思是 不管有没有其他值 你底线都得这样排
+//若 里面空闲的-- -- 装不完其他数  即其他数太多 则把idle填满后 依次在两A种填充即可  这种情况 不会出现idle 所以长度即为tasks的长度
+//最后取max即可
