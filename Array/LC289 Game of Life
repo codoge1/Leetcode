@@ -1,0 +1,51 @@
+class Solution {
+    int m, n;
+    public void gameOfLife(int[][] board) {
+        if (board == null || board.length == 0) {
+            return;
+        }
+        m = board.length;
+        n = board[0].length;            ////2为原本死 现在活  3为原本活 现在死
+        for (int a = 0; a < m; a++) {
+            for (int b = 0; b < n; b++) {
+                if (numOfLives(board, a, b) < 2 && board[a][b] == 1) {
+                    board[a][b] = 3;
+                }
+                if (numOfLives(board, a, b) > 3 && board[a][b] == 1) {
+                    board[a][b] = 3;
+                }
+                if (numOfLives(board, a, b) == 3 && board[a][b] == 0) {
+                    board[a][b] = 2;
+                }
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 3) {
+                    board[i][j] = 0;
+                }
+                else if (board[i][j] == 2) {
+                    board[i][j] = 1;
+                }
+            }
+        }
+    }
+    public int numOfLives(int[][] board, int x, int y) {
+        int count = 0;
+        for (int i = Math.max(x - 1, 0); i <= Math.min(x + 1, m - 1); i++) {
+            for (int j = Math.max(y - 1, 0); j <= Math.min(y + 1, n - 1); j++) {
+                if (board[i][j] == 1 || board[i][j] == 3) {
+                    count++;
+                }
+            }
+        }
+        if (board[x][y] == 1) {
+            count--;
+        }
+        return count;
+    }
+}
+
+
+//思路不难 就是针对每一个值计算
+
