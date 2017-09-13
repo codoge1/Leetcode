@@ -1,0 +1,23 @@
+class Solution {
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            int index = Math.abs(nums[i]) - 1;
+            if (nums[index] > 0) {
+                nums[index] = - nums[index];
+            }
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                res.add(i + 1);
+            }
+        }
+        return res;
+    }
+}
+
+//和442非常类似 都是要求On时间 和无额外空间 找重复or 找没出现的值
+//所以都是利用val 和index的关系 然后标记nums[index] 来判断
+//这道题 只要出现过的val 绝对值 -1得到对应的index
+//把这个index的值换为负数 完成标记
+//第二次遍历 只要还为正的数 即没有标记过 没有出现过index 即没有出现过val-1  返回即可
