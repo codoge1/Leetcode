@@ -1,0 +1,32 @@
+class Solution {
+    public int thirdMax(int[] nums) {
+        Integer max = null;
+        Integer second = null;
+        Integer third = null;
+        for (Integer n : nums) {
+            if (n.equals(max) || n.equals(second) || n.equals(third)) {
+                continue;
+            }
+            if (max == null || n > max) {
+                third = second;
+                second = max;
+                max = n;
+            }
+            else if (second == null || n > second) {
+                third = second;
+                second = n;
+            }
+            else if (third == null || n > third) {
+                third = n;
+            }
+        }
+        return third == null ? max : third;
+    }
+}
+
+//这道题还真不是那么easy 需要注意的点很多
+//思路很简单 就是设置max second third三变量 根据遇到的数的大小 来挨个更新值即可
+//然而初始化是个问题  因为不能确保第一个数是最小值 所以若初始化为nums0  则后续更新会出现问题 
+//初始化为Integer.min 也会因为最后判断时 third本来就该为Integer.min的edge case错误
+//所以最好的方法 是设置Integer变量 初始化为null  然后在判断时 增加判断当前是否为null的条件
+//若为null 则赋值  另外 由于是Integer变量 所以循环用foreach  判断相等即跳过时 用equals
