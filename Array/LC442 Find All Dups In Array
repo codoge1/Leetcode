@@ -1,0 +1,19 @@
+class Solution {
+    public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            int index = Math.abs(nums[i]) - 1;
+            if (nums[index] < 0) {
+                res.add(index + 1);
+            } else {
+                nums[index] = - nums[index];
+            }
+        }
+        return res;
+    }
+}
+
+//因为不能用额外空间 所以考虑在原数组上标记出现过的数
+//观察发现 原数组1 - n 都减1的话 和索引一一对应 所以考虑用数组值-1来当索引 出现过的值 则把val - 1的索引的值 标为相反数
+//若出现某一值对应的索引已经为负 则表示出现过该值 则+1为原数 add进res即可
+//需要注意的是 因为存在负数 所以求index的时候 需要abs一下
