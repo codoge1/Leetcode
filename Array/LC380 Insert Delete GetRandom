@@ -1,0 +1,59 @@
+class RandomizedSet {
+    java.util.Random random;
+    List<Integer> list;
+    Map<Integer, Integer> map;
+    /** Initialize your data structure here. */
+    public RandomizedSet() {
+        this.random = new Random();
+        this.list = new ArrayList();
+        this.map = new HashMap();
+    }
+    
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    public boolean insert(int val) {
+        if (list.contains(val)) {
+            return false;
+        }
+        list.add(val);
+        map.put(val, list.size() - 1);
+        return true;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    public boolean remove(int val) {
+        if (!list.contains(val)) {
+            return false;
+        }
+        int loc = map.get(val);
+        if (loc < list.size() - 1) {
+            list.set(loc, list.get(list.size() - 1));
+            map.put(list.get(list.size() - 1), loc);
+        }
+        list.remove(list.size() - 1);
+        return true;
+    }
+    
+    /** Get a random element from the set. */
+    public int getRandom() {
+        return list.get(random.nextInt(list.size()));
+    }
+}
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet obj = new RandomizedSet();
+ * boolean param_1 = obj.insert(val);
+ * boolean param_2 = obj.remove(val);
+ * int param_3 = obj.getRandom();
+ */
+ 
+/**这道题设计题  需要的是有插入值 删除值 和返回随机的三个方法
+返回随机值 需要有索引 所以很容易想到 至少需要一个list
+但是list并不能删除值 只能找到值 删除索引
+而需要O1时间 即不能遍历找到索引
+所以我们想到 用map来存储每个值的索引
+插入操作很简单 直接add到最后 并且在map中加入即可
+删除操作需要注意 当你删除的值 不是list末尾的值时 由于list长度会减小 后面的数的索引全部会变！！
+所以如果不是最后一个值 我们就用替换 rather than 删除
+把要删除的位置 设置为最后一个值  更新map 再remove掉最后一个数即可
+*/
