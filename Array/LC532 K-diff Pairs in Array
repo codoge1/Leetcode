@@ -1,0 +1,20 @@
+class Solution {
+    public int findPairs(int[] nums, int k) {
+        Arrays.sort(nums);
+        Set<Integer> set = new HashSet<>();
+        Set<Integer> start = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (set.contains(nums[i] - k)) {
+                start.add(nums[i] - k);
+            }
+            set.add(nums[i]);
+        }
+        return start.size();
+    }
+}
+
+//这道题思路不难 排序后 遍历每个数 如果set里出现有num - k  则符合k-diff
+//tricky的点在于 由于不能有重复的pairs 第一想法是 遍历时 遇见相等的数 就跳过
+//然而edge case 当k = 0时 error
+//所以 我们用另一个set 记录出现过的pair的小的那个数而不用count
+//最后返回start 的size即可
