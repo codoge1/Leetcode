@@ -1,0 +1,21 @@
+class Solution {
+    public int[][] matrixReshape(int[][] nums, int r, int c) {
+        if (nums == null || nums.length == 0) {
+            return nums;
+        }
+        int m = nums.length;
+        int n = nums[0].length;
+        if (m * n != r * c) {
+            return nums;
+        }
+        int[][] res = new int[r][c];
+        for (int i = 0; i < m * n; i++) {
+            res[i / c][i % c] = nums[i / n][i % n];
+        }
+        return res;
+    }
+}
+
+//easy题 主要考察数组统一编号后的索引问题
+//思路是将数组统一编号为i  从0 到最后
+//把每个i在nums中对应的数 赋值给在res里的位置即可
