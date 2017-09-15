@@ -1,0 +1,20 @@
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        int[] alpha = new int[26];
+        for (char c : tasks) {
+            alpha[c - 'A']++;
+        }
+        Arrays.sort(alpha);
+        int count = (alpha[25] - 1) * (n + 1) + 1;
+        int i = 24;
+        while (alpha[i] == alpha[25]) {
+            count++;
+            i--;
+        }
+        return Math.max(tasks.length, count);
+    }
+}
+
+//前面做过一遍  主要是要理解count 为保底需要的interval
+//如果task比较多 把idle占满了  剩下的就继续装在区间里 没有idle了 所以需要的就是task的数量
+//求最大值即可
