@@ -1,0 +1,9 @@
+class Solution {
+    public int maximumProduct(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        return Math.max(nums[0] * nums[1] * nums[n - 1], nums[n - 1] * nums[n - 2] * nums[n - 3]);
+    }
+}
+
+//需要考虑到负负得正的情况  排序后 最大值可能是最后三数  也可能是俩最小的 * 一个最大的
