@@ -1,0 +1,18 @@
+class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        int[] copy = nums.clone();
+        Arrays.sort(copy);
+        int left = 0, right = nums.length - 1;
+        while (left < nums.length && nums[left] == copy[left]) {
+            left++;
+        }
+        while (right > left && nums[right] == copy[right]) {
+            right--;
+        }
+        return right - left + 1;
+    }
+}
+
+//用额外的空间来做比较好做 直接clone一个数组 然后sort 与原数组比较
+//分别从两头往中间缩 找到第一个不相等的left 和right  然后中间的数组都需要sort
+//需要注意left right的界限
