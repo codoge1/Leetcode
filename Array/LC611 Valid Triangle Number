@@ -1,0 +1,26 @@
+class Solution {
+    public int triangleNumber(int[] nums) {
+        int count = 0;
+        if (nums.length < 3) {
+            return count;
+        }
+        Arrays.sort(nums);
+        for (int i = nums.length - 1; i >= 2; i--) {
+            int left = 0, right = i - 1;
+            while (left < right) {
+                if (nums[left] + nums[right] <= nums[i]) {
+                    left++;
+                } else {
+                    count = count + right - left;
+                    right--;
+                }
+            }
+        }
+        return count;
+    }
+}
+
+//BF方法就是 三层循环 On3复杂度   判断能否构成三角形 只需要两个短边和大于第三边
+//可以做优化  排序 从最后的数开始 往后遍历 为最大的边
+//左边的区间 设置两个指针 如果出现OK的  则证明 l 往左一直移动到r位置前 都能符合 所以直接加上r -l r右移
+//若不符合 则 l 往右移动即可  直到不符合l < r
