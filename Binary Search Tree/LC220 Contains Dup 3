@@ -1,0 +1,25 @@
+class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        if (nums == null || nums.length == 0 || k <= 0) {
+            return false;
+        }
+        TreeSet<Long> set = new TreeSet<>();
+        for (int i = 0; i< nums.length; i++) {
+            Long floor = set.floor(((long)nums[i] + t));
+            Long ceiling = set.ceiling(((long)nums[i] - t));
+            if ((floor != null && floor >= nums[i]) || (ceiling != null && ceiling <= nums[i])) {
+                return true;
+            }
+            set.add((long)nums[i]);
+            if (i >= k) {
+                set.remove((long)nums[i - k]);
+            }
+        }
+        return false;
+    }
+}
+
+//熟悉一种新数据结构 treeset 是基于treemap的一种set 实现了ceiling 和floor方法
+//ceiling(n) 是返回set中 最小的 大于等于n的那个数  floor则是最大的 小于等于n的数
+//这道题就是 遍历的时候维持set 的大小为k 然后对每个新数 查询其右边的界限的floor值 是否在右边 或者左边界限的ceiling 是否在左边
+//注意case越界的情况 需要转化为long
