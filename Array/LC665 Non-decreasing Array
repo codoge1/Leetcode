@@ -1,0 +1,25 @@
+class Solution {
+    public boolean checkPossibility(int[] nums) {
+        int count = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] < nums[i - 1]) {
+                count++;
+                if (count > 1) {
+                    return false;
+                }
+                if (i < 2 || nums[i] >= nums[i - 2]) {
+                    nums[i - 1] = nums[i];
+                } else {
+                    nums[i] = nums[i - 1];
+                }
+            }
+        }
+        return count <= 1;
+    }
+}
+
+//这道题设置count记录下降的地方
+//tricky的地方在于 当出现下降的数 我们有一次机会来改 而我们要尽量把数改小
+//来尽可能地让后面 不出现下降的数
+//所以 当出现i > i -1时 例如    3 2    我们只要能把3改为2 就改 不能 才把2 改成3
+//只有当3 是第一个数 or  3前面的数 也小于等于2  我们才能改3为2  否则改2为3
