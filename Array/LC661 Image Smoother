@@ -1,0 +1,87 @@
+class Solution {
+    public int[][] imageSmoother(int[][] M) {
+        if (M == null || M.length == 0) {
+            return M;
+        }
+        int m = M.length;
+        int n = M[0].length;
+        int[][] res = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int count = 0;
+                int sum = 0;
+                if (i > 0 && i < m - 1 && j > 0 && j < n - 1) {
+                    for (int x = i - 1; x <= i + 1; x++) {
+                        for (int y = j - 1; y <= j + 1; y++) {
+                            sum = sum + M[x][y];
+                            count++;
+                        }
+                    }
+                } else if (i == 0 && j == 0){
+                    for (int x = i; x <= i + 1 && x < m && x >= 0; x++) {
+                        for (int y = j; y <= j + 1 && y < n && y >= 0; y++) {
+                            sum = sum + M[x][y];
+                            count++;
+                        }
+                    }
+                } else if (i == 0 && j == n - 1) {
+                    for (int x = i; x <= i + 1 && x < m && x >= 0; x++) {
+                        for (int y = j - 1; y <= j && y < n && y >= 0; y++) {
+                            sum = sum + M[x][y];
+                            count++;
+                        }
+                    }
+                }  else if (i == m - 1 && j == 0) {
+                    for (int x = i - 1; x <= i && x < m && x >= 0; x++) {
+                        for (int y = j; y <= j + 1 && y < n && y >= 0; y++) {
+                            sum = sum + M[x][y];
+                            count++;
+                        }
+                    }
+                } else if (i == m - 1 && j == n - 1) {
+                    for (int x = i - 1; x <= i && x < m && x >= 0; x++) {
+                        for (int y = j - 1; y <= j && y < n && y >= 0; y++) {
+                            sum = sum + M[x][y];
+                            count++;
+                        }
+                    }
+                } else if (i == 0) {
+                    for (int x = i; x <= i + 1 && x < m && x >= 0; x++) {
+                        for (int y = j - 1; y <= j + 1 && y < n && y >= 0; y++) {
+                            sum = sum + M[x][y];
+                            count++;
+                        }
+                    }
+                } else if (i == m - 1) {
+                    for (int x = i - 1; x <= i && x < m && x >= 0; x++) {
+                        for (int y = j - 1; y <= j + 1 && y < n && y >= 0; y++) {
+                            sum = sum + M[x][y];
+                            count++;
+                        }
+                    }
+                } else if (j == 0) {
+                    for (int x = i - 1; x <= i + 1 && x < m && x >= 0; x++) {
+                        for (int y = j; y <= j + 1 && y < n && y >= 0; y++) {
+                            sum = sum + M[x][y];
+                            count++;
+                        }
+                    }
+                } else if (j == n - 1) {
+                    for (int x = i - 1; x <= i + 1 && x < m && x >= 0; x++) {
+                        for (int y = j - 1; y <= j && y < n && y >= 0; y++) {
+                            sum = sum + M[x][y];
+                            count++;
+                        }
+                    }
+                }
+                res[i][j] = sum / count;
+            }
+        }
+        return res;
+    }
+}
+
+//蠢题就tm用蠢办法
+//对外圈的8种位置全部手动if判断 手动count sum
+//需要注意的是 判断的顺序 左上 右上 左下 右下  否则有case会进入不匹配的case报错
+//怪不得会有这么多踩
