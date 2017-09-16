@@ -1,0 +1,22 @@
+class Solution {
+    public int findLengthOfLCIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return 1;
+        }
+        int len = 1, max = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[i - 1]) {
+                len++;
+                max = Math.max(max, len);
+            } else {
+                len = 1;
+            }
+        }
+        return max;
+    }
+}
+
+//简单题 找的是连续的子序列  所以从头遍历 记录全局max 和局部len即可  遇到不符合增长的 len设为1  否则len++ 更新max
