@@ -1,0 +1,35 @@
+class Solution {
+    public int[] constructArray(int n, int k) {
+        int res[] = new int[n];
+        res[0] = 1;
+        int low = 2, high = n;
+        boolean placeHigh = false;
+        for (int i = 1; i < n; i++) {
+            if (k > 1) {
+                if (!placeHigh) {
+                    res[i] = high;
+                    high--;
+                } else {
+                    res[i] = low;
+                    low++;
+                }
+                placeHigh = ! placeHigh;
+                k--;
+            } else {
+                if (placeHigh) {
+                    res[i] = high;
+                    high--;
+                } else {
+                    res[i] = low;
+                    low++;
+                }
+            }
+        }
+        return res;
+    }
+}
+
+//还算有意思的解法  需要相邻的数 共有k个不同的diff   经观察  1-n  最多可以有n-1个diff
+//例如1 - 5   则15243 可以发现 交替使用low 和high 可以创造新的diff 直到k == 1 则不再交替 由当前的值 继续形成等差到最后即可
+//因此设置placehigh boolean值 只要k>1 则每次加完逆转  当k==1 则不再逆转 一直加完
+//需要注意place的初始值 如果k一开始即为1 我们应该从low一直加到最后 所以一开始placehigh 为false
