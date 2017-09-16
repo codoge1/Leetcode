@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int min = Integer.MAX_VALUE;
+    TreeNode prev;
+    public int getMinimumDifference(TreeNode root) {
+        inOrder(root);
+        return min;
+    }
+    public void inOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        inOrder(root.left);
+        if (prev != null) {
+            min = Math.min(min, root.val - prev.val);
+        }
+        prev = root;
+        inOrder(root.right);
+    }
+}
+
+//这道题 要求树中任意两结点的差值中的最小值
+//BST 的特性决定 对其中序遍历 是按大小顺序访问其所有结点
+//求差值最小值 其实就是在排序的数列中 相邻两数差的最小值  所以对其中序遍历 设置root 和 prev结点 挨个比较即可
