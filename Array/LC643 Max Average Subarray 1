@@ -1,0 +1,19 @@
+class Solution {
+    public double findMaxAverage(int[] nums, int k) {
+        int sum = 0;
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < nums.length; i++) {
+            if (i < k) {
+                sum = sum + nums[i];
+            } else {
+                max = Math.max(max, sum);
+                sum = sum - nums[i - k] + nums[i];
+            } 
+        }
+        max = Math.max(max, sum);
+        return (double) max / k;
+    }
+}
+
+//固定长度为k 则一次遍历 对所有长度为k的子数组 比较和即可
+//这里求和时 可以看做是子数组在数组里移动 每次减去第一个 加上后一个 即是新和
