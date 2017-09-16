@@ -1,0 +1,25 @@
+class Solution {
+    public int maximumSwap(int num) {
+        char[] digits = String.valueOf(num).toCharArray();
+        int[] lastIndex = new int[10];
+        for (int i = 0; i < digits.length; i++) {
+            lastIndex[digits[i] - '0'] = i;
+        }
+        for (int i = 0; i < digits.length; i++) {
+            for (int j = 9; j > digits[i] - '0'; j--) {
+                if (lastIndex[j] > i) {
+                    char temp = digits[i];
+                    digits[i] = digits[lastIndex[j]];
+                    digits[lastIndex[j]] = temp;
+                    return Integer.parseInt(String.valueOf(digits));
+                }
+            }
+        }
+        return num;
+    }
+}
+
+//很精彩的解法  亮点在于 若在一个位的右边找到比他大的数有多个  和最低位的换才能得到max 例如6077  6和个位的7换才行
+//所以 共有10个数字 利用bucket原理 找到每个数字的 最后一个索引
+//然后对每个数字从左到右遍历 对每个数字 在其右边 找到 最大的 大于他的数 的最后一个索引 与其交换即可！
+//若都没找到 则返回num
