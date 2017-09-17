@@ -1,0 +1,64 @@
+public class Trie {
+    TrieNode root;
+    class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+        boolean isWord;
+    }
+    /** Initialize your data structure here. */
+    public Trie() {
+        root = new TrieNode();
+    }
+    
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        TrieNode end = root;
+        for (int i = 0; i< word.length(); i++) {
+            char c = word.charAt(i);
+            if (end.children[c - 'a'] == null) {
+                end.children[c - 'a'] = new TrieNode();
+            }
+            end = end.children[c - 'a'];
+        }
+        end.isWord = true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        TrieNode end = root;
+        for (int i = 0; i < word.length(); i++) {
+            char c = word.charAt(i);
+            if (end.children[c - 'a'] == null) {
+                return false;
+            }
+            end = end.children[c - 'a'];
+        }
+        return end.isWord;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        TrieNode end = root;
+        for (int i = 0; i < prefix.length(); i++) {
+            char c = prefix.charAt(i);
+            if (end.children[c - 'a'] == null) {
+                return false;
+            }
+            end = end.children[c - 'a'];
+        }
+        return true;
+    }
+}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
+ 
+//trie
+//前缀树 字典树
+//优点是空间换时间 查找添加的时间是Ok  k是单词长度
+//一般有插入 查找 操作
+//trie结点一般需要有children 为26位的数组 为了查找 还需要isWord方法
