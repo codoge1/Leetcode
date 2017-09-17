@@ -1,0 +1,59 @@
+class Solution {
+    
+    public void solve(char[][] board) {
+        if (board == null || board.length == 0 || board[0].length == 0) {
+            return;
+        }
+        int m = board.length, n = board[0].length;
+        for (int i = 0; i < m; i++) {
+            if (board[i][0] == 'O') {
+                dfs(board, i, 0, m, n);
+            }
+            if (board[i][n - 1] == 'O') {
+                dfs(board, i, n - 1, m, n);
+            } 
+        }
+        for (int i = 0; i < n; i++) {
+            if (board[0][i] == 'O') {
+                dfs(board, 0, i, m, n);
+            }
+            if (board[m - 1][i] == 'O') {
+                dfs(board, m - 1, i, m, n);
+            }
+        }
+        for (int i = 0;i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                } else if (board[i][j] == '*') {
+                    board[i][j] = 'O';
+                }
+            }
+        }
+    }
+    public void dfs(char[][] board, int i, int j, int m, int n) {
+        if (i < 0 || i >= m || j < 0 || j >= n) {
+            return;
+        }
+        board[i][j] = '*';
+        if (i > 1 && board[i - 1][j] == 'O') {
+            dfs(board,i - 1, j, m, n);
+        }
+        if (i < m - 2 && board[i + 1][j] == 'O') {
+            dfs(board, i + 1, j, m, n);
+        }
+        if (j > 1 && board[i][j - 1] == 'O') {
+            dfs(board, i, j - 1, m, n);
+        } 
+        if (j < n - 2 && board[i][j + 1] == 'O') {
+            dfs(board, i, j + 1, m, n);
+        }
+    }
+}
+
+//稍微有点复杂的并查集
+//可以发现 不被感染为X的O 一定是和外界相连的O
+//所以 我们可以设计一个‘免疫链’  对这个矩阵的四边遍历 只要出现O 就用dfs 把所有相连的O都免疫化
+//标记为* 最后把O变为X  *还原为O即可
+//需要注意的是 由于test case太过多 在dfs中 我们少遍历了四边(因为四边已经遍历过)
+//这样刚好能过test
