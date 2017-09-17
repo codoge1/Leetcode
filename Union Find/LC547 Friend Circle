@@ -1,0 +1,28 @@
+class Solution {
+    public int findCircleNum(int[][] M) {
+        int count = 0;
+        boolean[] used = new boolean[M.length];
+        for (int i = 0; i < M.length; i++) {
+            if (used[i] == false) {
+                count++;
+                dfs(M, used, i);
+            }
+        }
+        return count;
+    }
+    public void dfs(int[][] M, boolean[] used, int i) {
+        for (int j = 0; j < M.length; j++) {
+            if (M[i][j] == 1 && used[j] == false) {
+                used[j] = true;
+                dfs(M, used, j);
+            }
+        }  
+    }
+}
+
+//和前面两题不太一样的并查集
+//这题的2d数组 其实是1d的  其表示的学生 总共就是M.length个
+//这题同样是依靠dfs  设置一个boolean数组 记录每个学生是否已经在已有的circle里
+//如果不在 则计数 然后dfs
+//dfs加入参数i为该学生的索引 遍历所有学生 如果出现i j 为1 则dfs学生j 并把j 设为used  需要注意的是 因为每次从0遍历
+//就会出现两个学生之间 无限递归dfs 所以需要判断used j   j为false 才递归  j 为true 则不管
