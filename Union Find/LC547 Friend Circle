@@ -5,6 +5,7 @@ class Solution {
         for (int i = 0; i < M.length; i++) {
             if (used[i] == false) {
                 count++;
+                used[i] = true;
                 dfs(M, used, i);
             }
         }
