@@ -1,0 +1,25 @@
+class Solution {
+    public int findMaximumXOR(int[] nums) {
+        int max = 0, mask = 0;
+        for (int i = 31; i >= 0; i--) {
+            mask = mask | (1 << i);
+            Set<Integer> set = new HashSet<>();
+            for (int num : nums) {
+                set.add(num & mask);
+            }
+            int potentialMax = max | (1 << i);
+            for (Integer prefix : set) {
+                if (set.contains(prefix ^ potentialMax)) {
+                    max = potentialMax;
+                    break;
+                }
+            }
+        }
+        return max;
+    }
+}
+
+//这道题思路挺难的 要求找最大值 bit manipulation
+//思路是 从最高位开始 先假定一个可能存在的max 为1000000…… 然后再判断set里 是否有两数异或等于他 这个可以用异或的性质
+//a ^ b = c  ---推出 a ^ c = b
+//从高位往低位 |  先保底一个高位的1 然后再判断能否贪一个低位的1 若不行 继续往低位走  若行 则更新max 继续
