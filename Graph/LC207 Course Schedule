@@ -1,0 +1,30 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int[] pres = new int[numCourses];
+        for (int[] pair : prerequisites) {
+            pres[pair[0]]++;
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < pres.length; i++) {
+            if (pres[i] == 0) {
+                q.add(i);
+            }
+        }
+        int count = 0;
+        while (!q.isEmpty()) {
+            int course = q.poll();
+            count++;
+            for (int[] pair : prerequisites) {
+                if (pair[1] == course) {
+                    pres[pair[0]]--;
+                    if (pres[pair[0]] == 0) {
+                        q.add(pair[0]);
+                    }
+                }
+            }
+        }
+        return count == numCourses;
+    }
+}
+
+//第二遍写了 比较顺利  只需要统计所有课程的先修课数量 然后用queue挨个入队  出队时更新先修课数量并放入可以修的课即可
