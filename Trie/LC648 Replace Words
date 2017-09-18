@@ -1,0 +1,57 @@
+public class Solution {
+    public class TrieNode {
+        boolean isWord;
+        TrieNode[] children;
+        TrieNode() {
+            children = new TrieNode[26];
+        }
+    }
+    public String replaceWords(List<String> dict, String sentence) {
+        TrieNode root = buildTree(dict);
+        String[] strs = sentence.split("\\s+");
+        StringBuilder sb = new StringBuilder();
+        for (String s : strs) {
+            sb.append(getReplace(s, root));
+            sb.append(" ");
+        }
+        return sb.deleteCharAt(sb.length() - 1).toString();
+    }
+    public TrieNode buildTree(List<String> dict) {
+        TrieNode root = new TrieNode();
+        for (String str : dict) {
+            TrieNode end = root;
+            for (char c : str.toCharArray()) {
+                if (end.children[c - 'a'] == null) {
+                    end.children[c - 'a'] = new TrieNode();
+                }
+                end = end.children[c - 'a'];
+            }
+            end.isWord = true;
+        }
+        return root;
+    }
+    public String getReplace(String str, TrieNode root) {
+        TrieNode end = root;
+        StringBuilder replace = new StringBuilder();
+        for (char c : str.toCharArray()) {
+            replace.append(c);
+            if (end.children[c - 'a'] == null) {
+                return str;
+            } else {
+                if (end.children[c - 'a'].isWord) {
+                    return replace.toString();
+                } 
+            }
+            end = end.children[c - 'a'];
+        }
+        return str;
+    }
+}
+
+//比较复杂的一个利用trie的问题
+//思路是建立 trie  把dic里面的字符串全放入trie中
+//对sentence中的每一个str 都调用replace方法 在字典中寻找
+//replace方法 是在字典中寻找 并实时用StringBuilder记录经过的字符
+//若到一节点为null 则证明该str不存在dict里面的root 返回原值
+//若 isword为true 则证明这是目前最短的root 则返回sb
+//否则 继续搜索下去 直到word走完 返回自己
