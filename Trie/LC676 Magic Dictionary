@@ -1,0 +1,43 @@
+class MagicDictionary {
+    Set<String> set;
+    /** Initialize your data structure here. */
+    public MagicDictionary() {
+        set = new HashSet<String>();
+    }
+    
+    /** Build a dictionary through a list of words */
+    public void buildDict(String[] dict) {
+        for (String str : dict) {
+            set.add(str);
+        }
+    }
+    
+    /** Returns if there is any word in the trie that equals to the given word after modifying exactly one character */
+    public boolean search(String word) {
+        char[] chars = word.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            char original = chars[i];
+            for (char c = 'a'; c <= 'z'; c++) {
+                if (c != original) {
+                    chars[i] = c;
+                    if (set.contains(String.valueOf(chars))) {
+                        return true;
+                    }
+                }
+            }
+            chars[i] = original;
+        }
+        return false;
+    }
+}
+
+/**
+ * Your MagicDictionary object will be instantiated and called as such:
+ * MagicDictionary obj = new MagicDictionary();
+ * obj.buildDict(dict);
+ * boolean param_2 = obj.search(word);
+ */
+ 
+ //不用想复杂的trie解法 直接bf  dict全部装入set里即可
+ //对查找的word  对每一位的字符 都将其换为不同的字符 然后看set里是否有即可
+ //需要注意的是 查完一位后 若没有发现 记得将其还原为原来的字符
