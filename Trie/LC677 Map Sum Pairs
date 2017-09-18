@@ -1,0 +1,66 @@
+class MapSum {
+    TrieNode root;
+    class TrieNode {
+        boolean isWord;
+        TrieNode[] children;
+        int val;
+        TrieNode() {
+            this.val = 0;
+            children = new TrieNode[26];
+        }
+    }
+    /** Initialize your data structure here. */
+    public MapSum() {
+        root = new TrieNode();
+    }
+    
+    public void insert(String key, int val) {
+        TrieNode end = root;
+        for (char c : key.toCharArray()) {
+            if (end.children[c - 'a'] == null) {
+                end.children[c - 'a'] = new TrieNode();
+            }
+            end = end.children[c - 'a'];
+        }
+        end.isWord = true;
+        end.val = val;
+    }
+    
+    public int sum(String prefix) {
+        TrieNode end = root;
+        int sum = 0;
+        for (char c : prefix.toCharArray()) {
+            if (end.children[c - 'a'] == null) {
+                return 0;
+            }
+            end = end.children[c - 'a'];
+        }
+        return getSum(end);
+    }
+    public int getSum(TrieNode node) {
+        TrieNode end = node;
+        int sum = 0;
+        if (end.isWord) {
+            sum = sum + end.val;
+        }
+        for (int i = 0; i < 26; i++) {
+            if (end.children[i] != null) {
+                sum = sum + getSum(end.children[i]);
+            }
+        }
+        return sum;
+    }
+}
+
+/**
+ * Your MapSum object will be instantiated and called as such:
+ * MapSum obj = new MapSum();
+ * obj.insert(key,val);
+ * int param_2 = obj.sum(prefix);
+ */
+ 
+ //字典树已经基本ok了 新题一遍AC
+ //这道题的变化在于需要求 以某一前缀为基础的后面所有的word 代表的和
+ //插入时 多在end结点加个val即可
+ //求和时 先找到前缀的最后一个点 然后调用getSum方法
+ //getSum的思路是 如果当前isWord则加入sum 然后遍历其不为null的结点 递归调用本方法即可！
