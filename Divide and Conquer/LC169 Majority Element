@@ -1,0 +1,9 @@
+class Solution {
+    public int majorityElement(int[] nums) {
+        Arrays.sort(nums);
+        int low = 0, high = nums.length - 1;
+        return nums[(low + high) / 2];
+    }
+}
+
+//思路很简单 排序后 中间的数必定为major
