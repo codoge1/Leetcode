@@ -1,0 +1,36 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        String res = "";
+        int max = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int len = extend(s, i, i);
+            if (len > max) {
+                res = s.substring(i - len / 2, i + len / 2 + 1);
+                max = len;
+            }
+            len = extend(s, i, i + 1);
+            if (len > max) {
+                res = s.substring(i - len / 2 + 1, i + len / 2 + 1);
+                max = len;
+            }
+        }
+        return res;
+    }
+    public int extend(String s, int i, int j) {
+        while (i >= 0 && j < s.length()) {
+            if (s.charAt(i) != s.charAt(j)) {
+                i++;
+                j--;
+                return j - i + 1;
+            } else {
+                i--;
+                j++;
+            }
+        }
+        return j - i - 1;
+    }
+}
+
+//思路需要清晰 利用从中心往外拓展的方法
+//分奇数和偶数  拓展的方法要注意 while循环出来时 i j的位置需要缩一位
+//然后通过中心点和长度 找到substring的参数 若len大于max 即更新res即可
