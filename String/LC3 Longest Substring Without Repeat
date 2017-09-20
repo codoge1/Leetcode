@@ -1,0 +1,25 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        Set<Character> set = new HashSet<>();
+        char[] chars = s.toCharArray();
+        int left = 0, right = 0;
+        int max = 0;
+        while (right < s.length()) {
+            if (!set.contains(chars[right])) {
+                set.add(chars[right]);
+                max = Math.max(max, set.size());
+                right++;
+            } else {
+                set.remove(chars[left]);
+                left++;
+            }
+        }
+        return max;
+    }
+}
+
+//滑动窗口来判断  因为substring是连续的  所以设置left right
+//只要right 不在set里 就加入 更新最大值和right 若存在  则从left开始删 直到删到重复那个值 即right不存在为止
