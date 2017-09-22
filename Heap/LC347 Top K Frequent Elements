@@ -1,0 +1,28 @@
+class Solution {
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int n : nums) {
+            map.put(n, map.getOrDefault(n, 0) + 1);
+        }
+        List<Integer>[] buckets = new List[nums.length + 1];
+        for (int n : map.keySet()) {
+            int f = map.get(n);
+            if (buckets[f] == null) {
+                buckets[f] = new ArrayList<>();
+            }
+            buckets[f].add(n);
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = buckets.length - 1; i >= 0 && res.size() < k; i--) {
+            if (buckets[i] != null) {
+                res.addAll(buckets[i]);
+            }
+        }
+        return res;
+    }
+}
+
+//思路是 先用map记录所有数的频率 然后就需要考虑如何排序
+//这里用的是bucket sort 每个桶代表一个频率 注意数组的元素需要是list 因为同一频率可能有若干个数
+//把map的所有key 按频率装入桶中
+//然后只要res size不满 则从后遍历桶 把所有元素加到res即可
