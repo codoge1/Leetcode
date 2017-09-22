@@ -1,0 +1,35 @@
+public class Solution {
+    public List<Integer> diffWaysToCompute(String input) {
+        List<Integer> res = new ArrayList<Integer>();
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == '+' || input.charAt(i) == '-' || input.charAt(i) == '*') {
+                String part1 = input.substring(0, i);
+                String part2 = input.substring(i + 1);
+                List<Integer> res1 = diffWaysToCompute(part1);
+                List<Integer> res2 = diffWaysToCompute(part2);
+                for (int i1 : res1) {
+                    for (int i2 : res2) {
+                        int num = 0;
+                        if (input.charAt(i) == '+') {
+                            num = i1 + i2;
+                        } else if (input.charAt(i) == '-') {
+                            num = i1 - i2;
+                        } else {
+                            num = i1 * i2;
+                        }
+                        res.add(num);
+                    }
+                }
+            }
+        }
+        if (res.size() == 0) {
+            res.add(Integer.parseInt(input));
+        }
+        return res;
+    }
+}
+
+//比较典型的分治递归算法
+//遍历数组 只要出现符号 我们就将其分为左边和右边 需要注意的是 左边一定是数字！！！这也是最后要if判断的原因 debug 一小时
+//右边则是剩下的string 然后递归左右 得到左边的所有可能的值 和右边的所有可能的值
+//然后针对出现的那个符号 对两边的所有数进行配对运算 然后加到res  最后判断 若res size为0 则代表这是左边的一部分 需要单独加到res里去
