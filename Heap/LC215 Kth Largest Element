@@ -1,0 +1,14 @@
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        Queue<Integer> pq = new PriorityQueue<>();
+        for (int n : nums) {
+            pq.add(n);
+            if (pq.size() > k) {
+                pq.poll();
+            }
+        }
+        return pq.peek();
+    }
+}
+
+//PriorityQueue 也就是堆heap  是有优先级的queue 小的在队首 大的在队尾
