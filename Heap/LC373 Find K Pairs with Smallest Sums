@@ -1,0 +1,25 @@
+class Solution {
+    public List<int[]> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        List<int[]> res = new ArrayList<>();
+        if (nums1.length == 0 || nums2.length == 0 || k == 0) {
+            return res;
+        }
+        Queue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] + a[1] - b[0] - b[1]);
+        for (int i = 0; i < nums1.length && i < k; i++) {
+            pq.add(new int[]{nums1[i], nums2[0], 0});
+        }
+        while (res.size() < k && !pq.isEmpty()) {
+            int[] min = pq.poll();
+            res.add(new int[]{min[0], min[1]});
+            if (min[2] == nums2.length - 1) {
+                continue;
+            }
+            pq.add(new int[]{min[0], nums2[min[2] + 1], min[2] + 1});
+        }
+        return res;
+    }
+}
+
+//挺难的一个题 先设置pq的排序逻辑 按数组来排列
+//然后把nums1的数 分别和nums2的第一个数组成数组 加入pq 注意这里需要多一个参数 是nums2中的索引
+//然后循环 每次取出一个 然后加入当前num1和下一个num2组成的数组即可 还是需要注意到num2索引的问题
