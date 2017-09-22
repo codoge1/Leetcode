@@ -1,0 +1,29 @@
+class Solution {
+    public int nthUglyNumber(int n) {
+        int[] ugly = new int[n];
+        ugly[0] = 1;
+        int group2 = 2, group3 = 3, group5 = 5;
+        int index2 = 0, index3 = 0, index5 = 0;
+        for (int i = 1; i < n; i++) {
+            ugly[i] = Math.min(Math.min(group2, group3), group5);
+            if (ugly[i] == group2) {
+                index2++;
+                group2 = ugly[index2] * 2;
+            }
+            if (ugly[i] == group3) {
+                index3++;
+                group3 = ugly[index3] * 3;
+            }
+            if (ugly[i] == group5) {
+                index5++;
+                group5 = ugly[index5] * 5;
+            }
+        }
+        return ugly[n - 1];
+    }
+}
+
+//第二次还是做错 有几个需要注意的点
+//首先 要把2 3 5 分成3组 因为任意一个ugly * 2，3，5都是ugly 
+//2 3 5按顺序排列时 是分成各自索引的 例如2组 是由2 按顺序乘以 ugly数组的数
+//所以单独记录各自的索引 每次求三组第一个数的最小值 然后递增该组的索引 注意 有可能某数同时出现在若干组 不能用elseif 只能if
