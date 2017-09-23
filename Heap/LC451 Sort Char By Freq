@@ -1,0 +1,30 @@
+class Solution {
+    public String frequencySort(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+        List<Character>[] buckets = new ArrayList[s.length() + 1];
+        for (char key : map.keySet()) {
+            int f = map.get(key);
+            if (buckets[f] == null) {
+                buckets[f] = new ArrayList<>();
+            }
+            buckets[f].add(key);
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = buckets.length - 1; i > 0; i--) {
+            if (buckets[i] != null) {
+                for (char c : buckets[i]) {
+                    for (int t = 0; t < i; t++) {
+                        sb.append(c);
+                    }
+                }
+            }
+        }
+        return sb.toString();
+    }
+}
+
+//和347思路基本一样 先统计所有字母的频率 然后创建桶数组 装桶  因为先高频 所以从高到低遍历 遇见每个桶的每个char 都append i次即可！
+//这类按频率排序或查找的题 都是由map 结合桶排序来做
