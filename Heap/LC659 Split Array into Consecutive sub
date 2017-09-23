@@ -1,0 +1,33 @@
+class Solution {
+    public boolean isPossible(int[] nums) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        Map<Integer, Integer> appendPrev = new HashMap<>();
+        for (int n : nums) {
+            freq.put(n, freq.getOrDefault(n, 0) + 1);
+        }
+        for (int n : nums) {
+            if (freq.get(n) == 0) {
+                continue;
+            } else if (appendPrev.getOrDefault(n, 0) > 0) {
+                appendPrev.put(n, appendPrev.get(n) - 1);
+                appendPrev.put(n + 1, appendPrev.getOrDefault(n + 1, 0) + 1);
+            } else if (freq.getOrDefault(n + 1, 0) > 0 && freq.getOrDefault(n + 2, 0) > 0) {
+                freq.put(n + 1, freq.get(n + 1) - 1);
+                freq.put(n + 2, freq.get(n + 2) - 1);
+                appendPrev.put(n + 3, appendPrev.getOrDefault(n + 3, 0) + 1);
+            }
+            else {
+                return false;
+            }
+            freq.put(n, freq.get(n) - 1);
+        }
+        return true;
+    }
+}
+
+//接近hard的题了 此题关键是理解appendPrev这个map的作用
+//他是拿来记录 可以被加到以前凑成的连续sub后面的数 及其次数
+//总体是记录所有数频率 对每个数 如果频率为0 意味着在原数组已经用过 则跳过即可
+//再判断其是否能加到以前的sub里 这里先判断这条 是因为后一条成立的话 也可以加到以前的sub
+//若加不上 则判断原数组里 后两数是否存在 可否构成新的3连 构成后 更新频率 然后记录新三连后面可以加的数 到append
+//若都不行 则false 最后也需要更新当前n这个值的频率
