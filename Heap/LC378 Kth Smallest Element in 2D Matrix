@@ -1,0 +1,21 @@
+class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+        Queue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        for (int col = 0; col < matrix[0].length; col++) {
+            pq.add(new int[]{matrix[0][col], 0, col});
+        }
+        while (!pq.isEmpty() && k > 1) {
+            int[] min = pq.poll();
+            k--;
+            if (min[1] == matrix.length - 1) {
+                continue;
+            }
+            pq.add(new int[]{matrix[min[1] + 1][min[2]], min[1] + 1, min[2]});
+        }
+        return pq.peek()[0];
+    }
+}
+
+//才发现和373的思路一毛一样
+//类似这种2D sorting的题 比如373的 两个数组分别sort  和这个2维矩阵 row 和col分别sort 都可以用pq来解决
+//先把其中一行 全部放入pq中 注意记录索引 然后每出一个 就加入另一行的下一个数 直到找到第k个！
