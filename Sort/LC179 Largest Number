@@ -1,0 +1,25 @@
+class Solution {
+    public String largestNumber(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return "";
+        }
+        String[] strs = new String[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            strs[i] = String.valueOf(nums[i]);
+        }
+        Arrays.sort(strs, (a, b) -> (a + b).compareTo((b + a)));
+        StringBuilder sb = new StringBuilder();
+        for (int i = strs.length - 1; i >= 0; i--) {
+            sb.append(strs[i]);
+        }
+        if (sb.charAt(0) == '0') {
+            return "0";
+        }
+        return sb.toString();
+    }
+}
+
+//题目已经提示了用string！  这道题思路就是重写比较器 对任意两个string来说 根据a + b 和b + a的大小 来排序即可！
+//先全部转化为string 然后记住sort的用法 Arrays.sort(strs, (a, b) -> (a + b).compareTo((b + a)));
+//因为这里是字符串的加减 记得打括号 默认的顺序是从小到大  另外 string类型无法做加减！不要和char搞错了
+//String类型 需要用.compareTo！  然后出来 从后往前append即可 需要多判断一下第一位是否为0 若为0 则返回0即可
