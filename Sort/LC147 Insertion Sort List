@@ -1,0 +1,33 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode fake = new ListNode(0);
+        ListNode cur = head;
+        ListNode pre = fake;
+        ListNode next = null;
+        while (cur != null) {
+            next = cur.next;
+            while (pre.next != null && pre.next.val < cur.val) {
+                pre = pre.next;
+            }
+            cur.next = pre.next;
+            pre.next = cur;
+            pre = fake;
+            cur = next;
+        }
+        return fake.next;
+    }
+}
+
+//插入排序和选择排序的区别  插入排序是 对每个数 将其插到已经排序的队中的合适位置 即大于等于前面 小于等于后面
+//在链表中的这道题 就是要重构一个链表 对每个结点 都遍历已经排好的链表 找到合适的位置插入即可 最好画图解决
