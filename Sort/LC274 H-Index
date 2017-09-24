@@ -1,0 +1,25 @@
+class Solution {
+    public int hIndex(int[] citations) {
+        int len = citations.length;
+        int[] buckets = new int[len + 1];
+        for (int num : citations) {
+            if (num >= len) {
+                buckets[len]++;
+            } else {
+                buckets[num]++;
+            }
+        }
+        int count = 0;
+        for (int i = len; i >= 0; i--) {
+            count = count + buckets[i];
+            if (count >= i) {
+                return i;
+            }
+        }
+        return 0;
+    }
+}
+
+//难在题意理解.. 桶排序 因为有len篇文章 H最多为len 所以设置len+1个桶
+//citation超过len的 都按len算 其余的装入指定桶
+//然后设置count变量 记录citation大于等于i的数量 从后往前遍历 发现满足count>=i 就返回
