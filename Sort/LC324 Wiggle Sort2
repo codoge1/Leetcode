@@ -1,0 +1,27 @@
+class Solution {
+    public void wiggleSort(int[] nums) {
+        int[] cp = Arrays.copyOf(nums, nums.length);
+        Arrays.sort(cp);
+        int mid = cp.length / 2;
+        if (cp.length % 2 == 0) {
+            mid--;
+        }
+        int max = cp.length - 1;
+        int i;
+        for (i = 0; i < nums.length - 1; i = i + 2) {
+            nums[i] = cp[mid];
+            nums[i + 1] = cp[max];
+            mid--;
+            max--;
+        }
+        if (i == nums.length - 1) {
+            nums[i] = cp[mid];
+        }
+    }
+}
+
+//利用额外的空间** 
+//此题要求让偶数索引的数 全是局部最小值 奇数索引全为局部最大值  思路是将数组排序后 分为两半
+//后半部分全部充当局部max 前半部分全部为局部min  然后遍历原数组依次赋值即可！
+//最后需要检测 循环完后是否漏掉了最后一个数  当长度为奇数的时候 会漏
+//最后注意copyOf的用法 需要加数组长度
