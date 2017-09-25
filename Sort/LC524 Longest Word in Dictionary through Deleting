@@ -1,0 +1,44 @@
+class Solution {
+    public String findLongestWord(String s, List<String> d) {
+        if (s.length() == 0 || d.size() == 0) {
+            return "";
+        }
+        Collections.sort(d, (a, b) -> {
+            if (a.length() != b.length()) {
+            return b.length() - a.length();
+            } else {
+                return a.compareTo(b);
+            }
+        });
+        for (String word : d) {
+            if (s.length() < word.length()) {
+                continue;
+            } else if (isSubSeq(word, s)) {
+                return word;
+            }
+        }
+        return "";
+    }
+    public boolean isSubSeq(String sub, String str) {
+        int i = 0, j = 0;
+        while (i < sub.length() && j < str.length()) {
+            if (sub.charAt(i) == str.charAt(j)) {
+                i++;
+                j++;
+            } else {
+                j++;
+            }
+        }
+        if (i == sub.length()) {
+            return true;
+        }
+        return false;
+    }
+}
+
+//这道题思路不难 
+//思路是先把dic里面的string 按照我们要找的优先级 排序 即长度从大到小 若长度相等 则字典序 即compareTo 从小到大
+//注意sort里面的逻辑部分 需要打{}
+//然后遍历dic 只要出现能通过删除得到的  即subsequence
+//判断子序列的方法可以记一下 经常遇见   即对两个字符串 设置两个索引遍历  子序列的那个 只有相等才动  母序列无论如何都往后
+//循环出来后 判断子序列的索引是否到length即可
