@@ -1,0 +1,27 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        int res = 0;
+        int buy = Integer.MAX_VALUE, sell = Integer.MIN_VALUE;
+        int i = 0;
+        while (i < prices.length) {
+            while (i < prices.length - 1 && prices[i + 1] <= prices[i]) {
+                i++;
+            }
+            if (i == prices.length - 1) {
+                break;
+            }
+            buy = prices[i];
+            i++;
+            while (i < prices.length - 1 && prices[i + 1] >= prices[i]) {
+                i++;
+            }
+            sell = prices[i];
+            i++;
+            res = res + sell - buy;
+        }
+        return res;
+    }
+}
+
+//第二次 一遍AC 思路是设置buy 和sell变量 在局部最小值买 局部最大值卖
+//需要注意的是i的变化 如果buy了最后一位  sell就会越界  所以需要在buy前判断i 若到了最后一位 直接break即可
