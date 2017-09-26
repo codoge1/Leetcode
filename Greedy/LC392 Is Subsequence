@@ -1,0 +1,20 @@
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        int i = 0, j = 0;
+        while (i < s.length() && j < t.length()) {
+            if (s.charAt(i) == t.charAt(j)) {
+                i++;
+                j++;
+            } else {
+                j++;
+            }
+        }
+        if (i == s.length()) {
+            return true;
+        }
+        return false;
+    }
+}
+
+//easy 两指针分别往后找 不相等时 只在母串向后找
+//出循环后 判断是否找完子串即可
