@@ -1,0 +1,37 @@
+class Solution {
+    public String removeKdigits(String num, int k) {
+        if (num.length() == k) {
+            return "0";
+        }
+        Stack<Character> stack = new Stack<>();
+        int i = 0;
+        while (i < num.length()) {
+            while (k > 0 && !stack.isEmpty() && stack.peek() > num.charAt(i)) {
+                stack.pop();
+                k--;
+            }
+            stack.push(num.charAt(i));
+            i++;
+        }
+        while (k > 0) {
+            stack.pop();
+            k--;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop());
+        }
+        sb.reverse();
+        while (sb.length() > 1 && sb.charAt(0) == '0') {
+            sb.deleteCharAt(0);
+        }
+        return sb.toString();
+    }
+}
+
+//思路是用一个stack 只要某一个数字 小于前一个 就删除前一个  例如 341   遇到1时 就删除4 然后再判断 31 再删除3
+//利用pop操作来删除
+//循环出来后 如果k还大于0  则证明还没删完 例如12345这种例子 就从后删即可保证最小 pop直到k=0
+//然后就可以构建StringBuilder 然后reverse 再删除前面的0即可
+//删除0时 因为string的长度会变 索引会变 所以不能用索引删 只能一直删除索引0的0 然后继续判断 直到长度=1就不能删了
+//这题坑比较多
