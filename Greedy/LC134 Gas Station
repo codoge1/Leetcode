@@ -1,0 +1,28 @@
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int total = 0;
+        for (int i = 0; i < gas.length; i++) {
+            total = total + gas[i] - cost[i];
+        }
+        if (total < 0) {
+            return -1;
+        }
+        int remain = 0, start = 0;
+        for (int i = 0; i < gas.length; i++) {
+            remain = remain + gas[i];
+            if (remain < cost[i]) {
+                start = i + 1;
+                remain = 0;
+            } else {
+                remain = remain - cost[i];
+            }
+        }
+        return start;
+    }
+}
+
+//先算一下总油量能否cover总cost 不能的话 返回-1  能的话  就一定能跑完全程！
+//设置remain变量和start变量 从0开始跑 每次remain先加上gas 然后判断能否cover当前的cost 若能 则更新remain 进入下一次循环
+//**  注意 若不能 则证明从原来的start 没办法0储蓄开到当前i+1  而能开到start 和i 之间的其他站  说明i和i+1是无法跨越的鸿沟/...
+//所以 start设置为i+1 然后remain归零即可 这里需要注意 不用再判断i+1前面的那段路 因为只要总油量大于总cost  一定能跑完 所有就从新的start
+//开始 往后找起点即可
