@@ -1,0 +1,24 @@
+class Solution {
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int count = 0;
+        int i = 0, j = 0;
+        while (i < g.length && j < s.length) {
+            if (g[i] <= s[j]) {
+                count++;
+                i++;
+                j++;
+            } else {
+                j++;
+            }
+        }
+        return count;
+    }
+}
+
+//这道题代码有点类似判断是否为subsequence
+//要求喂饱的孩子最多 则想到 小曲奇喂小孩子 大曲奇喂大孩子
+//所以对g s排序  然后设置两变量遍历数组
+//只要当前曲奇够喂 则count++ 都往后跳
+//若不够 则换下一块曲奇
