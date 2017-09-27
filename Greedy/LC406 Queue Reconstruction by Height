@@ -1,0 +1,32 @@
+class Solution {
+    public int[][] reconstructQueue(int[][] people) {
+        if (people.length == 0) {
+            return new int[0][];
+        }
+        Arrays.sort(people, (a, b) -> {
+            if (a[0] != b[0]) {
+                return b[0] - a[0];
+            } else {
+                return a[1] - b[1];
+            }
+        });
+        List<int[]> temp = new ArrayList<>();
+        for (int i = 0; i < people.length; i++) {
+            temp.add(people[i][1], new int[]{people[i][0], people[i][1]});
+        }
+        int[][] res = new int[people.length][2];
+        int i = 0;
+        for (int[] p : res) {
+            p[0] = temp.get(i)[0];
+            p[1] = temp.get(i)[1];
+            i++;
+        }
+        return res;
+    }
+}
+
+//思路挺奇特的  对于people的第二个变量 count  记录的是队前面身高不低于他的数量
+//意思是 身高低于他的 不影响他 身高和他相等的 如果count比他多 证明在他身后 也不影响
+//所以我们就先将数组 按照身高 & count排列  让后面的人 不影响前面的人  从头排序
+//这样一来 对每一个people 都按照count 给他add到相应的位置  后面的人就算插入到他前面 也不会影响他
+//最后将list转为int即可 需要注意需要分别给p0 p1赋值  而不是直接copy二维数组
