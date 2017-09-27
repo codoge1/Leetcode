@@ -1,0 +1,32 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+class Solution {
+    public int eraseOverlapIntervals(Interval[] intervals) {
+        if (intervals == null || intervals.length == 0) {
+            return 0;
+        }
+        Arrays.sort(intervals, (a, b) -> a.end - b.end);
+        int count = 1;
+        int endI = intervals[0].end;
+        for (int i = 1; i < intervals.length; i++) {
+            if (intervals[i].start >= endI) {
+                count++;
+                endI = intervals[i].end;
+            }
+        }
+        return intervals.length - count;
+    }
+}
+
+//区间类题 需要考虑排序时 按照start还是end排
+//这题思路是 找到有多少个不重叠的区间 然后长度减去 即需要删除的
+//难点在于 此题因为要求删除最少 如果按照start排序 则有可能出现某一个区间start很小 但end很大
+//他排在前面后 后面的很多区间全部都需要删除 而实际上只需要删除他即可
+//所以按照end来排 避免这个问题
