@@ -1,0 +1,18 @@
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        int[] count = new int[26];
+        for (char c : tasks) {
+            count[c - 'A']++;
+        }
+        Arrays.sort(count);
+        int res = (count[25] - 1) * (n + 1) + 1;
+        int i = 24;
+        while (i >= 0 && count[i] == count[25]) {
+            res++;
+            i--;
+        }
+        return Math.max(tasks.length, res);
+    }
+}
+
+//第三次做这题了  res是最低框架而已  如果task很多 占满了框架里的idle 则最后就是task的长度
