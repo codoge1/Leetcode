@@ -1,0 +1,28 @@
+class Solution {
+    public String predictPartyVictory(String senate) {
+        Queue<Integer> r = new LinkedList<>();
+        Queue<Integer> d = new LinkedList<>();
+        for (int i = 0; i < senate.length(); i++) {
+            if (senate.charAt(i) == 'R') {
+                r.add(i);
+            } else {
+                d.add(i);
+            }
+        }
+        while (!r.isEmpty() && !d.isEmpty()) {
+            int indexR = r.poll();
+            int indexD = d.poll();
+            if (indexR < indexD) {
+                r.add(indexR + senate.length());
+            } else {
+                d.add(indexD + senate.length());
+            }
+        }
+        return r.isEmpty() ? "Dire" : "Radiant";
+    }
+}
+
+//思路挺好的一题 每个senator可以ban一个敌方的发言  意味着这个游戏排在前面是很大优势的
+//所以想到用queue来做 设置两个q 分别记录r和d的索引 每次都poll出来 最佳做法是 ban后面的那一个 索引小的那个 可以ban索引大的
+//然后索引大的就失去发言权 而索引小的 在下一轮还可以接着发言 于是加回q里 索引则为原索引+总长度
+//直到一方为空 另一方获胜
