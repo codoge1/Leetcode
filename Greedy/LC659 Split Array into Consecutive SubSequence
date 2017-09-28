@@ -1,0 +1,31 @@
+class Solution {
+    public boolean isPossible(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> canAppend = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (map.get(nums[i]) == 0) {
+                continue;
+            }
+            if (canAppend.getOrDefault(nums[i], 0) > 0) {
+                canAppend.put(nums[i], canAppend.get(nums[i]) - 1);
+                canAppend.put(nums[i] + 1, canAppend.getOrDefault(nums[i] + 1, 0) + 1);
+            } else if (map.getOrDefault(nums[i] + 1, 0) > 0 && map.getOrDefault(nums[i] + 2, 0) > 0) {
+                map.put(nums[i] + 1, map.get(nums[i] + 1) - 1);
+                map.put(nums[i] + 2, map.get(nums[i] + 2) - 1);
+                canAppend.put(nums[i] + 3, canAppend.getOrDefault(nums[i] + 3, 0) + 1);
+            } else {
+                return false;
+            }
+            map.put(nums[i], map.get(nums[i]) - 1);
+        }
+        return true;
+    }
+}
+
+//第二次做 设置一个记录数字次数的数组 一个记录前面所有顺子后面所需的数组
+//对每个次数大于0的数字 先判断是否能加到前面的顺子里 若能 则更新所需
+//若不能 则看能否组成新的顺子 能 则更新数字次数 和所需  不能则false
+//最后记得更新当前数的次数
