@@ -1,0 +1,11 @@
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        if (n < 0) {
+            return false;
+        }
+        int count = Integer.bitCount(n);
+        return count == 1;
+    }
+}
+
+//需要注意负数这个边界条件  2的n次方 一定只有一个bit 所以bitcount 返回是否为1即可
