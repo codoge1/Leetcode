@@ -1,0 +1,15 @@
+class Solution {
+    public int rangeBitwiseAnd(int m, int n) {
+        int move = 0;
+        while (m != n) {
+            m = m >> 1;
+            n = n >> 1;
+            move++;
+        }
+        return m << move;
+    }
+}
+
+//挺巧的思路 从m到n的所有数都 与
+//其实 就是求这些数 左边的公共部分  而m n为range的边界 就是求m 和 n 的公共部分
+//所以 只要m 和 n 不等 就往右移 记录移动次数  相等时 再移回去即可
