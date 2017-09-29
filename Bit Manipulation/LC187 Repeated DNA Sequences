@@ -1,0 +1,17 @@
+class Solution {
+    public List<String> findRepeatedDnaSequences(String s) {
+        Set<String> set = new HashSet<>();
+        Set<String> temp = new HashSet<>();
+        for (int i = 0; i < s.length() - 9; i++) {
+            if (set.contains(s.substring(i, i + 10))) {
+                temp.add(s.substring(i, i + 10));
+            } else {
+                set.add(s.substring(i, i + 10));
+            }
+        }
+        return new ArrayList(temp);
+    }
+}
+
+//直接暴力解时间也很快    因为是固定了长度为10  所以就设置set 遍历string里的所有长度为10的子串
+//对每个子串 若set存在  则加到temp 否则加到set  最后temp转list即可（防止结果出现重复的）
