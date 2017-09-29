@@ -1,0 +1,34 @@
+class Solution {
+    public int[] singleNumber(int[] nums) {
+        int res = 0;
+        for (int num : nums) {
+            res = res ^ num;
+        }
+        int i;
+        for (i = 0; i < 32; i++) {
+            int digit = (res >> i) & 1;
+            if (digit == 1) {
+                break;
+            }
+        }
+        int res1 = 0;
+        int res2 = 0;
+        for (int num : nums) {
+            if ((num & (1 << i)) > 0) {
+                res1 = res1 ^ num;
+            } else {
+                res2 = res2 ^ num;
+            }
+        }
+        int[] result = new int[2];
+        result[0] = res1;
+        result[1] = res2;
+        return result;
+    }
+}
+
+//这道题略难 思路是 先全部异或 得到的res 是两个所求值的异或  然后找到res里的一个1
+//在这位上 两数 一个为0 一个为1  所以我们就可以把原来的数分为两组 一组在这位为0 一组在这位为1
+//每组分别异或起来 就得到res1 和res2了
+//需要注意的是 在判断某一位是否为1时 if ((num & (1 << i)) > 0) 判断条件不能为==1 因为这不是判断第1位 而是判断其他位
+//所以 可以用==0 来判断这一位为0  或者>0来判断这一位 为1
