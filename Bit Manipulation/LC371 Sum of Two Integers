@@ -1,0 +1,20 @@
+class Solution {
+    public int getSum(int a, int b) {
+        if (a == 0) {
+            return b;
+        }
+        if (b == 0) {
+            return a;
+        }
+        while (b != 0) {
+            int carry = a & b;
+            a = a ^ b;
+            b = (carry << 1);
+        }
+        return a;
+    }
+}
+
+//不能用加号 则直接用bit中的与 和异或来做
+//思路很巧妙 a&b 得到都为1的位置 即需要进位的位置
+//然后a ^ b 赋值给a 对0 1进行加法  然后更新b为carry左移一位 下一次循环等于是和carry做加法  直到b为0
