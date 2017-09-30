@@ -1,0 +1,33 @@
+class Solution {
+    public int[] countBits(int num) {
+        int[] res = new int[num + 1];
+        int j = 1;
+        for (int i = 1; i < num + 1; i++) {
+            if (i == 2 * j) {
+                j = i;
+            }
+            res[i] = res[i - j] + 1;
+        }
+        return res;
+    }
+}
+
+//DP 思考过程是 直接列出前面16个数 分析bit数 然后找dp关系式
+/**dp[0] = 0;
+
+dp[1] = dp[1-1] + 1;
+
+dp[2] = dp[2-2] + 1;
+
+dp[3] = dp[3-2] +1;
+
+dp[4] = dp[4-4] + 1;
+
+dp[5] = dp[5-4] + 1;
+
+dp[6] = dp[6-4] + 1;
+
+dp[7] = dp[7-4] + 1;
+
+dp[8] = dp[8-8] + 1; */
+//这是此题的关系  可以看出 减数j 是从1开始 只要2j = i j就变为2j
