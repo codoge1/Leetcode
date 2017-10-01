@@ -1,0 +1,24 @@
+class Solution {
+    public int findMaximumXOR(int[] nums) {
+        int max = 0, mask = 0;
+        for (int i = 31; i >= 0; i--) {
+            mask = mask | (1 << i);
+            Set<Integer> set = new HashSet<>();
+            for (int num : nums) {
+                set.add(num & mask);
+            }
+            int potential = max | (1 << i);
+            for (int num : set) {
+                if (set.contains(num ^ potential)) {
+                    max = potential;
+                    break;
+                }
+            }
+        }
+        return max;
+    }
+}
+
+//第二次做 思路还是很难找到  求最大的异或 我们就从最高位开始找 先看能否达到1000…………
+//之后再依次看能否在低位上也能达到1  从32位 一直到涵盖全部位置  依次贪心 看能否更大
+//具体的理解代码即可
