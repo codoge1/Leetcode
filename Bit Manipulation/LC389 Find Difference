@@ -1,0 +1,17 @@
+class Solution {
+    public char findTheDifference(String s, String t) {
+        int[] alpha = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            alpha[s.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < t.length(); i++) {
+            alpha[t.charAt(i) - 'a']--;
+            if (alpha[t.charAt(i) - 'a'] < 0) {
+                return t.charAt(i);
+            }
+        }
+        return '0';
+    }
+}
+
+//思路很简单 一个字符串统计数量加   一个用减 只要出现-1 则返回这个位置的字符串即可
