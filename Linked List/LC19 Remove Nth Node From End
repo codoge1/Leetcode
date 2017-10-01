@@ -1,0 +1,28 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode fake = new ListNode(0);
+        fake.next = head;
+        ListNode slow = fake, fast = fake;
+        for (int i = 0; i < n; i++) {
+            fast = fast.next;
+        }
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        slow.next = slow.next.next;
+        return fake.next;
+    }
+}
+
+//快慢指针法  需要删除倒数第n个 则设置快慢指针 让两者相差n-1个结点 即让fast先走n-1  
+//但由于需要删除 所以需要得到删除结点前一个 slow应该还差一位 即让fast先走n
+//因为 可能会删除到head 所以设置fake结点 slow和fast从fake开始走
