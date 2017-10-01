@@ -1,0 +1,41 @@
+class Solution {
+    public boolean validUtf8(int[] data) {
+        if (data == null || data.length == 0) {
+            return false;
+        }
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] > 255) {
+                return false;
+            }
+            int bytes = 0;
+            if ((data[i] & 128) == 0) {
+                bytes = 1;
+            } else if ((data[i] & 224) == 192) {
+                bytes = 2;
+            } else if ((data[i] & 240) == 224) {
+                bytes = 3;
+            } else if ((data[i] & 248) == 240) {
+                bytes = 4;
+            } else {
+                return false;
+            }
+            if (i + bytes - 1 >= data.length) {
+                    return false;
+            }
+            for (int j = 0; j < bytes - 1; j++) {
+                if ((data[i + j + 1] & 192) != 128) {
+                    return false;
+                }
+            }
+            i = i + bytes - 1;
+        }
+        return true;
+    }
+}
+
+//还比较有意思的一题 需要仔细读题意 这道题主要思路就是用掩码的思维 来判断前几位的构成
+//因为只有后8位存数据 所以只要大于255 则false  之后分别判断第i位 引领的是几byte的pattern
+//若为0开头 即&128(10000000) 为0  则1byte 否则分别判断为110  1110 11110 开头
+//判断完后 再验证后面几位 是否满足10开头 先判断数组长度是否能够这个pattern  若够 则判断从i 后面的bytes-1位 是否为10pattern
+//即&11000000 = 192  是否等于 128
+//若没问题 则i跳至这个pattern的最后一位 下一次循环进行下一个pattern 
