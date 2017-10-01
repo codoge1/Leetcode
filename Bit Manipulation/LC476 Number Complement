@@ -1,0 +1,19 @@
+class Solution {
+    public int findComplement(int num) {
+        int pos = 0;
+        for (int i = 31; i >= 0; i--) {
+            if (((num >> i) & 1) == 1) {
+                pos = i;
+                break;
+            }
+        }
+        int mask = ((1 << pos) - 1) | (1 << pos);
+        return num ^ mask;
+    }
+}
+
+//这道题 需要把所有的bit翻转  0-1  1-0  但是 前面的leading 0不能变
+//很自然的 想到 和0异或不变 和1异或 翻转  所以我们需要找到num的掩码  然后做异或即可
+//找掩码 就找最高位的1  然后后面全是1  因为可能越界 所以就没用最高位 再左移 -1获得掩码
+//而是用最高位-1 再|最高位得到掩码 
+//update java中找最高位的1  有内置的函数 Integer.highestOneBit()
