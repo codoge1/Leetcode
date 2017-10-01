@@ -1,0 +1,22 @@
+class Solution {
+    public int totalHammingDistance(int[] nums) {
+        int res = 0;
+        for (int i = 0; i < 32; i++) {
+            int zeroes = 0;
+            int ones = 0;
+            for (int num : nums) {
+                if (((num >> i) & 1) == 1) {
+                    ones++;
+                } else {
+                    zeroes++;
+                }
+            }
+            res = res + ones * zeroes;
+        }
+        return res;
+    }
+}
+
+//如果双重遍历 On2 分别求hamming 则TLE
+//比较好的方法是 对32位 每一位统计汉明距离  在某一位上  统计0 和1的次数  例如3个1 2个0  那么能贡献3*2个汉明距离
+//依次累加即可
