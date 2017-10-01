@@ -1,0 +1,16 @@
+class Solution {
+    public List<String> readBinaryWatch(int num) {
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 60; j++) {
+                if (Integer.bitCount(i) + Integer.bitCount(j) == num) {
+                    res.add(String.format("%d:%02d", i, j));
+                }
+            }
+        }
+        return res;
+    }
+}
+
+//这题关键点就是  对小时和分钟来说  某一个数 亮几个灯 实际就等于他二进制 有几个bit
+//所以直接遍历所有小时和分钟  i j的bit和 加起来等于num  则格式化string  加入res即可  
