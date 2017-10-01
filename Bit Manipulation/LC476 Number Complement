@@ -17,3 +17,12 @@ class Solution {
 //找掩码 就找最高位的1  然后后面全是1  因为可能越界 所以就没用最高位 再左移 -1获得掩码
 //而是用最高位-1 再|最高位得到掩码 
 //update java中找最高位的1  有内置的函数 Integer.highestOneBit()
+//所以更快的方法是：
+
+class Solution {
+    public int findComplement(int num) {
+        int pos = Integer.highestOneBit(num);
+        int mask = (pos - 1) | pos;
+        return num ^ mask;
+    }
+}
