@@ -1,0 +1,18 @@
+class Solution {
+    public String toHex(int num) {
+        if (num == 0) {
+            return "0";
+        }
+        char[] map = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+        StringBuilder res = new StringBuilder();
+        while (num != 0) {
+            int hex = num & 15;
+            res.append(map[hex]);
+            num = num >>> 4;
+        }
+        return res.reverse().toString();
+    }
+}
+
+//思路比较简单 2进制换16进制 实际是4个4个的换 每次取num的后四位  （&15）
+//map到16进制的字符 然后加到StringBuilder  直到num为0  reverse输出即可  需要注意edge case 0
