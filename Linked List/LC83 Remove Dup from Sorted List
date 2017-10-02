@@ -1,0 +1,30 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode node = head;
+        ListNode next = head.next;
+        while (next != null) {
+            if (node.val == next.val) {
+                node.next = next.next;
+                next = next.next;
+            } else {
+                node = node.next;
+                next = next.next;
+            }
+        }
+        return head;
+    }
+}
+
+//只要与next相等 则跳过next 然后next往后移动 进行下一次判断 
+//不等 则都往后移动
