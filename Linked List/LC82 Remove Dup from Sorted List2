@@ -1,0 +1,46 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode fake = new ListNode(0);
+        fake.next = head;
+        ListNode pre = fake, node = head, next = head.next;
+        boolean isDup = false;
+        while (next != null) {
+            if (node.val == next.val) {
+                node.next = next.next;
+                next = next.next;
+                isDup = true;
+            } else {
+                if (isDup) {
+                    pre.next = next;
+                    isDup = false;
+                } else {
+                    pre = pre.next;
+                }
+                node = next;
+                next = next.next;
+            }
+        }
+        if (isDup) {
+            pre.next = next;
+        }
+        return fake.next;
+    }
+}
+
+//此题比I复杂在 需要完全删除重复的元素 一个不留 所以想到设置一个pre变量
+//然后类似I  只要node 和next相等 则跳过next 跳完后 再用pre跳过原来的node结点
+//在这里需要判断 当前的node 是否曾经重复过 判断是否需要跳过node 所以考虑设置一个flag 如果进行过跳过next
+//则flag设置为true 出来后 若为true 则用pre跳过node 否则pre右移 全部右移即可
+//还需要注意的是 若到最后一个结点是重复的 则出循环后 少删除一个node 所以
+//出循环后  需要判断下flag是否还为true 为true的话 再跳过一次node
