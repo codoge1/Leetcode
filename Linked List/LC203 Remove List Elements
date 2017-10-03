@@ -1,0 +1,27 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode fake = new ListNode(0);
+        fake.next = head;
+        ListNode pre = fake, cur = head;
+        while (cur != null) {
+            if (cur.val == val) {
+                pre.next = cur.next;
+                cur = cur.next;
+            } else {
+                pre = pre.next;
+                cur = cur.next;
+            }
+        }
+        return fake.next;
+    }
+}
+
+//比较简单 就是需要注意 head也可能remove  所以设置fake  返回fake.next
