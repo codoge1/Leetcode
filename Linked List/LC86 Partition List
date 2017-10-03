@@ -1,0 +1,74 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode fake = new ListNode(0);
+        ListNode cur = fake;
+        ListNode newL = fake;
+        fake.next = head;
+        while (cur.next != null && cur.next.val < x) {
+            cur = cur.next;
+            newL = newL.next;
+        }
+        if (cur.next == null) {
+            return fake.next;
+        }
+        cur = cur.next;
+        while (cur.next != null) {
+            if (cur.next.val < x) {
+                ListNode next = cur.next.next;
+                cur.next.next = newL.next;
+                newL.next = cur.next;
+                cur.next = next;
+                newL = newL.next;
+            } else {
+                cur = cur.next;
+            }
+        }
+        return fake.next;
+    }
+}
+
+//这是自己的方法。。。在纸上慢慢画出来的 最后发现 若newL和cur是同一个点 不满足 所以在处理前 预处理一下 让cur和newL先往后 直到分离
+//再进行变换。。 还是用高分方法吧 如下。。
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode partition(ListNode head, int x) {
+        ListNode fake1 = new ListNode(0);
+        ListNode fake2 = new ListNode(0);
+        ListNode cur1 = fake1, cur2 = fake2;
+        while (head != null) {
+            if (head.val < x) {
+                cur1.next = head;
+                cur1 = cur1.next;
+            } else {
+                cur2.next = head;
+                cur2 = cur2.next;
+            }
+            head = head.next;
+        }
+        cur1.next = fake2.next;
+        cur2.next = null;
+        return fake1.next;
+    }
+}
+
+//思路一看就知道了 把原链表分为两列 小于x的 和大于等于的  这里需要特别注意的是 cur1和cur2 一直都是原链表中的点
+//所以最后循环完后 cur1指向了第二列的第一个 没问题 但cur2 还是指向的 其原链表中cur2的next  这样会出现循环链表
+//所以cur2是新链表的尾  应该指向null
