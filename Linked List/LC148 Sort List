@@ -1,0 +1,51 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode pre = new ListNode(0);
+        ListNode slow = head, fast = head;
+        pre.next = head;
+        while (fast != null && fast.next != null) {
+            pre = pre.next;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        pre.next = null;
+        ListNode l1 = sortList(head);
+        ListNode l2 = sortList(slow);
+        return mergeList(l1, l2);
+    }
+    public ListNode mergeList(ListNode l1, ListNode l2) {
+        ListNode fake = new ListNode(0);
+        ListNode node = fake;
+        while (l1 != null && l2 != null) {
+            if (l1.val > l2.val) {
+                node.next = l2;
+                l2 = l2.next;
+            } else {
+                node.next = l1;
+                l1 = l1.next;
+            }
+            node = node.next;
+        }
+        if (l1 == null) {
+            node.next = l2;
+        } else {
+            node.next = l1;
+        }
+        return fake.next;
+    }
+}
+
+//上一题是插入排序 这题是最常见的链表排序方法 merge排序
+//将链表分为两半 然后递归调用方法 继续分 直到分为两个单独的结点 调用merge方法
+//merge方法是将两个sorted list merge成一个sorted list  所以对两个单独的结点来说 他们就是sorted的
