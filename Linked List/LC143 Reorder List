@@ -1,0 +1,51 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public void reorderList(ListNode head) {
+        if (head == null || head.next == null) {
+            return;
+        }
+        ListNode fake = new ListNode(0);
+        fake.next = head;
+        ListNode slow = fake, fast = fake;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        ListNode pre = slow;
+        ListNode start = slow.next;
+        ListNode toForward = start.next;
+        while (toForward != null) {
+            start.next = toForward.next;
+            toForward.next = pre.next;
+            pre.next = toForward;
+            toForward = start.next;
+        }
+        ListNode front = head;
+        ListNode node = pre.next;
+        while (front != pre) {
+            ListNode next = node.next;
+            node.next = front.next;
+            front.next = node;
+            front = node.next;
+            node = next;
+        }
+        if (node == null) {
+            front.next = null;
+        } else {
+            front.next = node;
+        }
+    }
+}
+
+//很很经典的题 结合了92题 reverse linked list的方法 还要更进一步
+//思路是 先找到中点 目的是将中点后面的链表先按照92题一样  reverse  注意 后半段长度不能超过前半段
+//reverse 后  设置前面和后面的遍历结点  依次把后面的结点 插到前面的结点之间 
+//这里需要额外注意 当前面遍历结点front 到达中点pre时 其next 接上了后半段结点的开始 会导致循环
+//所以 当front == pre 就需要跳出循环  此时 如果node还存在 则连上node  若不存在 则front即为链表尾  指向null即可
