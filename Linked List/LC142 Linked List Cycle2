@@ -1,0 +1,35 @@
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (slow == fast) {
+                break;
+            }
+        }
+        if (fast == null || fast.next == null) {
+            return null;
+        } 
+        while (slow != head) {
+            slow = slow.next;
+            head = head.next;
+        }
+        return slow;
+    }
+}
+
+//需要找到环开始的地方  从距离上分析  slow 走的是a + b   fast是a + b + c  = 2a + 2b
+//a+ b = c 即slow 走的路是一个环  那么走完剩下的距离是c - b = a 即剩下的距离等于head走到环开始的距离
+//那么让slow和head同时走 相遇时 即是环开始的地方
