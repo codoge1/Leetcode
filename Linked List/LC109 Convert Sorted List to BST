@@ -1,0 +1,46 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        if (head.next == null) {
+            return new TreeNode(head.val);
+        }
+        ListNode pre = new ListNode(0);
+        pre.next = head;
+        ListNode fast = head, slow = head;
+        while (fast != null && fast.next != null) {
+            pre = pre.next;
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        pre.next = null;
+        TreeNode root = new TreeNode(slow.val);
+        root.left = sortedListToBST(head);
+        root.right = sortedListToBST(slow.next);
+        return root;
+    }
+}
+
+//一遍AC
+//构造BST 则先找到中点 设为root 然后递归两边的区间 分别为left 和right
+//需要注意的是 在链表找 找到中点slow 的前一个pre   pre.next=null 分成两链表
+//然后分别递归即可 需要注意的是  当只有head时 继续递归 会无限循环
+//所以 只有head时  返回对应值的treenode
