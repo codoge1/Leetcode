@@ -1,0 +1,43 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int lenA = 0, lenB = 0;
+        ListNode nodeA = headA, nodeB = headB;
+        while (nodeA != null) {
+            nodeA = nodeA.next;
+            lenA++;
+        }
+        while (nodeB != null) {
+            nodeB = nodeB.next;
+            lenB++;
+        }
+        while (lenA > lenB) {
+            headA = headA.next;
+            lenA--;
+        }
+        while (lenB > lenA) {
+            headB = headB.next;
+            lenB--;
+        }
+        while (headA != headB) {
+            headA = headA.next;
+            headB = headB.next;
+        }
+        return headA;
+    }
+}
+
+//比较简洁的写法 思路就是 有交点 则在交点后 为共同一条链表
+//所以 从后往前对齐 只需要让两个结点 同时出发 相遇即交点
+//让长的链表 先走几步 直到和短的链表头对齐 然后同时走 相遇时返回即可！
+//没交点返回null 不需要单独处理 因为遍历完后 a b都为null 也是出循环 返回null
