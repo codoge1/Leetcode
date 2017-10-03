@@ -1,0 +1,35 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode fake = new ListNode(0);
+        fake.next = head;
+        ListNode pre = fake;
+        for (int i = 0; i < m - 1; i++) {
+            pre = pre.next;
+        }
+        ListNode start = pre.next;
+        ListNode toForward = start.next;
+        for (int i = 0; i < n - m; i++) {
+            start.next = toForward.next;
+            toForward.next = pre.next;
+            pre.next = toForward;
+            toForward = start.next;
+        }
+        return fake.next;
+    }
+}
+
+//链表题真是头都画晕了
+//思路是先找到逆转区间的前面pre  因为可能从head开始逆转 所以pre从fake开始
+//之后 设置变量start 和toforward  每次把toforward移到pre的后面 然后让start指向toforward的后面
+//toforward往后移  reverse n - m次即可
