@@ -1,0 +1,32 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode fake = new ListNode(0);
+        ListNode pre = fake, node = head;
+        while (node != null) {
+            while (pre.next != null && node.val > pre.next.val) {
+                pre = pre.next;
+            }
+            ListNode next = node.next;
+            node.next = pre.next;
+            pre.next = node;
+            node = next;
+            pre = fake;
+        }
+        return fake.next;
+    }
+}
+
+//把问题想复杂了 这道题 不需要in-place  所以新建一个fake  不要连接原来的head
+//然后对每一个node 在新list中找到一个位置 插入 然后pre node更新即可！
+//因为没有连接 所有新表的表尾是null  而不需要考虑表尾是node的各种情况。。
