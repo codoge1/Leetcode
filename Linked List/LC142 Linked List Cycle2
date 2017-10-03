@@ -30,6 +30,7 @@ public class Solution {
     }
 }
 
-//需要找到环开始的地方  从距离上分析  slow 走的是a + b   fast是a + b + c  = 2a + 2b
-//a+ b = c 即slow 走的路是一个环  那么走完剩下的距离是c - b = a 即剩下的距离等于head走到环开始的距离
-//那么让slow和head同时走 相遇时 即是环开始的地方
+//需要找到环开始的地方  从距离上分析  slow 走的是a + b   fast是a + b + nc  = 2a + 2b
+//a+ b = nc 那么走完剩下的距离是c - b    head走到环开始的距离为nc - b
+//那么让slow和head同时走 相遇时 即是环开始的地方  不管n等于几 因为slow已经在环里了  就算
+//n不等于1  n等于3  那么  head到entry距离是3c - b   slow剩下的距离是c-b 走完后 slow在entry  head距离2c 再经历两圈 也能相遇在entry
