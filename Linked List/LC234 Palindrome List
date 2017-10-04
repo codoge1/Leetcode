@@ -1,0 +1,43 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+        ListNode fake = new ListNode(0);
+        fake.next = head;
+        ListNode slow = fake, fast = fake;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        ListNode start = slow.next;
+        ListNode toForward = start.next;
+        while (toForward != null) {
+            start.next = toForward.next;
+            toForward.next = slow.next;
+            slow.next = toForward;
+            toForward = start.next;
+        }
+        ListNode head2 = slow.next;
+        while (head2 != null) {
+            if (head.val != head2.val) {
+                return false;
+            }
+            head = head.next;
+            head2 = head2.next;
+        }
+        return true;
+    }
+}
+
+//思路就是把后半段reverse 然后和前半段同时遍历 出现val不等则false
+//reverse方法 我用的迭代都是 把每一个数 塞到pre 和pre.next之间
+//其实也可以用类似两参数递归的迭代 每次记录cur.next 然后cur指向pre  更新cur 和pre
