@@ -1,0 +1,40 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        Stack<ListNode> s1 = new Stack<>();
+        Stack<ListNode> s2 = new Stack<>();
+        while (l1 != null) {
+            s1.push(l1);
+            l1 = l1.next;
+        }
+        while (l2 != null) {
+            s2.push(l2);
+            l2 = l2.next;
+        }
+        int sum = 0, carry = 0;
+        ListNode pre = null;
+        while (!s1.isEmpty() || !s2.isEmpty() || carry != 0) {
+            int a = (s1.isEmpty()) ? 0 : s1.pop().val;
+            int b = (s2.isEmpty()) ? 0 : s2.pop().val;
+            sum = a + b + carry;
+            carry = sum / 10;
+            ListNode cur = new ListNode(sum % 10);
+            cur.next = pre;
+            pre = cur;
+        }
+        return pre;
+    }
+}
+
+//这道题和最开始的2sum区别是  这道题的数字是正向表示
+//所以遍历顺序不符合加法法则 所以把每个链表依次存入stack  每次从stack pop出一个来加即可
+//需要注意的是 因为加法后得到的结点 也是从个位开始  如果全部连起来后 reverse 也可以
+//但是  可以在得到时就做好串联 设置pre变量 初始为null 每次得到cur 让cur指向pre  然后更新pre为cur
+//最后只需要返回pre即可
