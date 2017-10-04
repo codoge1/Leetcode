@@ -1,0 +1,28 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode oddEvenList(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode odd = head, evenHead = head.next, even = evenHead;
+        while (even != null && even.next != null) {
+            odd.next = odd.next.next;
+            even.next = even.next.next;
+            odd = odd.next;
+            even = even.next;
+        }
+        odd.next = evenHead;
+        return head;
+    }
+}
+
+//比较简单的题  把原链表分为两条 再连接即可
+//设置evenHead 然后odd 和even 分别遍历取偶数结点和奇数结点
+//最后连接即可 需要注意的是循环条件  因为odd.next = even 所以 even和even.next 为null则跳出即可
