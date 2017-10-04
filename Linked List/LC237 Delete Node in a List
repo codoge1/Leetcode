@@ -23,3 +23,18 @@ class Solution {
 //因为没有指针向前 所以不可能做到真正删除node  只能是把node的值覆盖
 //所以 每次把next的val 赋值给node  直到最后一个结点时 我们需要删除最后一个结点
 //所以 在往后跳的时候 记录一个pre结点 便于到最后删除最后一个结点 即pre.next = null
+//update 实践证明以上方法不好...其实 因为要删除一个结点 但删除不了node  我们可以把下一个点的值赋值给node 然后跳过下一个结点即可！
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+}
