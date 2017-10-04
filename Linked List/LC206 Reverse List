@@ -1,0 +1,32 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode pre = new ListNode(0);
+        pre.next = head;
+        ListNode start = head;
+        ListNode toForward = start.next;
+        while (toForward != null) {
+            start.next = toForward.next;
+            toForward.next = pre.next;
+            pre.next = toForward;
+            toForward = start.next;
+        }
+        return pre.next;
+        
+    }
+}
+
+//已经在更复杂的题中用了这个reverse方法两次了 思路就是 对每个toforward  移到pre 和pre.next中间
+//以前写的递归的方法 一时间没想出来 才发现是需要helper的  reverse传入两个参数
+//一个pre 一个cur  然后每次记录cur后面的next  然后让cur指向pre 返回reverse cur next
+//直到为null
