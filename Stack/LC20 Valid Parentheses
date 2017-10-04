@@ -1,0 +1,23 @@
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                stack.push(')');
+            } else if (c == '[') {
+                stack.push(']');
+            } else if (c == '{') {
+                stack.push('}');
+            } else {
+                if (stack.isEmpty() || stack.pop() != c) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+}
+
+//明显用stack来做 遇见左括号 压入对应右括号
+//遇见右括号 若栈为空 则false 否则pop出一个 若不相等 也false
+//循环完后 为了避免右括号不足的情况 还得检查stack是否为空 为空才true
