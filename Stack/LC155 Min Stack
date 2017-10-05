@@ -1,0 +1,46 @@
+class MinStack {
+    Stack<Integer> stack;
+    int min;
+    /** initialize your data structure here. */
+    public MinStack() {
+        stack = new Stack<>();
+        min = Integer.MAX_VALUE;
+    }
+    
+    public void push(int x) {
+        if (x <= min) {
+            stack.push(min);
+            min = x;
+        }
+        stack.push(x);
+    }
+    
+    public void pop() {
+        if (stack.pop() == min) {
+            min = stack.pop();
+        }
+    }
+    
+    public int top() {
+        return stack.peek();
+    }
+    
+    public int getMin() {
+        return min;
+    }
+}
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */
+ 
+ //很有意思的设计题 需要能返回栈中的最小值  这道题核心问题是 当栈中pop了当前的最小值
+ //就会丢失最小值  所以 在push时 如果push的值 是新的最小值 则在push之前 把原有的最小值再push一次
+//相当于做个备份 更新最小值 然后再push x
+//pop时  如果pop的是最小值 则新的栈顶 为上一个最小值的备份 更新其为min 也pop出去即可
+//需要注意的是 push时 如果x等于min 也需要做备份 不然pop时 会多pop一个无关值 并且更新min错误
