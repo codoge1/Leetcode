@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        traverse(res, root, 0);
+        return res;
+        
+    }
+    public void traverse(List<List<Integer>> res, TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        if (res.size() <= level) {
+            res.add(new ArrayList<Integer>());
+        }
+        if (level % 2 == 0) {
+            res.get(level).add(root.val);
+        } else {
+            res.get(level).add(0, root.val);
+        }
+        traverse(res, root.left, level + 1);
+        traverse(res, root.right, level + 1);
+    }
+}
+
+//类似层序遍历 对每一个节点标记level  每个level对应一个子数组
+//遍历时 当size<= level时  即当前level的子数组还没创建 则创建一个
+//当为偶数层 应该顺序加入 因为遍历顺序也为从左到右 所以该结点 正常的add到对应level的子数组
+//奇数层是 因为遍历顺序是从左到右 而加入的数组顺序是从右到左  所以遍历时 每个结点加到索引0处
+//然后递归左右结点
