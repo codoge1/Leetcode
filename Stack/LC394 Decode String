@@ -1,0 +1,36 @@
+class Solution {
+    public String decodeString(String s) {
+        Stack<Integer> count = new Stack<>();
+        Stack<String> res = new Stack<>();
+        String str = "";
+        int i = 0;
+        while (i < s.length()) {
+            if (Character.isDigit(s.charAt(i))) {
+                int num = 0;
+                while (Character.isDigit(s.charAt(i))) {
+                    num = 10 * num + (s.charAt(i) - '0');
+                    i++;
+                }
+                count.push(num);
+            } else if (s.charAt(i) == '[') {
+                res.push(str);
+                str = "";
+                i++;
+            } else if (s.charAt(i) == ']') {
+                StringBuilder sb = new StringBuilder(res.pop());
+                int times = count.pop();
+                for (int j = 0; j < times; j++) {
+                    sb.append(str);
+                }
+                str = sb.toString();
+                i++;
+            } else {
+                str = str + s.charAt(i);
+                i++;
+            }
+        }
+        return str;
+    }
+}
+
+//思路很清晰 细节需要注意处理  
