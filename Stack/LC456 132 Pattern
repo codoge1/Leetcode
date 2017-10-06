@@ -1,0 +1,39 @@
+class Solution {
+    class pair {
+        int min;
+        int max;
+        pair(int min, int max) {
+            this.min = min;
+            this.max = max;
+        }
+    }
+    public boolean find132pattern(int[] nums) {
+        Stack<pair> stack = new Stack<>();
+        for (int num : nums) {
+            if (stack.isEmpty() || num < stack.peek().min) {
+                stack.push(new pair(num, num));
+            } else if (num > stack.peek().min) {
+                pair last = stack.pop();
+                if (num < last.max) {
+                    return true;
+                }
+                while (!stack.isEmpty() && stack.peek().max < num) {
+                    stack.pop();
+                }
+                if (!stack.isEmpty() && stack.peek().min < num) {
+                    return true;
+                }
+                last.max = num;
+                stack.push(last);
+            }
+        }
+        return false;
+    }
+}
+
+//设置一个pair类 min max属性
+//然后维持一个stack 维持栈顶的min为最小 且其余从小到大
+//思路是对每个数 若栈为空 或num < 栈顶的min  则新建pair num num 压入
+//若num大于栈顶的min 则pop出栈顶为last 判断num 是否小于max 小于则true
+//否则 继续找栈顶 只要num还大于栈顶的max 则pop掉 找到一个max大于num  然后判断其min是否小于num 若是则true
+//更新last的max  压入栈
