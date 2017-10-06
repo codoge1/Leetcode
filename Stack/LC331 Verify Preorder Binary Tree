@@ -1,0 +1,21 @@
+class Solution {
+    public boolean isValidSerialization(String preorder) {
+        String[] nodes = preorder.split(",");
+        int outdegree = 1;
+        for (String node : nodes) {
+            outdegree--;
+            if (outdegree < 0) {
+                return false;
+            }
+            if (!node.equals("#")) {
+                outdegree = outdegree + 2;
+            }
+        }
+        return outdegree == 0;
+    }
+}
+
+//这题的方法 除了根节点 到每个节点 都需要消耗一个出度  除了叶子结点 每个节点都提供两个出度outdgree
+//所以设置outdegree 对每个节点 先减去1 即消耗一个  如果diff<0 则证明到不了这个结点 返回false
+//如果结点不为null 则提供两个出度 +2即可
+//最后出度应该为0 因为在树中 所以出度 都会被消耗完
