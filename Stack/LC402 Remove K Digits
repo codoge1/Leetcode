@@ -1,0 +1,36 @@
+class Solution {
+    public String removeKdigits(String num, int k) {
+        if (num.length() == k) {
+            return "0";
+        }
+        Stack<Character> stack = new Stack<>();
+        int i = 0;
+        while (i < num.length()) {
+            while (k > 0 && !stack.isEmpty() && num.charAt(i) < stack.peek()) {
+                stack.pop();
+                k--;
+            }
+            stack.push(num.charAt(i));
+            i++;
+        }
+        while (k > 0) {
+            stack.pop();
+            k--;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop());
+        }
+        sb.reverse();
+        while (sb.length() > 1 && sb.charAt(0) == '0') {
+            sb.deleteCharAt(0);
+        }
+        return sb.toString();
+    }
+}
+
+//思路是 从高位往低位遍历 如果出现 高位的数 大于后一位 例如32  则删除3
+//这里的删除操作 可以通过stack来做 对所有数 如果当前数 小于stack.peek 即小于上一位 则删除上一位 即stack.pop
+//然后k--  出循环后 压入当前数
+//遍历完后 若k还大于0 则表明删除次数没用完 证明stack中 已经是从小到大排列了 所以直接pop 直到k为0
+//之后 只需要stack全部输出 reverse 去除leading 0即可
