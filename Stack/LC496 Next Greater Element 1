@@ -1,0 +1,23 @@
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        Map<Integer, Integer> map = new HashMap<>();
+        Stack<Integer> stack = new Stack<>();
+        for (int num : nums2) {
+            while (!stack.isEmpty() && stack.peek() < num) {
+                map.put(stack.pop(), num);
+            }
+            stack.push(num);
+        }
+        for (int i = 0; i < nums1.length; i++) {
+            nums1[i] = map.getOrDefault(nums1[i], -1);
+        }
+        return nums1;
+    }
+}
+
+//思路不简单 先设置map 用来记录每个数 对应的下一个最大值
+//然后设置stack 对每个num 先判断其是否大于stack的peek 若大于 则更新map 顺便pop掉栈顶
+//便于对当前num 判断栈中以它为next greater的元素  
+//之后放入num 最后 对nums1的每个数 换成map中对应的value 若没找到key 则为-1
+//这道题在stack中的逻辑是 在栈中 若新来的数小于peek 则默默加入 若大于 则会清空掉栈中 小于新数的所有数
+//例如 7654  然后来了个8则会存入 48 58 68 78
