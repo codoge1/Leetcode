@@ -1,0 +1,27 @@
+class Solution {
+    public int[] nextGreaterElements(int[] nums) {
+        Stack<Integer> stack = new Stack<>();
+        for (int i = nums.length - 1; i >= 0; i--) {
+            stack.push(nums[i]);
+        }
+        int[] res = new int[nums.length];
+        for (int i = nums.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && stack.peek() <= nums[i]) {
+                stack.pop();
+            }
+            if (!stack.isEmpty()) {
+                res[i] = stack.peek();
+            } else {
+                res[i] = -1;
+            }
+            stack.push(nums[i]);
+        }
+        return res;
+    }
+}
+
+//感觉比I还简单些 因为是循环找 所以最好的方法是从最后一个元素开始  就刚好是顺着第一个从左到右找
+//把所有元素 逆序压入栈中 然后从右往左赋值res
+//只要栈peek小于等于num 就pop掉  找到比num大的 则赋值给res 然后压入num 找下一个数
+//这里pop掉的数 是比num小的 是不会影响后面的数  因为如果num大于后一个数 则后一个数的next 就为num
+//若num小于后一个数 则pop掉的 是小于num的 更没有用！
