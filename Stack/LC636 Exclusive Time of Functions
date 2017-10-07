@@ -1,0 +1,33 @@
+class Solution {
+    public int[] exclusiveTime(int n, List<String> logs) {
+        Stack<Integer> stack = new Stack<>();
+        int[] res = new int[n];
+        int preT = 0, running = 0;
+        for (String log : logs) {
+            String[] strs = log.split(":");
+            int function = Integer.parseInt(strs[0]);
+            boolean start = strs[1].equals("start");
+            int time = Integer.parseInt(strs[2]);
+            
+            if (!start) {
+                time++;
+            }
+            res[running] = res[running] + time - preT;
+            if (start) {
+                stack.push(running);
+                running = function;
+            } else {
+                running = stack.pop();
+            }
+            preT = time;
+        }
+        return res;
+    }
+}
+
+//挺新的题 先注意一点 题上给的end time 因为都是时间点的end  所以实际上是time+1的开始  所以 只要是end的time  都加上1
+//这道题 每个log 得到三个信息 即将开始的function 是否为start 时间点
+//设置当前正在进行的func为running 上一次时间点为preT  都初始为0
+//得到log信息后 不管如何 原来的running被打断了 更新时间为原res 加上这个时间点-preT
+//然后 若是start 则把正在进行的running压入栈中 call function为running
+//若是end  则从stack pop出调用当前func的上一个func 为running 更新preT即可
