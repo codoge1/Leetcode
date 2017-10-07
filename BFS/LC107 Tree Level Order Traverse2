@@ -21,11 +21,11 @@ class Solution {
         if (res.size() <= level) {
             res.add(0, new ArrayList<Integer>());
         }
+        res.get(res.size() - level - 1).add(root.val);
         byLevel(root.left, level + 1);
         byLevel(root.right, level + 1);
-        res.get(res.size() - level - 1).add(root.val);
     }
 }
 
 //和I的区别是 自下而上 最下层应该是第一个list 还是用BFS 所以每当创建新的层的list时
-//把他放到最前面即可 并且每个先往下搜 再添加元素 元素添加的位置也需要注意
+//把他放到最前面即可 然后添加元素 元素添加的位置也需要注意
