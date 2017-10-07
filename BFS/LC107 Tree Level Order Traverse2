@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<List<Integer>> res;
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        res = new ArrayList<>();
+        byLevel(root, 0);
+        return res;
+    }
+    public void byLevel(TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        if (res.size() <= level) {
+            res.add(0, new ArrayList<Integer>());
+        }
+        byLevel(root.left, level + 1);
+        byLevel(root.right, level + 1);
+        res.get(res.size() - level - 1).add(root.val);
+    }
+}
+
+//和I的区别是 自下而上 最下层应该是第一个list 还是用BFS 所以每当创建新的层的list时
+//把他放到最前面即可 并且每个先往下搜 再添加元素 元素添加的位置也需要注意
