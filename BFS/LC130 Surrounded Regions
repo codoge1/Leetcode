@@ -1,0 +1,53 @@
+class Solution {
+    public void solve(char[][] board) {
+        if (board == null || board.length == 0) {
+            return;
+        }
+        for (int i = 0; i < board.length; i++) {
+            if (board[i][0] == 'O') {
+                survive(board, i, 0);
+            }
+            if (board[i][board[i].length - 1] == 'O') {
+                survive(board, i, board[i].length - 1);
+            }
+        }
+        for (int i = 0; i < board[0].length; i++) {
+            if (board[0][i] == 'O') {
+                survive(board, 0, i);
+            }
+            if (board[board.length - 1][i] == 'O') {
+                survive(board, board.length - 1, i);
+            }
+        }
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                } else if (board[i][j] == '*') {
+                    board[i][j] = 'O';
+                }
+            }
+        }
+    }
+    public void survive(char[][] board, int i, int j) {
+        if (i < 0 || i >= board.length || j < 0 || j >= board[0].length) {
+            return;
+        }
+        board[i][j] = '*';
+        if (i > 1 && board[i - 1][j] == 'O') {
+            survive(board, i - 1, j);
+        }
+        if (i < board.length - 2 && board[i + 1][j] == 'O') {
+            survive(board, i + 1, j);
+        }
+        if (j > 1 && board[i][j - 1] == 'O') {
+            survive(board, i, j - 1);
+        }
+        if (j < board[0].length - 2 && board[i][j + 1] == 'O') {
+            survive(board, i, j + 1);
+        }
+    }
+}
+
+//这道题踩得多的原因是 某个test case太大  导致我们survive方法里 需要省吃俭用 不再判断四边
+//思路还是很清晰的 并查集
