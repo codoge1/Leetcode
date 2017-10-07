@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<List<Integer>> res;
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        res = new ArrayList<>();
+        byLevel(root, 0);
+        return res;
+        
+    }
+    public void byLevel(TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        if (res.size() <= level) {
+            res.add(new ArrayList<Integer>());
+        }
+        res.get(level).add(root.val);
+        byLevel(root.left, level + 1);
+        byLevel(root.right, level + 1);
+    }
+}
+
+//常用的树的层序遍历的代码  对每个结点记录一个level值 若size不够 则新建
+//否则加入到level索引的子表中
+//因为 是从左到右遍历 所以递归也是从左到右
+//类似题有 让奇数层左到右 偶数层右到左  这种情况时 遍历还是从左到右 只是根据level的奇偶性 让root加到后面 or 0索引即可
