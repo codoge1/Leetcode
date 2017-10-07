@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+        if (root.left == null || root.right == null) {
+            if (root.left == null) {
+                return 1 + minDepth(root.right);
+            } else {
+                return 1 + minDepth(root.left);
+            }
+        } else {
+            return 1 + Math.min(minDepth(root.left), minDepth(root.right));
+        }
+    }
+}
+
+//此题是求最小深度 需要注意的是 若一个结点 只有一个子节点 则另一个null 是不能算作叶子的 也就是 只能沿着非null的结点找孩子
+//所以 当root 有一结点为null  则返回1+ 递归另一个节点  
+//若都不为null 才返回1+两子节点递归的最小值
