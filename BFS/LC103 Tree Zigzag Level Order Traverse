@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<List<Integer>> res;
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        res = new ArrayList<>();
+        byLevel(root, 0);
+        return res;
+    }
+    public void byLevel(TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        if (res.size() <= level) {
+            res.add(new ArrayList<Integer>());
+        }
+        if (level % 2 == 0) {
+            res.get(level).add(root.val);
+        } else {
+            res.get(level).add(0, root.val);
+        }
+        byLevel(root.left, level + 1);
+        byLevel(root.right, level + 1);
+    }
+}
+
+//和102的区别就是 按照level的奇偶性 判断root的加入位置 因为遍历都是每层左到右 所以 奇数层时  add到0索引处即可
