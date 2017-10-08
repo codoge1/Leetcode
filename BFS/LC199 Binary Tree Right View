@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<Integer> res;
+    public List<Integer> rightSideView(TreeNode root) {
+        res = new ArrayList<>();
+        bfs(root, 0);
+        return res;
+    }
+    public void bfs(TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        if (res.size() <= level) {
+            res.add(root.val);
+        }
+        res.set(level, root.val);
+        bfs(root.left, level + 1);
+        bfs(root.right, level + 1);
+    }
+}
+
+//很类似树的层序遍历啊  其实就是BFS 按层往下遍历 每个结点一个level
+//当开启新层 即size<=level 则新加值  否则 更新第level个值
+//因为层序是从左到右 所以最后每一层都会更新到 最右边的值
