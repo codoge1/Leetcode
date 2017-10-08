@@ -1,0 +1,47 @@
+class Solution {
+    public char[][] updateBoard(char[][] board, int[] click) {
+        if (board == null || board.length == 0) {
+            return board;
+        }
+        int[][] dirs = new int[][]{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+        int m = board.length, n = board[0].length;
+        int x = click[0], y = click[1];
+        if (board[x][y] == 'M') {
+            board[x][y] = 'X';
+        } else {
+            int count = 0;
+            for (int[] dir : dirs) {
+                int i = x + dir[0];
+                int j = y + dir[1];
+                if (i < 0 || i >= m || j < 0 || j >= n) {
+                    continue;
+                }
+                if (board[i][j] == 'M') {
+                    count++;
+                }
+            }
+            if (count > 0) {
+                board[x][y] = (char) (count + '0');
+            } else {
+                board[x][y] = 'B';
+                for (int[] dir : dirs) {
+                    int i = x + dir[0];
+                    int j = y + dir[1];
+                    if (i < 0 || i >= m || j < 0 || j >= n) {
+                        continue;
+                    }
+                    if (board[i][j] == 'E') {
+                        updateBoard(board, new int[]{i, j});   
+                    }
+                }
+            }
+        }
+        return board;
+    }
+}
+
+//思路并不难 顺便理解了下扫雷的规则。。
+//当点击到M 则换成X返回即可
+//当点击的一个E 其周围有雷 则换为雷数即可  这里需要严重注意 int 转char 直接强转的话 会返回对应的ascii码  所以需要+‘0’
+//若周围没雷  则按照规则 会自动点开周围的8个位置 即递归此方法
+//需要注意的是 为防止无限循环 即两块区域互相递归 所以递归前 需要判断是否为E 而不是B
