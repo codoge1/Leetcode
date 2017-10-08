@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<Integer> res;
+    public List<Integer> largestValues(TreeNode root) {
+        res = new ArrayList<>();
+        byLevel(root, 0);
+        return res;
+    }
+    public void byLevel(TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        if (res.size() <= level) {
+            res.add(root.val);
+        } else {
+            res.set(level, Math.max(res.get(level), root.val));
+        }
+        byLevel(root.left, level + 1);
+        byLevel(root.right, level + 1);
+    }
+}
+
+//同样的 dfs  对每一个level  若是新层 则add  否则 更新最大值即可
