@@ -1,0 +1,59 @@
+class Solution {
+    int m, n;
+    int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    public List<int[]> pacificAtlantic(int[][] matrix) {
+        List<int[]> res = new ArrayList<>();
+        if (matrix == null || matrix.length == 0) {
+            return res;
+        }
+        m = matrix.length;
+        n = matrix[0].length;
+        boolean[][] canReachP = new boolean[m][n];
+        boolean[][] canReachA = new boolean[m][n];
+        Queue<int[]> pacific = new LinkedList<>();
+        Queue<int[]> atlantic = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            pacific.offer(new int[]{i, 0});
+            atlantic.offer(new int[]{i, n - 1});
+            canReachP[i][0] = true;
+            canReachA[i][n - 1] = true;
+        }
+        for (int j = 0; j < n; j++) {
+            pacific.offer(new int[]{0, j});
+            atlantic.offer(new int[]{m - 1, j});
+            canReachP[0][j] = true;
+            canReachA[m - 1][j] = true;
+        }
+        bfs(pacific, canReachP, matrix);
+        bfs(atlantic, canReachA, matrix);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (canReachP[i][j] && canReachA[i][j]) {
+                    res.add(new int[]{i, j});
+                }
+            }
+        }
+        return res;
+    }
+    public void bfs(Queue<int[]> q, boolean[][] canReach, int[][] matrix) {
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            for (int[] dir : dirs) {
+                int x = cur[0] + dir[0];
+                int y = cur[1] + dir[1];
+                if (x < 0 || x >= m || y < 0 || y >= n || canReach[x][y] || matrix[x][y] < matrix[cur[0]][cur[1]]) {
+                    continue;
+                }
+                canReach[x][y] = true;
+                q.offer(new int[]{x, y});
+            }
+        }
+    }
+}
+
+//非常棒的解法 并查集 BFS 
+//基本思路是 能到达P 和A的 分开判断  以P为例子  临近P的两边 都能到P 其余的点 都是通过这两边进入P的
+//所以先设置能到P的点的boolean数组 再创建Queue 把两边设置为true 都加进queue
+//bfs 即队列中每poll一个值 判断其四周的点 能否流到cur  即高度大于cur 若能 则设置为true 加到队列中
+//这里判断四周 可以用dirs数组 代表4个方向 方便遍历  并且判断若越界 或已经为true 或高度不够 即流不到cur  则continue
+//利用此方法 分别bfs P和 A  最后遍历二维 若都为true 则加到res
