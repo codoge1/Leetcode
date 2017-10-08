@@ -1,0 +1,37 @@
+class Solution {
+    public int[][] updateMatrix(int[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return matrix;
+        }
+        int m = matrix.length, n = matrix[0].length;
+        Queue<int[]> q = new LinkedList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    q.offer(new int[]{i, j});
+                } else {
+                    matrix[i][j] = Integer.MAX_VALUE;
+                }
+            }
+        }
+        int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            for (int[] dir : dirs) {
+                int i = cur[0] + dir[0];
+                int j = cur[1] + dir[1];
+                if (i < 0 || i >= m || j < 0 || j >= n || matrix[i][j] <= matrix[cur[0]][cur[1]] + 1) {
+                    continue;
+                }
+                matrix[i][j] = matrix[cur[0]][cur[1]] + 1;
+                q.offer(new int[]{i, j});
+            }
+        }
+        return matrix;
+    }
+}
+
+//典型的BFS 用队列来逐步向外扩展
+//此题 遍历数组 从0开始 将0的点 放入q  1的点 先设置为MAX_VALUE
+//只要q不为空 开始bfs poll出一点 然后判断其四周的点 若越界或者 某点的值 已经小于cur+1的值  即不需要从cur到达最近的0
+//continue掉  否则 将此点 更新为cur + 1 然后放入队列 等待判断他的四周的点
