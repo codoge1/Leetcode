@@ -1,0 +1,33 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int[] pres = new int[numCourses];
+        for (int[] pair : prerequisites) {
+            int course = pair[0];
+            pres[course]++;
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < pres.length; i++) {
+            if (pres[i] == 0) {
+                q.add(i);
+            }
+        }
+        int count = 0;
+        while (!q.isEmpty()) {
+            int course = q.poll();
+            count++;
+            for (int[] pair : prerequisites) {
+                if (pair[1] == course) {
+                    pres[pair[0]]--;
+                    if (pres[pair[0]] == 0) {
+                        q.add(pair[0]);
+                    }
+                }
+            }
+        }
+        return count == numCourses;
+    }
+}
+
+//已经做过很多次了  对每门课 统计其先修课数量  先把0的 放入队列
+//每出来一门课 count++  然后寻找所有以这门课为先修的课 使其pres-- 若为0  则加入到队列
+//q为空后 判断count 是否和课程数相同即可
