@@ -1,0 +1,47 @@
+class RandomizedSet {
+    List<Integer> list;
+    Map<Integer, Integer> map;
+    Random random;
+    /** Initialize your data structure here. */
+    public RandomizedSet() {
+        list = new ArrayList<>();
+        map = new HashMap<>();
+        random = new Random();
+    }
+    
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    public boolean insert(int val) {
+        if (map.containsKey(val)) {
+            return false;
+        }
+        list.add(val);
+        map.put(val, list.size() - 1);
+        return true;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    public boolean remove(int val) {
+        if (!map.containsKey(val)) {
+            return false;
+        }
+        int i = map.get(val);
+        list.set(i, list.get(list.size() - 1));
+        map.put(list.get(i), i);
+        map.remove(val);
+        list.remove(list.size() - 1);
+        return true;
+    }
+    
+    /** Get a random element from the set. */
+    public int getRandom() {
+        return list.get(random.nextInt(list.size()));
+    }
+}
+
+//更深刻的理解了这道题 要求全部操作O（1）时间
+//需要random 所以肯定是要用索引的 用list 而不用set
+//同样 要得到random索引的一个数 linkedList会用On时间 所以只能用arraylist
+//arraylist 中 插入or删除中间某个结点 复杂度也是On 只有删除末尾才为O1  所以删除操作时需要注意
+//另外 要找到val值的索引 需要一个map来记录
+//删除操作时 因为我们只允许删除最后一个数 所以 先把i设为最后一个数的val 即覆盖  然后删除最后一个数 更新map
+//记得更新两个值   另外 判断是否有val时  arraylist的contains方法 时间复杂度也是On  所以用map的containsKey 是O1
