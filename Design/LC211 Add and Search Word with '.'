@@ -1,0 +1,56 @@
+class WordDictionary {
+    TrieNode root;
+    class TrieNode {
+        boolean isWord;
+        TrieNode[] children;
+        TrieNode() {
+            isWord = false;
+            children = new TrieNode[26];
+        }
+    }
+    /** Initialize your data structure here. */
+    public WordDictionary() {
+        root = new TrieNode();
+    }
+    
+    /** Adds a word into the data structure. */
+    public void addWord(String word) {
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            if (node.children[c - 'a'] == null) {
+                node.children[c - 'a'] = new TrieNode();
+            }
+            node = node.children[c - 'a'];
+        }
+        node.isWord = true;
+    }
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    public boolean search(String word) {
+        return search(word, root);
+    }
+    public boolean search(String word, TrieNode node) {
+        for (int i = 0; i < word.length(); i++) {
+            char c = word.charAt(i);
+            if (c == '.') {
+                for (int j = 0; j < 26; j++) {
+                    if (node.children[j] != null && search(word.substring(i + 1), node.children[j])) {
+                        return true;
+                    }
+                }
+                return false;
+            } else {
+                if (node.children[c - 'a'] == null) {
+                    return false;
+                }
+                node = node.children[c - 'a'];
+            }
+        }
+        return node.isWord;
+    }
+}
+
+//难点就在于对'.'的处理  基本思路就是 遇到圆点 则表明node下的26个字母 都可以替换 所以当前node下 只要不为null的结点
+//都递归查找剩下的字符串  但因为递归要从当前node开始查找 所以重载一个方法 传入参数root开始找
+//若26个都没找到  记得返回false  
+//若为字母 则按正常情况处理
