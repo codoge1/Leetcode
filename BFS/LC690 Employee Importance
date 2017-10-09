@@ -1,0 +1,40 @@
+/*
+// Employee info
+class Employee {
+    // It's the unique id of each node;
+    // unique id of this employee
+    public int id;
+    // the importance value of this employee
+    public int importance;
+    // the id of direct subordinates
+    public List<Integer> subordinates;
+};
+*/
+class Solution {
+    public int getImportance(List<Employee> employees, int id) {
+        Employee root = null;
+        Map<Integer, Employee> map = new HashMap<>();
+        for (Employee e : employees) {
+            map.put(e.id, e);
+            if (e.id == id) {
+                root = e;
+            }
+        }
+        Queue<Employee> q = new LinkedList<>();
+        int res = 0;
+        q.offer(root);
+        while (!q.isEmpty()) {
+            Employee cur = q.poll();
+            res = res + cur.importance;
+            List<Integer> sub = cur.subordinates;
+            for (Integer subId : sub) {
+                q.offer(map.get(subId));
+            }
+        }
+        return res;
+    }
+}
+
+//easy题的bfs  记住思路 通过队列 逐步往外拓展
+//因为此题 一个人最多一个直系领导 所以 不需要visited数组
+//设置队列 从root开始 每次poll一个 其下属 加入q 递增res即可
