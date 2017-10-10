@@ -5,23 +5,23 @@ class Solution {
         if (digits == null || digits.length() == 0) {
             return res;
         }
-        backtrack(res, digits, new StringBuilder(), 0);
+        backtrack(res, digits, "", 0);
         return res;
     }
-    public void backtrack(List<String> res, String digits, StringBuilder sb, int index) {
-        if (sb.length() == digits.length()) {
-            res.add(new String(sb));
+    public void backtrack(List<String> res, String digits, String temp, int index) {
+        if (temp.length() == digits.length()) {
+            res.add(temp);
             return;
         }
         char c = digits.charAt(index);
         String str = map[c - '0'];
         for (char ch : str.toCharArray()) {
-            sb.append(ch);
-            backtrack(res, digits, sb, index + 1);
-            sb.deleteCharAt(sb.length() - 1);
+            backtrack(res, digits, temp + ch, index + 1);
         }
     }
 }
 
 //很久没写的回溯  先写好map数组的对应关系  然后回溯  当sb的长度==digits了  则加到res
 //否则 得到当前index的数字对应的str 对其每一位char 都加到sb 然后回溯下一位 再减去即可
+//update ！  回溯题不用StringBuilder  因为StringBuilder是mutable 会在回溯中不断修改
+//所以 用字符串常量string来做 不断创建新string
