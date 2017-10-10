@@ -1,0 +1,29 @@
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        backtrack(res, temp, candidates, target, 0);
+        return res;
+    }
+    public void backtrack(List<List<Integer>> res, List<Integer> temp, int[] candidates, int remain, int start) {
+        if (remain < 0) {
+            return;
+        }
+        if (remain == 0) {
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = start; i < candidates.length; i++) {
+            if (i > start && candidates[i] == candidates[i - 1]) {
+                continue;
+            }
+            temp.add(candidates[i]);
+            backtrack(res, temp, candidates, remain - candidates[i], i + 1);
+            temp.remove(temp.size() - 1);
+        }
+    }
+}
+
+//与I相比 区别是 首先下一位的回溯 从i+1开始
+//另外 由于给的数组里会出现重复数字 所以需要排序后 在同一位上check前后两数是否相等 相等的话continue
