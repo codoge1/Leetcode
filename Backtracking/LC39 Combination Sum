@@ -1,0 +1,25 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        backtrack(res, temp, candidates, target, 0);
+        return res;
+    }
+    public void backtrack(List<List<Integer>> res, List<Integer> temp, int[] candidates, int remain, int start) {
+        if (remain == 0) {
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        if (remain < 0) {
+            return;
+        }
+        for (int i = start; i < candidates.length; i++) {
+            temp.add(candidates[i]);
+            backtrack(res, temp, candidates, remain - candidates[i], i);
+            temp.remove(temp.size() - 1);
+        }
+    }
+}
+
+//组合和问题 可以用重复的数 所以下一位的回溯 还是从i开始
+//因为是组合 不能23 和32  所以需要设置start参数 不能往回加
