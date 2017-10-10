@@ -1,0 +1,34 @@
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        boolean[] used = new boolean[nums.length];
+        backtrack(res, temp, nums, used);
+        return res;
+    }
+    public void backtrack(List<List<Integer>> res, List<Integer> temp, int[] nums, boolean[] used) {
+        if (temp.size() == nums.length) {
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i]) {
+                continue;
+            }
+            if (i > 0 && nums[i] == nums[i - 1] && used[i - 1]) {
+                continue;
+            }
+            temp.add(nums[i]);
+            used[i] = true;
+            backtrack(res, temp, nums, used);
+            temp.remove(temp.size() - 1);
+            used[i] = false;
+        }
+    }
+}
+
+//给的数组中有重复 所以第一时间想到 对用过的数 用boolean数组存储
+//难点在于 有重复数字的情况下 因为是排列 所以所有数都会用上
+//但 会出现类似11 11的重复 只能取一次  所以 对某一位i 如果和i-1相等
+//我们只取一种情况 即i-1用过 或没用过 我们跳过一种情况 则不会出现重复！!!!!understand!!
