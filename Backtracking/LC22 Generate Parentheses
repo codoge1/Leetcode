@@ -1,0 +1,25 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        backtrack(res, "", 0, 0, n);
+        return res;
+    }
+    public void backtrack(List<String> res, String temp, int left, int right, int n) {
+        if (temp.length() == 2 * n) {
+            res.add(temp);
+            return;
+        }
+        if (left < n) {
+            backtrack(res, temp + "(", left + 1, right, n);
+        }
+        if (right < left) {
+            backtrack(res, temp + ")", left, right + 1, n);
+        }
+    }
+}
+
+//需要注意 右括号数量永远不能超过左括号 左括号不能超过n
+//回溯题 不要用StringBuilder!!!
+//和res加list时 要新创建list一样  记得java课作业 数据保护的问题
+//list对象 符合条件若直接加进去  后面的回溯还会修改他！！
+//sb一样 是mutable的 如果我们用sb来回溯 这个对象会不断被修改  所以 用常量string来回溯 不断创建新的string才行！
