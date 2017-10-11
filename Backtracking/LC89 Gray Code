@@ -1,0 +1,17 @@
+class Solution {
+    public List<Integer> grayCode(int n) {
+        List<Integer> res = new ArrayList<>();
+        res.add(0);
+        for (int i = 0; i < n; i++) {
+            for (int j = res.size() - 1; j >= 0; j--) {
+                res.add(res.get(j) | (1 << i));
+            }
+        }
+        return res;
+    }
+}
+
+//这道题gray code 灰码的构成 其实是一个对称的构成  n位的灰码 是取决于n-1位的灰码
+//例如  1位的是 0 1   2位的是 原本的 0 1 是00 01  然后逆序取原来的数字 并在第二位上加1
+//即 00 01 1(1) 1(0)  同理 3位则是 000 001 011 010 然后1(10) 1(11) 1(01) 1(00)
+//所以设置一个n次的循环 每次都从res里倒序取数 每个数或上 下一位的1 加到res里即可
