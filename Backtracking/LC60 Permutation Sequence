@@ -1,0 +1,30 @@
+class Solution {
+    public String getPermutation(int n, int k) {
+        int[] factorial = new int[n];
+        factorial[0] = 1;
+        for (int i = 1; i < n; i++) {
+            factorial[i] = factorial[i - 1] * i;
+        }
+        List<Integer> nums = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            nums.add(i);
+        }
+        StringBuilder sb = new StringBuilder();
+        k--;
+        for (int i = 1; i <= n; i++) {
+            int index = k / factorial[n - i];
+            sb.append(String.valueOf(nums.get(index)));
+            nums.remove(index);
+            k = k - index * factorial[n - i];
+        }
+        return sb.toString();
+    }
+}
+
+//思路挺难想的  表面上看 是求第k个全排列 如果利用回溯 直接TLE 所以考虑 找规律
+//可以看到 1-n的数字 共有n！种排列 如果不看第一个数 剩下的数 是(n-1)!种排列
+//已知要求第k个排列 我们可以将所有排列 分成n组 即用k除以后面的数的排列数目 就可以得到第一个数是第几大的
+//因为索引是从0开始的 所以k一开始需要-1  然后除以除了第一个数之后排列的种类 得到第一个数 是第几大的  对应在nums list里找
+//然后加到sb  nums remove掉当前数 仍然保持从小到大 然后
+//因为找到了当前的第一位数 则小于这数字的 就可以淘汰掉 例如第一位是2  则淘汰掉1开头的数  为1*factorial[n-i] 继续循环
+//直到遍历完所有位置
