@@ -1,0 +1,23 @@
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        backtrack(res, temp, nums, 0);
+        return res;
+    }
+    public void backtrack(List<List<Integer>> res, List<Integer> temp, int[] nums, int start) {
+        res.add(new ArrayList<>(temp));
+        for (int i = start; i < nums.length; i++) {
+            if (i > start && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            temp.add(nums[i]);
+            backtrack(res, temp, nums, i + 1);
+            temp.remove(temp.size() - 1);
+        }
+    }
+}
+
+//子集和组合问题很像 都是与顺序无关 有重复元素时的处理方法也是一样 排序 若i == i-1 并且i>start的  则跳过
+//核心还是 看相同的数 是出现在同一位 还是不同位
