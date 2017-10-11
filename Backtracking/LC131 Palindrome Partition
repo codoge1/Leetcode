@@ -1,0 +1,36 @@
+class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> res = new ArrayList<>();
+        List<String> temp = new ArrayList<>();
+        backtrack(res, temp, s, 0);
+        return res;
+    }
+    public void backtrack(List<List<String>> res, List<String> temp, String s, int index) {
+        if (index == s.length()) {
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = index; i < s.length(); i++) {
+            if (isPalindrome(s, index, i)) {
+                temp.add(s.substring(index, i + 1));
+                backtrack(res, temp, s, i + 1);
+                temp.remove(temp.size() - 1);
+            }
+        }
+    }
+    public boolean isPalindrome(String s, int i, int j) {
+        while (i < j) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+}
+
+//就是普通的回溯法 只是添加temp的条件需要注意 拆分s 意味着 temp里的所有元素 合在一起即s 我们用index
+//来记录 下一个回文串的开始 当index到达length 即前面的已经分完了  就可以add temp了
+//然后对每个index 遍历到最后 不断地判断substring(index, i）是否回文 若回文 则回溯即可
+//和以前的回溯题 区别就是 每一位不再是数字 而是一个substring 从index 到i的substring！
