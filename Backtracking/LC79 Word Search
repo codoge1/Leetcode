@@ -1,0 +1,48 @@
+class Solution {
+    int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    public boolean exist(char[][] board, String word) {
+        if (board == null || board.length == 0) {
+            return false;
+        }
+        boolean[][] visited = new boolean[board.length][board[0].length];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (board[i][j] == word.charAt(0)) {
+                    visited[i][j] = true;
+                    if (search(board, visited, word, 1, i, j)) {
+                        return true;
+                    }
+                    visited[i][j] = false;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean search(char[][] board, boolean[][] visited, String word, int index, int i, int j) {
+        if (index == word.length()) {
+            return true;
+        }
+        for (int[] dir : dirs) {
+            int x = i + dir[0];
+            int y = j + dir[1];
+            if (x < 0 || x >= board.length || y < 0 || y >= board[0].length || visited[x][y]) {
+                continue;
+            }
+            if (board[x][y] == word.charAt(index)) {
+                visited[x][y] = true;
+                if (search(board, visited, word, index + 1, x, y)) {
+                    return true;
+                }
+                visited[x][y] = false;
+            }
+        }
+        return false;
+    }
+}
+
+//并查集和回溯的使用  自己写的代码稍微冗杂了点 但时间是一样的
+//基本思路是 写一个search方法 记录当前查找到哪一位的index  如果index越界了 则证明查找完word了 true
+//否则 对当前索引的四个方向的值判断 若visited了 或越界  则continue  若等于char 则更新visited 递归下一位查找
+//若没查找到 为false 则还原visited 进行下一个方向的查找 若四个方向都查找完了 则false
+//在主方法里 遍历 找到第一个字母 即word的开头 更新visited 开始search方法 若没找到 则还原visited继续查找
+//全部没找到则false
