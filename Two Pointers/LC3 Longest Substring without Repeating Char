@@ -1,0 +1,21 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        Set<Character> set = new HashSet<>();
+        int left = 0, right = 0, max = 0;
+        while (right < s.length()) {
+            if (!set.contains(s.charAt(right))) {
+                set.add(s.charAt(right));
+                max = Math.max(max, set.size());
+                right++;
+            } else {
+                set.remove(s.charAt(left));
+                left++;
+            }
+        }
+        return max;
+    }
+}
+
+//滑动窗口法 设置set来判断重复 用set的size来实时更新max
+//只要right不重复 就加入 更新max   若重复 则从left开始删 删到不重复为止 再继续移动right
+//直到right到达最后
