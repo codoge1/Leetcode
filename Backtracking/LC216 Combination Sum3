@@ -1,0 +1,26 @@
+class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        backtrack(res, temp, k, n, 1);
+        return res;
+    }
+    public void backtrack(List<List<Integer>> res, List<Integer> temp, int k, int remain, int start) {
+        if (remain < 0) {
+            return;
+        }
+        if (remain == 0) {
+            if (temp.size() == k){
+                res.add(new ArrayList<>(temp));
+            }
+            return;
+        }
+        for (int i = start; i <= 9; i++) {
+            temp.add(i);
+            backtrack(res, temp, k, remain - i, i + 1);
+            temp.remove(temp.size() - 1);
+        }
+    }
+}
+
+//在2的基础上 对数字个数作了要求 则当remain == 0时 还需要判断下size  ==k的话才加 否则直接return  记得是从1到9
