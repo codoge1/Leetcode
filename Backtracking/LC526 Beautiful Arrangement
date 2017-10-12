@@ -1,0 +1,26 @@
+class Solution {
+    int count;
+    public int countArrangement(int N) {
+        count = 0;
+        backtrack(N, 1, new boolean[N + 1]);
+        return count;
+    }
+    public void backtrack(int N, int pos, boolean[] used) {
+        if (pos > N) {
+            count++;
+            return;
+        }
+        for (int i = 1; i <= N; i++) {
+            if (!used[i] && (pos % i == 0 || i % pos == 0)) {
+                used[i] = true;
+                backtrack(N, pos + 1, used);
+                used[i] = false;
+            }
+        }
+    }
+}
+
+//不容易想到是回溯问题 实际上 这题是把1-N 安排顺序 使每一位的数 都满足给定条件  问有多少种方法
+//首先注意 位置是从1开始的 。。  因为每个数都只能用一次 所以设置used数组 然后开始回溯
+//当一次回溯 的pos大于N 则表明安排好了一次 count++即可
+//否则 在这个pos上 遍历1-N 若i没用过 且符合那个条件 则用i 设置为true 然后回溯下一位 再设置为false还原即可
