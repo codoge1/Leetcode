@@ -1,0 +1,20 @@
+class Solution {
+    public int countNumbersWithUniqueDigits(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        int i = 1, cur = 9, total = 10;
+        while (i < n) {
+            cur = cur * (10 - i);
+            total = total + cur;
+            i++;
+        }
+        return total;
+    }
+}
+
+//DP  首先 n=0时 是记做一个数 所以单独排除
+//n=1 为0-9 10个数 从n=2开始 可以观察到 除去1位数 单独2位数有9*9 这81个数 是没有首位0的
+//n=3 时 则为2位数 * 8 这个新的数 是放在2位数的后面而不是前面  因为2位数没有首位0 如果放后面 则3位数的中间 缺少0的情况 放前面刚好
+//后面的个数 是10 - 2 = 8
+//n=4时  则为3位数的个数 * 7依次类推即可
