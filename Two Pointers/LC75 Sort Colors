@@ -1,0 +1,21 @@
+class Solution {
+    public void sortColors(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        for (int i = 0; i <= right; i++) {
+            if (nums[i] == 0) {
+                nums[i] = nums[left];
+                nums[left] = 0;
+                left++;
+            } else if (nums[i] == 2) {
+                nums[i] = nums[right];
+                nums[right] = 2;
+                i--;
+                right--;
+            }
+        }
+    }
+}
+
+//in place排序 需要注意left左边都是0  right右边都是2  i在两者之中 并且i要一直遍历到right为止
+//需要注意的是 left左边全是0 left到i 全是1  因为i的左边是已经排好了的  所以若出现0 则直接与left交换 交换上来的必定是1 所以无须再对i处理
+//但若i为2 与right交换 交换回来的可能还是2 或者0 需要再对i处理 所以i--
