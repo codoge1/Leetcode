@@ -1,0 +1,14 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int i = 0;
+        for (int n : nums) {
+            if (i == 0 || i == 1 || n > nums[i - 2]) {
+                nums[i] = n;
+                i++;
+            }
+        }
+        return i;
+    }
+}
+
+//和I的区别是 允许有两个重复数 所以第0，1个数 都可以先加 后面的数 允许n==i-1  但n必须大于i-2 
