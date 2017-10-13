@@ -1,0 +1,40 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null) {
+            return head;
+        }
+        int len = 0;
+        ListNode node = head;
+        while (node != null) {
+            node = node.next;
+            len++;
+        }
+        k = k % len;
+        if (k == 0) {
+            return head;
+        }
+        ListNode slow = head, fast = head;
+        for (int i = 0; i < k; i++) {
+            fast = fast.next;
+        }
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        fast.next = head;
+        ListNode newHead = slow.next;
+        slow.next = null;
+        return newHead;
+    }
+}
+
+//需要注意head为null时的edge case 另外k要先% len 因为可能k大于长度
+//快慢指针找到rotate后的尾巴 其next为新head 然后重新连接链表返回即可
