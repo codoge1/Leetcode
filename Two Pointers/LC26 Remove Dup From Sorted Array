@@ -1,0 +1,15 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int i = 0;
+        for (int n : nums) {
+            if (i == 0 || n > nums[i - 1]) {
+                nums[i] = n;
+                i++;
+            }
+        }
+        return i;
+    }
+}
+
+//in place 所以设置索引i 只有当i为0 即第一个数  或者 遍历到n大于上一个数 即i-1的时候 才赋值 然后递增i
+//最后长度即为i
