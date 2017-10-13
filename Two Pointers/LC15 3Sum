@@ -1,0 +1,40 @@
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int left = i + 1, right = nums.length - 1;
+            while (left < right) {
+                if (nums[i] + nums[left] + nums[right] == 0) {
+                    List<Integer> temp = new ArrayList<>();
+                    temp.add(nums[i]);
+                    temp.add(nums[left]);
+                    temp.add(nums[right]);
+                    res.add(temp);
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++;
+                    }
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--;
+                    }
+                    left++;
+                    right--;
+                } else if (nums[i] + nums[left] + nums[right] < 0) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        return res;
+    }
+}
+
+//这道题就用双指针 left right 对每个i 都慢慢往中间靠
+//需要注意的是 nums数组是有重复的  所以需要非常小心对重复值的处理
+//首先对i 就需要处理 若i == i-1  则continue
+//还有就是 对三个数加起来等于0时 为了避免重复解 也需要对left 和right进行处理
+//所以 需要对三个数 都处理重复值！
