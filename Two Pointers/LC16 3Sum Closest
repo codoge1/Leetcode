@@ -1,0 +1,31 @@
+class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int diff = Integer.MAX_VALUE, res = nums[0] + nums[1] + nums[2];
+        for (int i = 0; i < nums.length - 2; i++) {
+            int left = i + 1, right = nums.length - 1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == target) {
+                    return sum;
+                } else if (sum < target) {
+                    if (target - sum < diff) {
+                        diff = target - sum;
+                        res = sum;
+                    }
+                    left++;
+                } else {
+                    if (sum - target < diff) {
+                        diff = sum - target;
+                        res = sum;
+                    }
+                    right--;
+                }
+            }
+        }
+        return res;
+    }
+}
+
+//要最接近target 所以考虑设置一个差值diff 若sum == target 则返回即可
+//若小于或大于 在移动指针之前 判断一下当前的差值是否小于最小差值 若是 则更新res 和最小差值即可！
