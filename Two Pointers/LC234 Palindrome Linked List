@@ -1,0 +1,41 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+        ListNode fake = new ListNode(0);
+        fake.next = head;
+        ListNode slow = fake, fast = fake;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        ListNode start = slow.next;
+        ListNode toForward = start.next;
+        while (toForward != null) {
+            start.next = toForward.next;
+            toForward.next = slow.next;
+            slow.next = toForward;
+            toForward = start.next;
+        }
+        ListNode secondH = slow.next;
+        while (secondH != null) {
+            if (head.val != secondH.val) {
+                return false;
+            }
+            secondH = secondH.next;
+            head = head.next;
+        }
+        return true;
+    }
+}
+
+//判断链表是否回文 则先找到中点  把中点后的链表reverse  之后分别从head 和中点后的head开始 往后判断 出现不等则false
