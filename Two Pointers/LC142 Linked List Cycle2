@@ -1,0 +1,31 @@
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode fast = head, slow = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                while (head != slow) {
+                    head = head.next;
+                    slow = slow.next;
+                }
+                return head;
+            }
+        }
+        return null;
+    }
+}
+
+//两者相遇时 fast比slow多走了nC fast= 2slow 所以 slow = nC = a + b
+//此时 head离环开始的点 距离为nC-b  而slow离环开始的点为C-b 所以两者一起前进 相遇时 则为所求点
