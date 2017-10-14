@@ -1,0 +1,24 @@
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int index = m + n - 1, i = m - 1, j = n - 1;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[index] = nums1[i];
+                i--;
+                index--;
+            } else {
+                nums1[index] = nums2[j];
+                j--;
+                index--;
+            }
+        }
+        while (j >= 0) {
+            nums1[index] = nums2[j];
+            j--;
+            index--;
+        }
+    }
+}
+
+//nums1数组有多余的位置 merge时 如果从小到大 num1会丢失很多数   所以考虑用nums1后面的空位置 从大到小merge即可！
+//最后出循环后 如果num2用完了 则num1剩下的数都不需要动   若num1用完 则把num2剩下的数 都放到num1剩下的位置
