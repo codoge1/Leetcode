@@ -1,0 +1,19 @@
+class Solution {
+    public int minSubArrayLen(int s, int[] nums) {
+        int sum = 0, min = Integer.MAX_VALUE;
+        int left = 0, right = 0;
+        while (right < nums.length) {
+                sum = sum + nums[right];
+                right++;
+            while (sum >= s) {
+                min = Math.min(min, right - left);
+                sum = sum - nums[left];
+                left++;
+            }
+        }
+        return (min == Integer.MAX_VALUE) ? 0 : min;
+    }
+}
+
+//滑动窗口法 需要注意实现的细节  只要right不越界 每次先加上right 递增right索引  while sum>=s了  就移动更新min 移动指针
+//若出来后 min未更新 则返回0没找到
