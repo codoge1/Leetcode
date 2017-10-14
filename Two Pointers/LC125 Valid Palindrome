@@ -1,0 +1,22 @@
+class Solution {
+    public boolean isPalindrome(String s) {
+        int left = 0, right = s.length() - 1;
+        while (left < right) {
+            while (left < right && !Character.isLetterOrDigit(s.charAt(left))) {
+                left++;
+            }
+            while (left < right && !Character.isLetterOrDigit(s.charAt(right))) {
+                right--;
+            }
+            if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
+
+//题目问的是 只判断字母or数字 其余忽略  所以设置两指针 从左和右向中间靠 只要不是字母或数字isLetterOrDigit 则往里缩
+//之后判断两者的toLowerCase不等则false
