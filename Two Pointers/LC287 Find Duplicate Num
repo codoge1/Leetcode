@@ -1,0 +1,23 @@
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int left = 1, right = nums.length - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            int count = 0;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] <= mid) {
+                    count++;
+                }
+            }
+            if (count > mid) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+}
+
+//思路是 二分查找法  因为所有数都是1-n之间 并且只有一个数有重复 所以每次 我们找到一个值（为了效率 我们选取中点）
+//统计小于等于mid的数的个数 若没有重复 则mid及mid左边 最多有mid个数  若有重复 则会超过mid  依此来收缩
