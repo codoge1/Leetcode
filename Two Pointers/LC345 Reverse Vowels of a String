@@ -1,0 +1,26 @@
+class Solution {
+    public String reverseVowels(String s) {
+        char[] c = s.toCharArray();
+        int low = 0, high = c.length - 1;
+        while (low < high) {
+            char left = Character.toLowerCase(c[low]);
+            char right = Character.toLowerCase(c[high]);
+            if (left != 'a' && left != 'e' && left != 'i' && left != 'o' && left != 'u') {
+                low++;
+                continue;
+            }
+            if (right != 'a' && right != 'e' && right != 'i' && right != 'o' && right != 'u') {
+                high--;
+                continue;
+            }
+            char temp = c[low];
+            c[low] = c[high];
+            c[high] = temp;
+            low++;
+            high--;
+        }
+        return String.valueOf(c);
+    }
+}
+
+//思路还是双指针 遇见非元音 low 或highcontinue收缩即可 注意 元音包含大小写的aeiou
