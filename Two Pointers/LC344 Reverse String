@@ -1,0 +1,16 @@
+class Solution {
+    public String reverseString(String s) {
+        char[] c = s.toCharArray();
+        int left = 0, right = c.length - 1;
+        while (left < right) {
+            char temp = c[left];
+            c[left] = c[right];
+            c[right] = temp;
+            left++;
+            right--;
+        }
+        return String.valueOf(c);
+    }
+}
+
+//maybe最简单的题了。。。直接左右指针交换即可  或者用StringBuilder也行
