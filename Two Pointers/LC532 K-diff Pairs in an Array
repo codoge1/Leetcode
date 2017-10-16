@@ -1,0 +1,18 @@
+class Solution {
+    public int findPairs(int[] nums, int k) {
+        Arrays.sort(nums);
+        Set<Integer> set = new HashSet<>();
+        Set<Integer> end = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (set.contains(nums[i] - k)) {
+                end.add(nums[i]);
+            }
+            set.add(nums[i]);
+        }
+        return end.size();
+    }
+}
+
+//这道题 要求unique个数 思路是排序 然后对每个数 先判断set里存在其-k
+//一开始是考虑用count计数 但这样会出现重复 然后又考虑 跳过重复 但这样又不满足k为0时的情况
+//所以想到 再添加一个set 对每组pair 记录右边界在end里 即可避免重复
