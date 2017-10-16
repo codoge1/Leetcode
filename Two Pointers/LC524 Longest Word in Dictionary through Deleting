@@ -1,0 +1,35 @@
+class Solution {
+    public String findLongestWord(String s, List<String> d) {
+        Collections.sort(d, (a, b) -> {
+            if (a.length() != b.length()) {
+                return b.length() - a.length();
+            } else {
+                return a.compareTo(b);
+            }
+        });
+        for (String str : d) {
+            if (isSub(s, str)) {
+                return str;
+            }
+        }
+        return "";
+    }
+    public boolean isSub(String s, String sub) {
+        int i = 0, j = 0;
+        while (i < s.length() && j < sub.length()) {
+            if (s.charAt(i) == sub.charAt(j)) {
+                i++;
+                j++;
+            } else {
+                i++;
+            }
+        }
+        if (j == sub.length()) {
+            return true;
+        }
+        return false;
+    }
+}
+
+//思路就是 先按照题目要求的 将list排序  之后从左到右遍历 出现子序列sub 就返回即可  
+//子序列 是可以跳过元素的  子串是连续的
