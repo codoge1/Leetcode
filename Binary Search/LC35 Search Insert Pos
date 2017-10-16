@@ -1,0 +1,23 @@
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int low = 0, high = nums.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            if (nums[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return low;
+    }
+}
+
+//正常二分查找 如果没找到 则返回low指针即是插入位置
+//这里需要仔细区分一下 low high取不取等的区别
+//当最后两个数 low high 时  若while不取等 如果target大于low 则low+1 变为high  结束循环 实际上low = high 这个索引没有经过判断
+//若确定数组里存在target 则可以直接返回low  若有可能不存在 则最好while取等 多判断一次low = high这个位置 找不到则返回-1
+//这道题找插入位置 保险做法为取等  因为若不取等  数组只有一位的情况下 不会进入循环 直接返回0  而答案可能为1
