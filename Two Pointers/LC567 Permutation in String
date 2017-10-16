@@ -1,0 +1,26 @@
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        int len = s1.length();
+        for (int i = 0; i < s2.length() - len + 1; i++) {
+            if (isPermutation(s1, s2.substring(i, i + len))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean isPermutation(String a, String b) {
+        int[] alpha = new int[26];
+        for (int i = 0; i < a.length(); i++) {
+            alpha[a.charAt(i) - 'a']++;
+            alpha[b.charAt(i) - 'a']--;
+        }
+        for (int n : alpha) {
+            if (n != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+//思路是 写一个判断是否为permutation的方法 即判断同字母异构体 然后在s2上遍历 所有substring 若出现和s1异构 则true
