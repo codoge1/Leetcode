@@ -1,0 +1,40 @@
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        return new int[]{findFirst(nums, target), findLast(nums, target)};
+    }
+    public int findFirst(int[] nums, int target) {
+        int low = 0, high = nums.length - 1, i = -1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target) {
+                i = mid;
+                high = mid - 1;
+            }
+            else if (nums[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return i;
+    }
+    public int findLast(int[] nums, int target) {
+        int low = 0, high = nums.length - 1, i = -1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target) {
+                i = mid;
+                low = mid + 1;
+            }
+            else if (nums[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return i;
+    }
+}
+
+//找range的话 分开找开头和结尾  和普通不同的是 找到target值 不返回 而是记录到i  继续往一边找 找完后返回i即可 i初始为-1即没找到的情况
+//分开两个方法 然后返回数组即可~
