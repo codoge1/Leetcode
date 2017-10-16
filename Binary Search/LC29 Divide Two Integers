@@ -1,0 +1,37 @@
+class Solution {
+    public int divide(int dividend, int divisor) {
+        int sign = 1;
+        if ((dividend < 0 && divisor > 0) || (dividend > 0 && divisor < 0)) {
+            sign = -1;
+        }
+        long ldividend = Math.abs((long)dividend);
+        long ldivisor = Math.abs((long)divisor);
+        if (ldivisor == 0) {
+            return Integer.MAX_VALUE;
+        }
+        long res = helper(ldividend, ldivisor);
+        if (sign == 1) {
+            return (res > Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int)res;
+        } else {
+            return (res > Integer.MAX_VALUE) ? Integer.MIN_VALUE : (int)res * sign;
+        }
+    }
+    public long helper(long dividend, long divisor) {
+        if (dividend < divisor) {
+            return 0;
+        }
+        long sum = divisor;
+        long multiple = 1;
+        while (sum + sum <= dividend) {
+            sum = sum + sum;
+            multiple = multiple + multiple;
+        }
+        return multiple + helper(dividend - sum, divisor);
+    }
+}
+
+//不用/*% 实现除法
+//基本思路类似二分查找 除法即是找被除数中有多少除数   一个一个加效率太慢  所以每次对除数都*2 即自己加自己 
+//然后记录次数  当大于被除数 则递归剩下的值和除数 直到被除数小于除数 返回0递归结束
+//这道题麻烦点在于 对越界 和符号的处理  所以先判断sign  然后设置helper方法 对long数进行运算
+//另外 在求除数和被除数绝对值时 也要考虑越界情况 所以提前转为long
