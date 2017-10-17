@@ -1,0 +1,13 @@
+class Solution {
+    public int findPeakElement(int[] nums) {
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] > nums[i + 1]) {
+                return i;
+            }
+        }
+        return nums.length - 1;
+    }
+}
+
+//从0开始 每个数判断与后一个数  若大于 则返回i  不大于 则证明后一个数大于i 则只需要继续判断后一个数 是否大于其后一个
+//一直到倒数第二个没返回的话 则证明最后一个 大于前一个 并大于后一个负无穷 所以返回最后一个索引即可
