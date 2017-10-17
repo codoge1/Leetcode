@@ -1,0 +1,33 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int res;
+    int remain;
+    public int kthSmallest(TreeNode root, int k) {
+        remain = k;
+        inOrder(root);
+        return res;
+    }
+    public void inOrder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        inOrder(root.left);
+        remain--;
+        if (remain == 0) {
+            res = root.val;
+            return;
+        }
+        inOrder(root.right);
+    }
+}
+
+//中序遍历 对每个结点 剩余数-1即可   inOrder中 没有返回值 参数也只传结点
+//所以在外面声明res 和remain变量 k赋值给remain即可 当remain为0 赋值 然后return即可
