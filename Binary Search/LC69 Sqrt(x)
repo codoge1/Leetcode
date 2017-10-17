@@ -1,0 +1,25 @@
+class Solution {
+    public int mySqrt(int x) {
+        if (x == 0) {
+            return 0;
+        }
+        int low = 1, high = Integer.MAX_VALUE;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (mid > x / mid) {
+                high = mid - 1;
+            } else {
+                if (mid + 1 > x / (mid + 1)) {
+                    return mid;
+                }
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+}
+
+//这道题 不能从i一直+1 直到i*i>x  因为在x接近int max时  前一个i继续循环 后一个i就overflow 导致继续循环
+//所以 用二分法查找  不能出现mid * mid 只能用除法 防止overflow
+//当mid > x / mid  即x < mid * mid 往左找
+//当else时 x >= mid * mid 判断mid+1与x的关系 若mid+1 的平方 大于x了 则证明mid为所求 否则往右查找
