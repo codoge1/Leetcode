@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int countNodes(TreeNode root) {
+        int left = leftD(root);
+        int right = rightD(root);
+        if (left == right) {
+            return (1 << left) - 1;
+        } else {
+            return 1 + countNodes(root.left) + countNodes(root.right);
+        }
+    }
+    public int rightD(TreeNode root) {
+        int depth = 0;
+        while (root != null) {
+            depth++;
+            root = root.right;
+        }
+        return depth;
+    }
+    public int leftD(TreeNode root) {
+        int depth = 0;
+        while (root != null) {
+            depth++;
+            root = root.left;
+        }
+        return depth;
+    }
+}
+
+//完全二叉树  对于满二叉树 结点的个数是1 + 2 + 4 + 8………… 等比数列求和 2的level次方-1
+//完全二叉树 可以不断递归地判断其内的满二叉树 利用公式求得   所以设置两个方法 找到左边深度和右边深度 若深度相等 则表示 为满
+//若不等 则递归下一层
