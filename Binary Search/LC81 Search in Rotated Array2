@@ -1,0 +1,32 @@
+class Solution {
+    public boolean search(int[] nums, int target) {
+        int low = 0, high = nums.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target) {
+                return true;
+            }
+            if (nums[mid] > nums[low] || nums[mid] > nums[high]) {
+                if (target >= nums[low] && target < nums[mid]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            } else if (nums[mid] < nums[high] || nums[mid] < nums[low]) {
+                if (target >= nums[mid] && target <= nums[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            } else {
+                low++;
+                high--;
+            }
+        }
+        return false;
+    }
+}
+
+//这道题比I 复杂在有重复元素 这样就需要仔细考虑查左还是查右  多出的情况 存在着mid 和一端相等时 无法判断这一边 是否符合正常 所以判断另一边符合与否
+//若mid等于两端 则无法判断 往中收缩一位继续循环即可  若只等于一端 则判断另一边 若都不等于则类似I
+//这道题最好方法 是把等于两端的情况 作为else  查左查右 分别处理一次即可  eg：查左：左符合 or 右不符合
