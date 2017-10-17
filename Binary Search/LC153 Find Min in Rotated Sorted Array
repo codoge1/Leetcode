@@ -1,0 +1,22 @@
+class Solution {
+    public int findMin(int[] nums) {
+        int low = 0, high = nums.length - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (mid > 0 && nums[mid] < nums[mid - 1]) {
+                return nums[mid];
+            }
+            if (nums[mid] > nums[high]) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return nums[0];
+    }
+}
+
+//最小数的特征是 小于左边的数  所以只要有左边的数 就判断
+//在选择查哪一半的时候 tricky的地方是 需要先判断mid 和high的关系 若不正常  则查右边 else 查左边
+//因为在收缩的时候 有可能区间已经收缩到了一个正常区间类似456123 所以先判断high 如果和high是正常关系 肯定查左
+//若先判断low  则在正常区间 若与low正常 也需要查左 而不是查右
