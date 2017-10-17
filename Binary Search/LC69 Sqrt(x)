@@ -19,7 +19,10 @@ class Solution {
     }
 }
 
-//这道题 不能从i一直+1 直到i*i>x  因为在x接近int max时  前一个i继续循环 后一个i就overflow 导致继续循环
+//首先注意！ 涉及平方的地方 很容易overflow 所以 不要用mid*mid > x而是用 mid > x / mid来判断
+//这道题 第一思路是从i一直往上加 直到i的平方越过x  但这样复杂度太高 因为类似排序数组
 //所以 用二分法查找  不能出现mid * mid 只能用除法 防止overflow
 //当mid > x / mid  即x < mid * mid 往左找
 //当else时 x >= mid * mid 判断mid+1与x的关系 若mid+1 的平方 大于x了 则证明mid为所求 否则往右查找
+//因为x刚好为平方数的几率非常小 所以没有判断mid的平方等于x的情况 而是在else中一并处理了
+//因为是int型的sqrt 所以 只要x夹在mid 和mid+1之间 则为mid~
