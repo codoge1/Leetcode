@@ -1,0 +1,17 @@
+class Solution {
+    public int minSubArrayLen(int s, int[] nums) {
+        int low = 0, high = 0, sum = 0, min = Integer.MAX_VALUE;
+        while (high < nums.length) {
+            sum = sum + nums[high];
+            high++;
+            while (sum >= s) {
+                min = Math.min(min, high - low);
+                sum = sum - nums[low];
+                low++;
+            }
+        }
+        return (min == Integer.MAX_VALUE) ? 0 : min;
+    }
+}
+
+//滑动窗口即可  当符合条件则 进入移动low的循环 不符合则跳出 进行移动high  若最后min还为最大值 即没找到符合的sum 返回0
