@@ -1,0 +1,13 @@
+class Solution {
+    public int hIndex(int[] citations) {
+        int count = 0;
+        for (int i = citations.length - 1; i >= 0; i--) {
+            if (count < citations[i]) {
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
+//从最高的引论开始 计数  只要count<当前引论数  hindex就可以跟着count++
