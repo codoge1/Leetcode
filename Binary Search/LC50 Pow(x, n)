@@ -1,0 +1,21 @@
+class Solution {
+    public double myPow(double x, int n) {
+        if (n == 0) {
+            return 1;
+        }
+        double temp = myPow(x, n / 2);
+        if (n % 2 == 0) {
+            return temp * temp;
+        } else {
+            if (n > 0) {
+                return temp * temp * x;
+            } else {
+                return temp * temp / x;
+            }
+        }
+    }
+}
+
+//思路是把乘方分奇偶 逐步二分 直到为0  很蠢的test case 因为当n为负 我们把x变为1/x 然后n变为-n
+//当n为minvalue 就会出错  所以我们不操作n=-n这个危险的步骤 而是先得到temp  即pow(x, n/2）
+//再判断n为奇偶时 是否需要补x
