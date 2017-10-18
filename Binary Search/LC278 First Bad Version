@@ -21,3 +21,23 @@ public class Solution extends VersionControl {
 }
 
 //类似找最小值  需要找到mid为坏 并且mid-1为好
+//update  以后类似题都这样做 这类题就是用二分查找 找一个临界点
+//第一种做法就是 对符合条件的值 再判断其左边
+//更好的是下面这种  循环中不返回 若出现bad 则往左找 但因为此bad可能为所求值 所以high=mid 而不-1 循环出来后low即是
+/* The isBadVersion API is defined in the parent class VersionControl.
+      boolean isBadVersion(int version); */
+
+public class Solution extends VersionControl {
+    public int firstBadVersion(int n) {
+        int low = 1, high = n;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (!isBadVersion(mid)) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        return low;
+    }
+}
