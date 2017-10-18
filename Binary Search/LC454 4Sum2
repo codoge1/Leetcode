@@ -1,0 +1,27 @@
+class Solution {
+    public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < B.length; j++) {
+                int sum = A[i] + B[j];
+                map.put(sum, map.getOrDefault(sum, 0) + 1);
+            }
+        }
+        int count = 0;
+        for (int i = 0; i < C.length; i ++) {
+            for (int j = 0; j < D.length; j++) {
+                int sum = C[i] + D[j];
+                if (map.containsKey(-sum)) {
+                    count = count + map.get(-sum);
+                }
+            }
+        }
+        return count;
+    }
+}
+
+//4Sum1 是在一个数组中 解法是排序后 对最后两位 进行二分查找
+//此题是在不同数组 BF方法即是 对每个数组的所有数依次遍历判断 最后的复杂度是On4
+//所以考虑 有map来存值和次数 然后将四个数分开遍历  若13分 则复杂度On3
+//所以最好是22分 所以把ab两数组所有组合出现的次数记录在map  然后再遍历cd
+//出现的值为sum  若map里有-sum 则加上-sum的次数即可
