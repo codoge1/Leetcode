@@ -1,0 +1,47 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+class Solution {
+    public int[] findRightInterval(Interval[] intervals) {
+        int[] res = new int[intervals.length];
+        List<Integer> starts = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < intervals.length; i++) {
+            map.put(intervals[i].start, i);
+            starts.add(intervals[i].start);
+        }
+        Collections.sort(starts);
+        for (Interval i : intervals) {
+            int end = i.end;
+            int start = binarySearch(starts, end);
+            if (start < end) {
+                res[map.get(i.start)] = -1;
+            } else {
+                res[map.get(i.start)] = map.get(start);
+            }
+        }
+        return res;
+    }
+    public int binarySearch(List<Integer> starts, int end) {
+        int low = 0, high = starts.size() - 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (starts.get(mid) < end) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+        return starts.get(low);
+    }
+}
+
+//第一次是自己ac 不过已经忘了 而且复杂度很高 这题基本思路不难  每个区间有唯一的start 所以考虑保存所有starts
+//进行排序 然后对每一个区间的end  在starts里面进行二分查找 找到第一个大于等于end的start
+//另外还需要一个map 映射start和其原本区间索引  然后遍历数组 把每个区间的右区间记录给res即可
