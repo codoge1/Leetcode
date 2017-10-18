@@ -1,0 +1,23 @@
+class Solution {
+    public int kthSmallest(int[][] matrix, int k) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        for (int i = 0; i < matrix[0].length; i++) {
+            pq.offer(new int[]{matrix[0][i], 0, i});
+        }
+        while (!pq.isEmpty()) {
+            int[] cur = pq.poll();
+            k--;
+            if (k == 0) {
+                return cur[0];
+            }
+            if (cur[1] == matrix.length - 1) {
+                continue;
+            }
+            pq.offer(new int[]{matrix[cur[1] + 1][cur[2]], cur[1] + 1, cur[2]});
+        }
+        return -1;
+    }
+}
+
+//用heap来做  思路是先把第一排 全部放进去  每出来一个 那么下一个最小值 要么是其下面 要么是其右面 
+//因为右面的数 已经加入 所以 只要有下面 就加入下面的数即可 直到k为0
