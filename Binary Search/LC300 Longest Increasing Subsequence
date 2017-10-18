@@ -1,0 +1,34 @@
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        List<Integer> tails = new ArrayList<>();
+        tails.add(nums[0]);
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > tails.get(tails.size() - 1)) {
+                tails.add(nums[i]);
+            } else {
+                int low = 0, high = tails.size() - 1;
+                while (low < high) {
+                    int mid = low + (high - low) / 2;
+                    if (tails.get(mid) < nums[i]) {
+                        low = mid + 1;
+                    } else {
+                        high = mid;
+                    }
+                }
+                tails.set(low, nums[i]);
+            }
+        }
+        return tails.size();
+    }
+}
+
+//一定记住LIS思路！这题基本思路是 这个数组中 有很多子序列 对每个子序列的尾巴 我们都做记录并更新
+//当新数大于最长序列的tail 我们就加在后面 意味着长度也增加了1
+//若不大于 则我们就找到所有这些子序列中 需要更新的tail 例如  tails有1357  新数为4  我们就需要更新5  为4
+//意思是 以5为tail的那一个子序列 我们更新为以4为tail  现在的最长 还是以7为tail的1357 但更新后 将来有可能 这个134序列 可以再次更新 超过7tail
+//例如例子 134 下一次遇见5  则1345  而上次的1357 没有更新  再遇见6  则13456  而1357只能更新为1356  实现更新长度！ 
+//而此题follow up要求nlgn  因为tails是从小到大的  所以找更新位置时 用二分查找即可 注意 当mid>=i时 应该向左找 但mid也可能就是需要更新的 
+//所以high=mid  while条件不取等
