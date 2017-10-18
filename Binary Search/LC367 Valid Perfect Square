@@ -1,0 +1,20 @@
+class Solution {
+    public boolean isPerfectSquare(int num) {
+        int low = 1, high = num;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (mid * mid == num) {
+                return true;
+            }
+            if (mid < num / mid) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return false;
+    }
+}
+
+//从1到num 一直二分查找即可  需要注意的是 涉及到平方的 容易溢出  所以 要么把low high设为long 
+//要么 在判断大小时 用mid<num/mid来代替  但注意 在要求精确mid*mid=num时 不能这样 因为是整除
