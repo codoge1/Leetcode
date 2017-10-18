@@ -1,0 +1,25 @@
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int low = 1, high = nums.length - 1;
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            int count = 0;
+            for (int n : nums) {
+                if (n <= mid) {
+                    count++;
+                }
+            }
+            if (count > mid) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+}
+
+//所有数都在1-n  类似二分查找 每次找中间值mid 然后遍历统计小于等于mid的数量count
+//若count>mid 则证明 重复值一定在1-mid   否则 则在mid+1 - high
+//需要注意的是这里的low和high 不能取等 否则无法跳出循环
+//再次强调 若必定有值时 low<high即可 因为循环出来后 low=high 直接返回low就好
