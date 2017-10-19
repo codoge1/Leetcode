@@ -1,0 +1,20 @@
+class Solution {
+    public int findRadius(int[] houses, int[] heaters) {
+        Arrays.sort(houses);
+        Arrays.sort(heaters);
+        int r = 0;
+        int i = 0;
+        for (int house : houses) {
+            while (i < heaters.length - 1 && heaters[i] + heaters[i + 1] <= 2 * house) {
+                i++;
+            }
+            r = Math.max(r, Math.abs(house - heaters[i]));
+        }
+        return r;
+    }
+}
+
+//思路不容易想的easy题..
+//首先需要对两者都进行排序 然后 对每个房子 都需要供暖 所以挨个遍历
+//对每个房子 从开始的heaters开始 如果房子 在两个heaters中点的左边 那么就用i heater供暖 更新半径
+//若在右边 即house大于中点位置 则i++ 上一个heater可以退休了  直到在中点左边 才找到下一个有用的heater更新半径
