@@ -1,0 +1,37 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        return height(root) != -1;
+    }
+    public int height(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        int lh = height(node.left);
+        if (lh == -1) {
+            return -1;
+        }
+        int rh = height(node.right);
+        if (rh == -1) {
+            return -1;
+        }
+        if (Math.abs(lh - rh) > 1) {
+            return -1;
+        }
+        return 1 + Math.max(lh, rh);
+    }
+}
+
+//思路还是比较难想的  平衡树 需要每个节点的左右子树 高度差不大于1
+//所以写height方法 对每个节点 若为null 则0
+//否则 先递归求出其左右子树的高度 若为-1 代表子树已经不平衡 则当前也返回-1
+//若都不为-1 则判断左右高度差 超过1也返回-1
+//否则 则该node暂时平衡 返回正常高度 即1+max左右
