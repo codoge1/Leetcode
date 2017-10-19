@@ -1,0 +1,30 @@
+class Solution {
+    public List<Integer> findClosestElements(int[] arr, int k, int x) {
+        Map<Integer, List<Integer>> map = new TreeMap<>();
+        List<Integer> res = new ArrayList<>();
+        for (int n : arr) {
+            int diff = Math.abs(n - x);
+            if (!map.containsKey(diff)) {
+                map.put(diff, new ArrayList<>());
+            }
+            map.get(diff).add(n);
+        }
+        for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
+            for (int n : entry.getValue()) {
+                res.add(n);
+                if (res.size() == k) {
+                    break;
+                }
+            }
+            if (res.size() == k) {
+                break;
+            }
+        }
+        Collections.sort(res);
+        return res;
+    }
+}
+
+//基本思路是 每个距离 对应一个list的元素 从小到大遍历距离 挨个加入res即可
+//这样的话 就能用到treemap  基于红黑树的排序map 其所有entry 遍历时是按key从小到大遍历的 刚好符合要求
+//所以直接全部装进去 然后遍历取值 最后记得对res排序
