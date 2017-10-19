@@ -1,0 +1,29 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+        if (root.left == null || root.right == null) {
+            if (root.left == null) {
+                return 1 + minDepth(root.right);
+            } else {
+                return 1 + minDepth(root.left);
+            }
+        }
+        return 1 + Math.min(minDepth(root.left), minDepth(root.right));
+    }
+}
+
+//这题比求maxdepth难一点 因为 当一个结点 只有一边子树时  就只能走那一边 而不能1+min值0
