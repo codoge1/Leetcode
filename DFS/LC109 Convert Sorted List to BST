@@ -1,0 +1,41 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode sortedListToBST(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        if (head.next == null) {
+            return new TreeNode(head.val);
+        }
+        ListNode slow = head, fast = head, pre = null;
+        while (fast != null && fast.next != null) {
+            pre = slow;
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        pre.next = null;
+        TreeNode root = new TreeNode(slow.val);
+        root.left = sortedListToBST(head);
+        root.right = sortedListToBST(slow.next);
+        return root;
+    }
+}
+
+//这道题是把数组换成了链表 同样是需要找中点 然后得到中点前一个pre 将链表拆成两条 然后递归建树 
+//数组时 因为需要拆区间 所以要left right索引  链表不需要 所以也不需要helper方法 递归原方法即可
