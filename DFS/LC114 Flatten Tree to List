@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    TreeNode prev = null;
+    public void flatten(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        flatten(root.right);
+        flatten(root.left);
+        root.right = prev;
+        root.left = null;
+        prev = root;
+    }
+}
+
+//观察可以看到 原树是按照前序的顺序 从上到下排列的 
+//所以可以考虑 逆着前序的顺序遍历结点 每个节点 right指向前一个 left指向后一个即可
+//注意 postOrder 是左右根  而这次遍历 是异类的post  右左根  
