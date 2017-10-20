@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> temp = new ArrayList<>();
+        backtrack(res, temp, root, sum);
+        return res;
+    }
+    public void backtrack(List<List<Integer>> res, List<Integer> temp, TreeNode root, int remain) {
+        if (root == null) {
+            return;
+        }
+        if (root.val == remain && root.left == null && root.right == null) {
+            temp.add(root.val);
+            res.add(new ArrayList<>(temp));
+            temp.remove(temp.size() - 1);
+            return;
+        }
+        temp.add(root.val);
+        backtrack(res, temp, root.left, remain - root.val);
+        backtrack(res, temp, root.right, remain - root.val);
+        temp.remove(temp.size() - 1);
+    }
+}
+
+//很类似以前的combination sum 回溯法 即dfs
+//但区别在于 这颗树 的val是有负数的 所以一定注意 不要去判断remain 和val的大小 因为就算val>remain了 因为有负数 也可能逆转
+//另外 回溯 因为是在同一个temp上改 所以不管什么时候 你加了一个值 都要在回溯后 移除他  意味着最终temp都会为空 
