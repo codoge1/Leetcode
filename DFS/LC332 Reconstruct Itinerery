@@ -1,0 +1,30 @@
+class Solution {
+    public List<String> findItinerary(String[][] tickets) {
+        Map<String, PriorityQueue<String>> map = new HashMap<>();
+        for (String[] ticket : tickets) {
+            if (!map.containsKey(ticket[0])) {
+                map.put(ticket[0], new PriorityQueue<>());
+            }
+            map.get(ticket[0]).offer(ticket[1]);
+        }
+        List<String> route = new ArrayList<>();
+        Stack<String> stack = new Stack<>();
+        String cur = "JFK";
+        for (int i = 0; i < tickets.length; i++) {
+            while (!map.containsKey(cur) || map.get(cur).isEmpty()) {
+                stack.push(cur);
+                cur = route.remove(route.size() - 1);
+            }
+            route.add(cur);
+            cur = map.get(cur).poll();
+        }
+        route.add(cur);
+        while (!stack.isEmpty()) {
+            route.add(stack.pop());
+        }
+        return route;
+    }
+}
+
+//有向图问题  对每一个当前位置 若走投无路了 则是图的tail 压入栈 得到上一级 继续判断
+//若有路  则加入到route 然后得到其字典序最小的下一级为cur 继续判断
