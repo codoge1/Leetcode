@@ -1,0 +1,32 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        int[] pres = new int[numCourses];
+        for (int[] pair : prerequisites) {
+            int toLearn = pair[0];
+            pres[toLearn]++;
+        }
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (pres[i] == 0) {
+                q.offer(i);
+            }
+        }
+        int count = 0;
+        while (!q.isEmpty()) {
+            int course = q.poll();
+            count++;
+            for (int[] pair : prerequisites) {
+                if (pair[1] == course) {
+                    int toLearn = pair[0];
+                    pres[toLearn]--;
+                    if (pres[toLearn] == 0) {
+                        q.offer(toLearn);
+                    }
+                }
+            }
+        }
+        return count == numCourses;
+    }
+}
+
+//写了无数遍。。
