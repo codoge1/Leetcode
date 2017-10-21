@@ -1,0 +1,37 @@
+class Solution {
+    public String decodeString(String s) {
+        Stack<Integer> digit = new Stack<>();
+        Stack<String> res = new Stack<>();
+        String str = "";
+        int i = 0;
+        while (i < s.length()) {
+            if (Character.isDigit(s.charAt(i))) {
+                int num = 0;
+                while (Character.isDigit(s.charAt(i))) {
+                    num = 10 * num + (s.charAt(i) - '0');
+                    i++;
+                }
+                digit.push(num);
+            } else if (s.charAt(i) == '[') {
+                res.push(str);
+                str = "";
+                i++;
+            } else if (s.charAt(i) == ']') {
+                String temp = res.pop();
+                int times = digit.pop();
+                StringBuilder sb = new StringBuilder(temp);
+                for (int j = 0; j < times; j++) {
+                    sb.append(str);
+                }
+                str = sb.toString();
+                i++;
+            } else {
+                str = str + s.charAt(i);
+                i++;
+            }
+        }
+        return str;
+    }
+}
+
+//用数字栈 和结果栈处理 分情况处理即可  注意递增i
