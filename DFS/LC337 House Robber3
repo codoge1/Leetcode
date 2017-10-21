@@ -1,0 +1,28 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int rob(TreeNode root) {
+        int[] res = robOrNot(root);
+        return Math.max(res[0], res[1]);
+    }
+    public int[] robOrNot(TreeNode root) {
+        int[] res = new int[2];
+        if (root == null) {
+            return res;
+        }
+        int[] left = robOrNot(root.left);
+        int[] right = robOrNot(root.right);
+        res[0] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+        res[1] = left[0] + right[0] + root.val;
+        return res;
+    }
+}
+
+//一样的dp  对每个节点 有抢 和不抢两种策略 用一个2位的数字表示即可
