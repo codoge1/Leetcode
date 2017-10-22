@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int res;
+    int maxDepth;
+    public int findBottomLeftValue(TreeNode root) {
+        maxDepth = -1;
+        dfs(root, 0);
+        return res;
+    }
+    public void dfs(TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        if (level > maxDepth) {
+            maxDepth = level;
+            res = root.val;
+        }
+        dfs(root.left, level + 1);
+        dfs(root.right, level + 1);
+    }
+}
+
+//出了点小问题 记得把最大深度max 设置为全局变量 而不是传入参数 如果当参数代入 则dfs中 用的max 不是同一个 也就无法避免对每一层 只取第一个值
