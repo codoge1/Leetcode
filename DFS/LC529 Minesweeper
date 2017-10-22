@@ -1,0 +1,43 @@
+class Solution {
+    int[][] dirs = new int[][]{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+    int m, n;
+    public char[][] updateBoard(char[][] board, int[] click) {
+        m = board.length;
+        n = board[0].length;
+        int row = click[0], col = click[1];
+        if (board[row][col] == 'M') {
+            board[row][col] = 'X';
+            return board;
+        }
+        int count = countM(board, row, col);
+        if (count != 0) {
+            board[row][col] = (char)(count + '0');
+        } else {
+            board[row][col] = 'B';
+            for (int[] dir : dirs) {
+                int i = row + dir[0];
+                int j = col + dir[1];
+                if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] == 'B') {
+                    continue;
+                }
+                updateBoard(board, new int[]{i, j});
+            }
+        }
+        return board;
+    }
+    public int countM(char[][] board, int row, int col) {
+        int count = 0;
+        for (int[] dir : dirs) {
+            int i = row + dir[0];
+            int j = col + dir[1];
+            if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != 'M') {
+                continue;
+            }
+            count++;
+        }
+        return count;
+    }
+}
+
+//此题这一次 的错误点在于 因为update方法 是默认click有效 所以没有设置越界处理 递归时 需要首先排除无效的click值 才调用update
+//另外 也是在递归调用时 需要注意 只有当出现B时 递归 但如果两个B 在一起 则会互相调用死循环  所以当周围有B 也需要continue跳过
