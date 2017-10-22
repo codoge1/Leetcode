@@ -1,0 +1,33 @@
+class Solution {
+    public int findPaths(int m, int n, int N, int i, int j) {
+        int[][] count = new int[m][n];
+        count[i][j] = 1;
+        int res = 0, mod = 1000000007;
+        int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        for (int step = 1; step <= N; step++) {
+            int[][] update = new int[m][n];
+            for (int r = 0; r < m; r++) {
+                for (int c = 0; c < n; c++) {
+                    for (int[] dir : dirs) {
+                        int row = r + dir[0];
+                        int col = c + dir[1];
+                        if (row < 0 || row >= m || col < 0 || col >= n) {
+                            res = (res + count[r][c]) % mod;
+                        } else {
+                            update[row][col] = (update[row][col] + count[r][c]) % mod;
+                        }
+                    }
+                }
+            }
+            count = update;
+        }
+        return res;
+    }
+}
+
+//好喜欢这道题...dp配合dfs 题目因为结果可能很多 所以每一次更新值 都%上一个数 即满1000000007则减掉
+//思路是 用count[][]数组 记录每一步时 所有位置的能到达的次数 初始没踢 则只有初始位置i j 次数为1
+//然后 循环N次 代表N步 每一步 都设置新的矩阵 然后遍历所有位置 对每一个位置 向四周踢一个单位
+//若出界 则res加上次数 次数即上一次count r c的次数 在这一步能踢出界
+//若没出界 则更新update数组 让这一个位置的次数 加上由r c踢来的次数 即count r c 记住都需要%
+//遍历完后 update 则为踢完这一步后 的count  替换即可
