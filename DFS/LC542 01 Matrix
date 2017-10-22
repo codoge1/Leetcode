@@ -1,0 +1,33 @@
+class Solution {
+    public int[][] updateMatrix(int[][] matrix) {
+        Queue<int[]> q = new LinkedList<>();
+        int m = matrix.length, n = matrix[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 0) {
+                    q.offer(new int[]{i, j});
+                } else {
+                    matrix[i][j] = Integer.MAX_VALUE;
+                }
+            }
+        }
+        int[][] dirs = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            for (int[] dir : dirs) {
+                int i = cur[0] + dir[0];
+                int j = cur[1] + dir[1];
+                if (i < 0 || i >= m || j < 0 || j >= n || matrix[i][j] <= matrix[cur[0]][cur[1]] + 1) {
+                    continue;
+                }
+                matrix[i][j] = matrix[cur[0]][cur[1]] + 1;
+                q.offer(new int[]{i, j});
+            }
+        }
+        return matrix;
+    }
+}
+
+//此题还是用BFS容易  bfs是利用队列 对每一结点的下一层 全部加入到队列中 一层一层的判断
+//在此题中 0与最近的0的距离 确定为0 其余的先设置为max  则从所有0的点开始  加入队列 每次出来后 判断其四周 若越界 或者已经小到不需要从cur 到0
+//跳过  否则就从cur到0  更新i j的值 然后因为此值变动 其周围可能会受影响  将其加到队列 直到队列为空 全部更新完毕~
