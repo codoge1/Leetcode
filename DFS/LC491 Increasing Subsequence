@@ -1,0 +1,23 @@
+class Solution {
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        Set<List<Integer>> set = new HashSet<>();
+        List<Integer> temp = new ArrayList<>();
+        dfs(set, temp, nums, 0);
+        return new ArrayList<>(set);
+    }
+    public void dfs(Set<List<Integer>> set, List<Integer> temp, int[] nums, int start) {
+        if (temp.size() > 1) {
+            set.add(new ArrayList<>(temp));
+        }
+        for (int i = start; i < nums.length; i++) {
+            if (temp.isEmpty() || nums[i] >= temp.get(temp.size() - 1)) {
+                temp.add(nums[i]);
+                dfs(set, temp, nums, i + 1);
+                temp.remove(temp.size() - 1);
+            }
+        }
+    }
+}
+
+//回溯法即可  对temp 来说 只有当temp为空 或nums i 大于等于temp的最后一位 才加入 然后回溯
+//当temp size>1时  加入res即可  因为数组是无序的 所以可能出现重复 则res先用set来装 再转为list
