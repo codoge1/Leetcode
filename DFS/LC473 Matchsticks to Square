@@ -1,0 +1,42 @@
+class Solution {
+    public boolean makesquare(int[] nums) {
+        if (nums.length < 4) {
+            return false;
+        }
+        int sum = 0;
+        for (int n : nums) {
+            sum = sum + n;
+        }
+        if (sum % 4 != 0) {
+            return false;
+        }
+        int target = sum / 4;
+        Arrays.sort(nums);
+        return dfs(nums, new int[4], target, nums.length - 1);
+    }
+    public boolean dfs(int[] nums, int[] sides, int target, int index) {
+        if (sides[0] > target || sides[1] > target || sides[2] > target || sides[3] > target) {
+            return false;
+        }
+        if (index == -1) {
+            if (sides[0] == target && sides[1] == target && sides[2] == target && sides[3] == target) {
+                return true;
+            }
+            return false;
+        }
+        for (int i = 0; i < 4; i++) {
+            sides[i] = sides[i] + nums[index];
+            if (dfs(nums, sides, target, index - 1)) {
+                return true;
+            }
+            sides[i] = sides[i] - nums[index];
+        }
+        return false;
+    }
+}
+
+//思路是 所有的加起来 /4 则为边长 所以需要dfs 看是否能有4个边都为target的情况
+//设置4位的数组 若某位超过target 则返回  若遍历完数组 全都为target 则true
+//没遍历完：则对四个边 都加上当前数 然后dfs下一位若true 则true 否则 减去 回溯下一位
+//4边都没true 则false
+//需要注意的是 此题需要对nums 进行排序 然后从最后一位往前面dfs 不然tle  因为先从小的 情况太多了 从大的开始 会有很多路径提前false
