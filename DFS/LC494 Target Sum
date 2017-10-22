@@ -1,0 +1,21 @@
+class Solution {
+    int count;
+    public int findTargetSumWays(int[] nums, int S) {
+        count = 0;
+        dfs(nums, 0, S, 0);
+        return count;
+    }
+    public void dfs(int[] nums, int sum, int target, int index) {
+        if (index == nums.length) {
+            if (sum == target) {
+                count++;
+            }
+            return;
+        }
+        dfs(nums, sum + nums[index], target, index + 1);
+        dfs(nums, sum - nums[index], target, index + 1);
+    }
+}
+
+//dfs做法 应该比dp慢 
+//思路是 对每个数 只可能加or减  所以回溯所有的情况 当索引到最后时 若sum ==target 则count+1即可
