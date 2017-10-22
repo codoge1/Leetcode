@@ -1,0 +1,27 @@
+class Solution {
+    boolean[] visited;
+    public int findCircleNum(int[][] M) {
+        visited = new boolean[M.length];
+        int count = 0;
+        for (int i = 0; i < visited.length; i++) {
+            if (!visited[i]) {
+                count++;
+                dfs(M, i);
+            }
+        }
+        return count;
+    }
+    public void dfs(int[][] M, int index) {
+        for (int i = 0; i < M.length; i++) {
+            if (M[index][i] == 1 && !visited[i]) {
+                visited[i] = true;
+                dfs(M, i);
+            }
+        }
+    }
+}
+
+//共有M.length个学生 直接设置visited数组 记录每个学生是否访问过 然后遍历数组
+//若学生没访问过 则count++ 然后对当前学生进行dfs 递归设置其朋友圈所有人 为访问过
+//dfs学生i时 只需要遍历一遍所有学生的索引，若其在M中为1 且！！！没访问过 则设置为true 然后递归  此中也包含了自己 
+//注意 dfs时 一定要避免死循环 即两个对象互相dfs 所以需要设置标记
