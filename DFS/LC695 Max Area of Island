@@ -1,0 +1,35 @@
+class Solution {
+    int area, m, n;
+    int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    public int maxAreaOfIsland(int[][] grid) {
+        m = grid.length;
+        n = grid[0].length;
+        int max = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    area = 0;
+                    countArea(grid, i, j);
+                    max = Math.max(max, area);
+                }
+            }
+        }
+        return max;
+    }
+    public void countArea(int[][] grid, int i, int j) {
+        if (i < 0 || i >= m || j < 0 || j >= n) {
+            return;
+        }
+        if (grid[i][j] == 1) {
+            area++;
+            grid[i][j] = 0;
+            for (int[] dir : dirs) {
+                countArea(grid, i + dir[0], j + dir[1]);
+            }
+        }
+    }
+}
+
+//类似并查集的求岛数量 此题不需要求数量 但思路一致 只要找到为1的 重置全局变量area 开始dfs
+//越界则返回 若为1 则area++ 设为0  然后对四周dfs
+//每次area 和max更新最大值  下次遇见新岛 area重置 继续循环~
