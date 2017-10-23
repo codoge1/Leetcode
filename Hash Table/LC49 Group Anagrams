@@ -1,0 +1,23 @@
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (String str : strs) {
+            char[] c = str.toCharArray();
+            Arrays.sort(c);
+            String key = String.valueOf(c);
+            if (!map.containsKey(key)) {
+                map.put(key, new ArrayList<>());
+            }
+            map.get(key).add(str);
+        }
+        List<List<String>> res = new ArrayList<>();
+        for (List<String> list : map.values()) {
+            res.add(list);
+        }
+        return res;
+    }
+}
+
+//判断anagram 如果判断两数 一般采用26位数组 加减法
+//但此题 是需要分类 不能一一判断 则对每个string 拆成char数组后 排序 得到其根key 然后用map来对每个key 和其的anagram映射
+//最后得到map.values() 全部加到res即可
