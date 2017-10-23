@@ -1,0 +1,30 @@
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        for (int i = 0; i < 9; i++) {
+            Set<Character> row = new HashSet<>();
+            Set<Character> col = new HashSet<>();
+            Set<Character> cube = new HashSet<>();
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.' && row.contains(board[i][j])) {
+                    return false;
+                }
+                row.add(board[i][j]);
+                if (board[j][i] != '.' && col.contains(board[j][i])) {
+                    return false;
+                }
+                col.add(board[j][i]);
+                int rowBegin = i / 3 * 3;
+                int colBegin = i % 3 * 3;
+                if (board[rowBegin + j / 3][colBegin + j % 3] != '.' && cube.contains(board[rowBegin + j / 3][colBegin + j % 3])) {
+                    return false;
+                }
+                cube.add(board[rowBegin + j / 3][colBegin + j % 3]);
+            }
+        }
+        return true;
+    }
+}
+
+//有效的数独  需要每一行 每一列 每一个3*3的小块 没有重复 所以用set来做
+//关键在于如何处理cube里的索引 i从0-8 可以知道 i/3 是第几行的cube  i%3是第几列的cube
+//再*3 可以得到该cube的起始rowIndex或colIndex  然后通过j 对这个cube里面的索引 进行细化 判断即可
