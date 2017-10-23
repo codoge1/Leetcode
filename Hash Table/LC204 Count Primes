@@ -1,0 +1,20 @@
+class Solution {
+    public int countPrimes(int n) {
+        int count = 0;
+        boolean[] notPrime = new boolean[n];
+        for (int i = 2; i < n; i++) {
+            if (!notPrime[i]) {
+                count++;
+            }
+            for (int j = 2; i * j < n; j++) {
+                notPrime[i * j] = true;
+            }
+        }
+        return count;
+    } 
+}
+
+//挺好的方法 从2开始判断 先设置boolean数组 对每个值记录是否为prime 因为从2开始 初始都为prime
+//即notPrime default即可  然后从2开始遍历 只要出现notprime为false 则count++
+//然后 对当前i 从2一直乘到小于n的j  都设置为true 即不是质数即可  
+//这样对于任意一个数 其可能的因子 在其前面已经全部出现 若其还是notPrime false 则count++ 继续判断即可
