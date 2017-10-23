@@ -1,0 +1,19 @@
+class Solution {
+    public boolean isHappy(int n) {
+        Set<Integer> set = new  HashSet<>();
+        while (n != 1 && !set.contains(n)) {
+            set.add(n);
+            int sum = 0;
+            while (n != 0) {
+                int digit = n % 10;
+                sum = sum + digit * digit;
+                n = n / 10;
+            }
+            n = sum;
+        }
+        return n == 1;
+    }
+}
+
+//用set记录所有出现过的数  只有n等于1或者出现重复 才出循环
+//否则不断地求各位数的平方和 然后更新n
