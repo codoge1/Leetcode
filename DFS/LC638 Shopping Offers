@@ -1,0 +1,42 @@
+class Solution {
+    public int shoppingOffers(List<Integer> price, List<List<Integer>> special, List<Integer> needs) {
+        int res = Integer.MAX_VALUE;
+        for (List<Integer> offer : special) {
+            boolean valid = true;
+            int count = Integer.MAX_VALUE;
+            for (int i = 0; i < needs.size(); i++) {
+                if (needs.get(i) < offer.get(i)) {
+                    valid = false;
+                    break;
+                }
+                if (offer.get(i) == 0) {
+                    continue;
+                }
+                count = Math.min(count, needs.get(i) / offer.get(i));
+            }
+            if (!valid) {
+                continue;
+            }
+            for (int i = 0; i < needs.size(); i++) {
+                int remain = needs.get(i) - count * offer.get(i);
+                needs.set(i, remain);
+            }
+            res = Math.min(res, count * offer.get(offer.size() - 1) + shoppingOffers(price, special, needs));
+            for (int i = 0; i < needs.size(); i++) {
+                int remain = needs.get(i) + count * offer.get(i);
+                needs.set(i, remain);
+            }
+        }
+        int nonOffer = 0;
+        for (int i = 0; i < needs.size(); i++) {
+            nonOffer = nonOffer + needs.get(i) * price.get(i);
+        }
+        return Math.min(res, nonOffer);
+    }
+}
+
+//like the solution！！ DFS方法 此题有贪心思想 因为offer是sale 所以能用offer 就用offer 基本思路是 设置res初始为max
+//因为不能过量 对每一个special offer 遍历所有商品 得到此offer的最大购买量  若一个都买不了 设置valid为false 跳出循环 再continue当前offer
+//然后更新needs 递归求此种购买方式的res 更新res为最小
+//然后回溯 把needs还原 比较下一个offer
+//nonOffer的作用 是当剩下的needs 一个offer都用不上时 res为max 则此时就会返回nonOffer的值 补齐剩下的needs
