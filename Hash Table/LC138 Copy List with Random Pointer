@@ -1,0 +1,29 @@
+/**
+ * Definition for singly-linked list with a random pointer.
+ * class RandomListNode {
+ *     int label;
+ *     RandomListNode next, random;
+ *     RandomListNode(int x) { this.label = x; }
+ * };
+ */
+public class Solution {
+    public RandomListNode copyRandomList(RandomListNode head) {
+        Map<RandomListNode, RandomListNode> map = new HashMap<>();
+        RandomListNode cur = head;
+        while (cur != null) {
+            RandomListNode node = new RandomListNode(cur.label);
+            map.put(cur, node);
+            cur = cur.next;
+        }
+        cur = head;
+        while (cur != null) {
+            map.get(cur).next = map.get(cur.next);
+            map.get(cur).random = map.get(cur.random);
+            cur = cur.next;
+        }
+        return map.get(head);
+    }
+}
+
+//不难 第一遍遍历list 先新建每一个复制的结点  然后用map 对老结点和新结点映射
+//第二遍赋值next 和random即可~
