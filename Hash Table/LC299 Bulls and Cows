@@ -1,0 +1,27 @@
+class Solution {
+    public String getHint(String secret, String guess) {
+        int bulls = 0, totalSame = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < secret.length(); i++) {
+            char s = secret.charAt(i);
+            char g = guess.charAt(i);
+            if (s == g) {
+                bulls++;
+            }
+            map.put(s, map.getOrDefault(s, 0) + 1);
+        }
+        for (int i = 0; i < secret.length(); i++) {
+            char g = guess.charAt(i);
+            if (map.containsKey(g) && map.get(g) > 0) {
+                totalSame++;
+                map.put(g, map.get(g) - 1);
+            }
+        }
+        return bulls + "A" + (totalSame - bulls) + "B";
+    }
+}
+
+//此题 bulls 是相等且位置相同  cows是相等且位置不同 cows不容易直接求得
+//所以考虑用相等的数量 - 相等且位置相同  则为相等且位置不同
+//所以第一遍 计算bulls 并且把s用map记录
+//第二遍 对guess遍历 与map中对照得到相等总数  减去bulls即为cows
