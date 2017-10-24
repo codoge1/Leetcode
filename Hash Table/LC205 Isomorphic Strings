@@ -1,0 +1,24 @@
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        Map<Character, Character> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (map.containsKey(s.charAt(i))) {
+                if (map.get(s.charAt(i)) != t.charAt(i)) {
+                    return false;
+                }
+            } else {
+                if (map.containsValue(t.charAt(i))) {
+                    return false;
+                }
+                else {
+                    map.put(s.charAt(i), t.charAt(i));
+                }
+            }
+        }
+        return true;
+    }
+}
+
+//还是有坑的 同形 代表着两个字符串中的所有字母一一对应 不能出现ab 对应aa的情况
+//所以 设置map 对每个位置的一对字符 若存在key 则判断value是否等于另一个
+//若不存在key  也需要判断  若存在value 则也不满足一一对应 false 否则才加入map
