@@ -1,0 +1,18 @@
+class Solution {
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (set.contains(nums[i])) {
+                return true;
+            }
+            set.add(nums[i]);
+            if (set.size() == k + 1) {
+                set.remove(nums[i - k]);
+            }
+        }
+        return false;
+    }
+}
+
+//需要索引差最大为k  例如k=2 0和2还是可以判断的  所以只需要维持set的size最大为k+1即可
+//每次先判断 不存在即加入 若此时size大小=k+1 则需要删除最前面一个 即i-k个
