@@ -1,0 +1,13 @@
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        for (int n : nums) {
+            if (!set.add(n)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+//直接用set.add 连判断和添加一起即可 注意 若有重复 返回true  所以当add方法为false 返回true
