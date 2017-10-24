@@ -1,0 +1,21 @@
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+        int[] alpha = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            alpha[s.charAt(i) - 'a']++;
+            alpha[t.charAt(i) - 'a']--;
+        }
+        for (int n : alpha) {
+            if (n != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+//判断两个是否为同字母异构 设置26位数组 统计次数即可
+//若类似前面那题 按照anagram分类 则无法两两比较 用char数组排序后再重组比较快
