@@ -1,0 +1,42 @@
+class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        if (numerator == 0) {
+            return "0";
+        }
+        StringBuilder sb = new StringBuilder();
+        if ((numerator > 0 && denominator < 0) || (numerator < 0 && denominator > 0)) {
+            sb.append("-");
+        }
+        long num = Math.abs((long)numerator);
+        long den = Math.abs((long)denominator);
+        long left = num / den;
+        sb.append(left);
+        num = num % den;
+        if (num == 0) {
+            return sb.toString();
+        }
+        sb.append(".");
+        Map<Long, Integer> map = new HashMap<>();
+        map.put(num, sb.length());
+        while (num != 0) {
+            num = num * 10;
+            long digit = num / den;
+            sb.append(digit);
+            num = num % den;
+            if (map.containsKey(num)) {
+                sb.insert(map.get(num), "(");
+                sb.append(")");
+                break;
+            }
+            map.put(num, sb.length());
+        }
+        return sb.toString();
+    }
+}
+
+//先注意符号 然后对int取绝对值时 最好转为long  因为-2^32 转过去越界
+//然后判断左边 若不整除 则加. 然后不断取余
+//只要num不为0 则一直循环 难点在于 需要对循环判断  一开始我是对小数点后的每一个数 记录其 和其索引
+//但不对 因为很可能一个循环节里面 有相同的数 例如1/333  为0.(003) 所以争取的做法是 对每次的余数 num进行记录
+//num映射其下一位开始的位置 即sb.length() 当出现相同余数 则在前面位置插入左括号 最后append右括号 跳出
+//否则 记录新的余数 一直到余数为0
