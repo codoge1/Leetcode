@@ -1,0 +1,21 @@
+class Solution {
+    public int[] findErrorNums(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        int[] res = new int[2];
+        for (int n : nums) {
+            if (!set.add(n)) {
+                res[0] = n;
+            }
+        }
+        for (int i = 1; i <= nums.length; i++) {
+            if (!set.contains(i)) {
+                res[1] = i;
+                break;
+            }
+        }
+        return res;
+    }
+}
+
+//分开找即可。。全部装入set 若false 即重复
+//然后对nums来说  应该包含1到len的所有数  所以遍历1到len  缺谁则返回即可
