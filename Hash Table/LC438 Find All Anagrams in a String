@@ -1,0 +1,38 @@
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> res = new ArrayList<>();
+        int[] alpha = new int[26];
+        for (char c : p.toCharArray()) {
+            alpha[c - 'a']++;
+        }
+        int left = 0, right = 0, diff = p.length();
+        while (right < s.length()) {
+            if (alpha[s.charAt(right) - 'a'] > 0) {
+                diff--;
+            }
+            alpha[s.charAt(right) - 'a']--;
+            right++;
+            if (right - left == p.length()) {
+                if (diff == 0) {
+                    res.add(left);
+                }
+                if (alpha[s.charAt(left) - 'a'] >= 0) {
+                    diff++;
+                }
+                alpha[s.charAt(left) - 'a']++;
+                left++;
+            }
+        }
+        return res;
+    }
+}
+
+//非常好的一个sliding window
+//先统计alpha的各字母次数 这个alpha 可以理解为需求数量 即我们要anagram 则需要match p字符串 满足alpha全为0
+//只需要一个int型的diff 初始为p长度 来记录即可
+//对每个right 若alpha中right>0 则表明进来的这个right 是所需要match的 则diff--
+//然后更新alpha 即right的需求量-1
+//当right-left = p长度 表明子串长度=p 此时判断diff 若diff为0 则表明ok 加到res
+//然后 移动left前 先判断会不会影响diff  若left在alpha里<0 则表明供过于求 直接去除即可  若=0 则代表刚好合适 此时移除他 会使diff++
+//若大于0  则本来就不够了 你还移除 也是diff++
+//然后移除左边 更新alpha
