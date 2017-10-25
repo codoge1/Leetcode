@@ -1,0 +1,34 @@
+class Solution {
+    public String[] findWords(String[] words) {
+        String[] rows = new String[]{"", "QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"};
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 1; i < 4; i++) {
+            for (char c : rows[i].toCharArray()) {
+                map.put(c, i);
+            }
+        }
+        List<String> temp = new ArrayList<>();
+        for (String word : words) {
+            int row = map.get(word.toUpperCase().charAt(0));
+            boolean sameRow = true;
+            for (char c : word.toUpperCase().toCharArray()) {
+                if (map.get(c) != row) {
+                    sameRow = false;
+                    break;
+                }
+            }
+            if (sameRow) {
+                temp.add(word);
+            }
+        }
+        String[] res = new String[temp.size()];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = temp.get(i);
+        }
+        return res;
+    }
+}
+
+//此题思路就是把这三排字母 对应其行数123 存到map里去 简略点就只存大写即可
+//存的时候 可以先用string 再遍历存入 否则单个存入太麻烦
+//然后对每个单词判断其所有字母行数 是否为第一个字母的行 设置flag即可
