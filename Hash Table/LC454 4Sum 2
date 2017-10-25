@@ -1,0 +1,23 @@
+class Solution {
+    public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int a : A) {
+            for (int b : B) {
+                map.put(a + b, map.getOrDefault(a + b, 0) + 1);
+            }
+        }
+        int count = 0;
+        for (int c : C) {
+            for (int d : D) {
+                int sum = c + d;
+                if (map.containsKey(-sum)) {
+                    count = count + map.get(-sum);
+                }
+            }
+        }
+        return count;
+    }
+}
+
+//22分组 则可以把复杂度降到On2
+//对a b的组合 的和及次数统计 在cd组合中  若map中出现-sum  则证明有tuples  次数则为map中记录的次数~
