@@ -6,21 +6,18 @@ class Solution {
         int count = 0;
         for (int i = 0; i < points.length; i++) {
             int[] cur = points[i];
-            Map<Integer, Set<int[]>> map = new HashMap<>();
+            Map<Integer, Integer> map = new HashMap<>();
             for (int j = 0; j < points.length; j++) {
                 if (i == j) {
                     continue;
                 }
                 int[] another = points[j];
                 int dis = getDis(cur, another);
-                if (!map.containsKey(dis)) {
-                    map.put(dis, new HashSet<>());
-                }
-                map.get(dis).add(another);
+                map.put(dis, map.getOrDefault(dis, 0) + 1);
             }
             for (int key : map.keySet()) {
-                Set set = map.get(key);
-                count = count + set.size() * (set.size() - 1);
+                int n = map.get(key);
+                count = count + n * (n - 1);
             }
         }
         return count;
@@ -33,4 +30,4 @@ class Solution {
 }
 
 //直接BF了  对每个点i 遍历其余点 记录所有点与他的距离和次数  因为j k顺序有关 所以是排列问题
-//某一距离的set 有3个数  则j和k j可选3个 k可选2个  即3*2
+//某一距离 有3个数  则j和k j可选3个 k可选2个  即3*2
