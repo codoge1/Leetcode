@@ -1,0 +1,19 @@
+class Solution {
+    public char findTheDifference(String s, String t) {
+        int[] alpha = new int[26];
+        for (char c : s.toCharArray()) {
+            alpha[c - 'a']++;
+        }
+        for (char c : t.toCharArray()) {
+            alpha[c - 'a']--;
+            if (alpha[c - 'a'] == -1) {
+                return c;
+            }
+        }
+        return ' ';
+    }
+}
+
+//此题心路历程  一开始是用26位数组做 采用一次遍历 对s+  对t-  最后出来遍历alpha 发现！ 某一索引的值为-1 但无法还原出char
+//所以 又去用map做 但时间复杂度太高
+//最好的方法 还是用alpha做 只是分两次遍历 第一次  对s中所有的 都+  第二次遍历时 因为只剩下- 不会有+了 只要出现-1 则就可以马上返回char~
