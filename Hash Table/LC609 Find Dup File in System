@@ -1,0 +1,30 @@
+class Solution {
+    public List<List<String>> findDuplicate(String[] paths) {
+        List<List<String>> res = new ArrayList<>();
+        Map<String, List<String>> map = new HashMap<>();
+        for (String path : paths) {
+            String[] strs = path.split(" ");
+            for (int i = 1; i < strs.length; i++) {
+                String str = strs[i];
+                int index = str.indexOf("(");
+                String content = str.substring(index + 1, str.length() - 1);
+                String file = strs[0] + "/" + str.substring(0, index);
+                if (!map.containsKey(content)) {
+                    map.put(content, new ArrayList<>());
+                }
+                map.get(content).add(file);
+            }
+        }
+        for (String key : map.keySet()) {
+            if (map.get(key).size() > 1) {
+                res.add(map.get(key));
+            }
+        }
+        return res;
+    }
+}
+
+//此题思路就是每个content对应一个list的文件路径和名字  思路没难度 只是需要处理文件路径和名字 读题
+//对每个path 用空格split 然后从索引1开始到最后 都是文件 对每个文件 得到其左括号后的内容 以内容为key list为value
+//然后构造文件名 即路径+名字 
+//最后遍历map  value的size大于1 即有重复 才加到res
