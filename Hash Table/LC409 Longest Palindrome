@@ -1,0 +1,22 @@
+class Solution {
+    public int longestPalindrome(String s) {
+        Set<Character> set = new HashSet<>();
+        int pairs = 0;
+        for (char c : s.toCharArray()) {
+            if (!set.contains(c)) {
+                set.add(c);
+            } else {
+                pairs++;
+                set.remove(c);
+            }
+        }
+        if (set.isEmpty()) {
+            return pairs * 2;
+        }
+        return pairs * 2 + 1;
+    }
+}
+
+//很好的方法 因为回文 是最多一个落单 其余全部成对  所以根本不需要map  只需要set
+//某字符 不在set里 则加进去 形成落单 若在set里 则组成一队 pairs++  然后移除set里的那个
+//遍历完后 若set不为空 则证明还有落单的  则我们能容纳一个落单的 在中间  +1即可
