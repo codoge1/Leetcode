@@ -1,0 +1,31 @@
+class Solution {
+    public String frequencySort(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+        Set<Character>[] buckets = new Set[s.length() + 1];
+        for (char key : map.keySet()) {
+            int f = map.get(key);
+            if (buckets[f] == null) {
+                buckets[f] = new HashSet<>();
+            }
+            buckets[f].add(key);
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = buckets.length - 1; i >= 0; i--) {
+            if (buckets[i] != null) {
+                for (char c : buckets[i]) {
+                    for (int j = 0; j < i; j++) {
+                        sb.append(c);
+                    }
+                }
+            }
+        }
+        return sb.toString();
+    }
+}
+
+//类似的频率排序问题 都最好用桶排序 因为先用map统计频率
+//统计完后 无法对map中的value直接排序  所以考虑创建桶 然后把map中的key 按其value放入对应频率的桶中
+//最后从后遍历即可  因为同一频率可能多数 所以桶的类型 可为set或list
