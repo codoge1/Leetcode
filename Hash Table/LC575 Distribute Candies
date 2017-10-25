@@ -1,0 +1,13 @@
+class Solution {
+    public int distributeCandies(int[] candies) {
+        Set<Integer> set = new HashSet<>();
+        for (int n : candies) {
+            set.add(n);
+        }
+        return Math.min(candies.length / 2, set.size());
+    }
+}
+
+//妹妹一共能有len/2颗糖  如果糖种类大于等于len/2 则就是len/2
+//若糖的种类不足len/2 则有多少种就分多少种给妹妹 即糖的种类
+//种类的话 用set就可以判断了
