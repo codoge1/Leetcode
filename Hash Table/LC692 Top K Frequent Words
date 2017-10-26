@@ -1,0 +1,32 @@
+class Solution {
+    public List<String> topKFrequent(String[] words, int k) {
+        List<String> res = new ArrayList<>();
+        Map<String, Integer> map = new HashMap<>();
+        for (String word : words) {
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        }
+        PriorityQueue<String>[] buckets = new PriorityQueue[words.length + 1];
+        for (String key : map.keySet()) {
+            int f = map.get(key);
+            if (buckets[f] == null) {
+                buckets[f] = new PriorityQueue<>();
+            }
+            buckets[f].offer(key);
+        }
+        for (int i = buckets.length - 1; i >= 0; i--) {
+            if (buckets[i] != null) {
+                while (!buckets[i].isEmpty()) {
+                    res.add(buckets[i].poll());
+                    if (res.size() == k) {
+                        return res;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+}
+
+//新题一遍ac  其实很类似  按照频率排 先用map统计  然后bucket sort
+//此题和以前不太一样 若有同样频率的 不是都加 而是按字典序加  即res的size是严格控制为k的
+//所以 每个桶设置为pq  倒序遍历桶 对每个桶 只要pq不为空 则poll 加入 每加入一个 判断size  若=k则返回即可~
