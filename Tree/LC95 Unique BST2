@@ -1,0 +1,41 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<TreeNode> generateTrees(int n) {
+        if (n <= 0) {
+            return new ArrayList<TreeNode>();
+        }
+        return generate(1, n);
+    }
+    public List<TreeNode> generate(int left, int right) {
+        List<TreeNode> res = new ArrayList<>();
+        if (left > right) {
+            res.add(null);
+            return res;
+        }
+        for (int i = left; i <= right; i++) {
+            for (TreeNode leftSub : generate(left, i - 1)) {
+                for (TreeNode rightSub : generate(i + 1, right)) {
+                    TreeNode root = new TreeNode(i);
+                    root.left = leftSub;
+                    root.right = rightSub;
+                    res.add(root);
+                }
+            }
+        }
+        return res;
+    }
+}
+
+//需要返回所有的树 而不仅仅是数量  所以需要用dp构建树
+//思路类似I 是以1-n所有结点为root 然后递归建左右子树  因为涉及到区间划分 所以输入为left right
+//创建结果数组 注意！当左大于右 不能返回空list 因为左大于右 意味着当前结点为null 而不是没有 所以需要在res里加入null 再返回
+//然后 从左到右 以每个值为root 递归调用其左边和右边generate 然后两两配对 建立树 加到res里 最后返回res
+//edge case是 当n小于等于0 会返回一个list 里面是null  而我们需要返回空list 所以单独列出
