@@ -1,0 +1,51 @@
+public class Solution {
+    TrieNode root;
+    public class TrieNode {
+        boolean isWord;
+        TrieNode[] children;
+        public TrieNode() {
+            isWord = false;
+            children = new TrieNode[26];
+        }
+    }
+    public String replaceWords(List<String> dict, String sentence) {
+        build(dict);
+        String[] strs = sentence.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (String str : strs) {
+            sb.append(replace(str));
+            sb.append(" ");
+        }
+        return sb.deleteCharAt(sb.length() - 1).toString();
+    }
+    public void build(List<String> dict) {
+        root = new TrieNode();
+        for (String str : dict) {
+            TrieNode cur = root;
+            for (char c : str.toCharArray()) {
+                if (cur.children[c - 'a'] == null) {
+                    cur.children[c - 'a'] = new TrieNode();
+                }
+                cur = cur.children[c - 'a'];
+            }
+            cur.isWord = true;
+        }
+    }
+    public String replace(String str) {
+        TrieNode cur = root;
+        StringBuilder sb = new StringBuilder();
+        for (char c : str.toCharArray()) {
+            if (cur.children[c - 'a'] == null) {
+                return str;
+            }
+            cur = cur.children[c - 'a'];
+            sb.append(c);
+            if (cur.isWord) {
+                return sb.toString();
+            }
+        }
+        return str;
+    }
+}
+
+//一看即知道用trie  先用dict建树  然后写replace方法 即在树中 寻找str的前缀 若无前缀则返回自身
