@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return build(0, 0, inorder.length - 1, preorder, inorder);
+    }
+    public TreeNode build(int pre, int left, int right, int[] preorder, int[] inorder) {
+        if (pre >= preorder.length || left > right) {
+            return null;
+        }
+        TreeNode root = new TreeNode(preorder[pre]);
+        int index = 0;
+        for (int i = left; i <= right; i++) {
+            if (inorder[i] == preorder[pre]) {
+                index = i;
+                break;
+            }
+        }
+        root.left = build(pre + 1, left, index - 1, preorder, inorder);
+        root.right = build(pre + index - left + 1, index + 1, right, preorder, inorder);
+        return root;
+    }
+}
+
+//pre提供根 in 提供区间不断地以pre建root 然后找到根在inorder的位置划分区间  再找到左右结点根在pre的位置 递归建立树
