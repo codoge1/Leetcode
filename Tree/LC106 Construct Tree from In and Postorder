@@ -1,0 +1,33 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        return build(postorder.length - 1, 0, inorder.length - 1, inorder, postorder);
+    }
+    public TreeNode build(int post, int left, int right, int[] inorder, int[] postorder) {
+        if (post < 0 || left > right) {
+            return null;
+        }
+        TreeNode root = new TreeNode(postorder[post]);
+        int index = 0;
+        for (int i = left; i <= right; i++) {
+            if (inorder[i] == postorder[post]) {
+                index = i;
+                break;
+            }
+        }
+        root.left = build(post + index - right - 1, left, index - 1, inorder, postorder);
+        root.right = build(post - 1, index + 1, right, inorder, postorder);
+        return root;
+    }
+}
+
+//Post提供根 inorder提供区间  右节点的索引是post-1  左节点的话  遍历顺序是左节点后 再跳到右边
+//所以是post - (right - index) - 1
