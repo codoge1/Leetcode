@@ -1,0 +1,25 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    TreeNode pre = null;
+    public void flatten(TreeNode root) {
+        if (root == null) {
+            return;
+        }   
+        flatten(root.right);
+        flatten(root.left);
+        root.right = pre;
+        root.left = null;
+        pre = root;
+    }
+}
+
+//观察可得 从左到右是前序遍历  但若正向赋值 从根开始 则会扰乱原来顺序
+//所以 采用先右再左再根的后序  设置pre 对每个root right指向pre left 指向null 
