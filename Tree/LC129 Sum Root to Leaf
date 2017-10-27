@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int sumNumbers(TreeNode root) {
+        return sum(root, 0);
+    }
+    public int sum(TreeNode root, int cur) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return 10 * cur + root.val;
+        }
+        return sum(root.left, 10 * cur + root.val) + sum(root.right, 10 * cur + root.val);
+    }
+}
+
+//cur参数 记录的是到root结点之前 累积的和
+//若到root结点为null 则返回0 若root为叶子 则返回10*cur+val
+//若不为叶子 则返回递归其左右结点之和 注意更新cur
