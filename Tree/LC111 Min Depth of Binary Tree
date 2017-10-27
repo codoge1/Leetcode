@@ -1,0 +1,29 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        if (root.left == null && root.right == null) {
+            return 1;
+        }
+        if (root.left == null || root.right == null) {
+            if (root.left == null) {
+                return 1 + minDepth(root.right);
+            } else {
+                return 1 + minDepth(root.left);
+            }
+        }
+        return 1 + Math.min(minDepth(root.left), minDepth(root.right));
+    }
+}
+
+//和最大深度的区别是 当root 只有一个子树 即另一边为null 此时只能走那边子树 而不是返回两边的min  因为一边为null 不是叶子 不能返回1 + 0
