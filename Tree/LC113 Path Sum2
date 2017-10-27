@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<List<Integer>> res;
+    List<Integer> temp;
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        res = new ArrayList<>();
+        temp = new ArrayList<>();
+        dfs(root, sum);
+        return res;
+    }
+    public void dfs(TreeNode root, int remain) {
+        if (root == null) {
+            return;
+        }
+        if (root.left == null && root.right == null) {
+            if (root.val == remain) {
+                temp.add(root.val);
+                res.add(new ArrayList<>(temp));
+                temp.remove(temp.size() - 1);
+            }
+            return;
+        }
+        temp.add(root.val);
+        dfs(root.left, remain - root.val);
+        dfs(root.right, remain - root.val);
+        temp.remove(temp.size() - 1);
+    }
+}
+
+//回溯即可 在temp数组中 加入的数 记得删除   回溯法可以将res temp当参数 也可以声明在外面
