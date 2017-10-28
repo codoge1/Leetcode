@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<Integer> res;
+    public List<Integer> rightSideView(TreeNode root) {
+        res = new ArrayList<>();
+        dfs(root, 0);
+        return res;
+    }
+    public void dfs(TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        if (res.size() == level) {
+            res.add(root.val);
+        } else {
+            res.set(level, root.val);
+        }
+        dfs(root.left, level + 1);
+        dfs(root.right, level + 1);
+    }
+}
+
+//层序遍历 从左到右 每次更新level的value 若是新层 则add
