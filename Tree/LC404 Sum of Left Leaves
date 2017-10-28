@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int sum;
+    public int sumOfLeftLeaves(TreeNode root) {
+        sum = 0;
+        dfs(root);
+        return sum;
+    }
+    public void dfs(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        TreeNode left = root.left;
+        if (left != null && left.left == null && left.right == null) {
+            sum = sum + left.val;
+        } else {
+            dfs(root.left);
+        }
+        dfs(root.right);
+    }
+}
+
+//需要求左叶子的和 所以dfs 对每个结点 得到其left 若left不为null 且为叶子 则加上 否则递归
+//对右边无脑递归即可
