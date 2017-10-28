@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        if (root == p || root == q) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left == null) {
+            return right;
+        }
+        if (right == null) {
+            return left;
+        }
+        return root;
+    }
+}
+
+//此题不是BST 所以递归难理解点 若root为某一节点 则肯定返回root
+//否则 就在左右分别递归查找  查找类似dfs 若为null 则表明两结点都不在这边 则返回right查找结果即可
+//反之亦然 若两边都不为null  则表示在左右 都返回了值 即p q一左一右 则返回root
