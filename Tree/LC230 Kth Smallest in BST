@@ -1,0 +1,33 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int remain;
+    int res;
+    public int kthSmallest(TreeNode root, int k) {
+        remain = k;
+        inorder(root);
+        return res;
+    }
+    public void inorder(TreeNode root) {
+        if (root == null || remain < 0) {
+            return;
+        }
+        inorder(root.left);
+        remain--;
+        if (remain == 0) {
+            res = root.val;
+            return;
+        }
+        inorder(root.right);
+    }
+}
+
+//此题就inorder即可 注意可以improve的点是 当remain==0 保存值后返回
+//但此时 还有很多递归方法正在执行 所以 当找到后 就不需要再继续inorder遍历 所以remain<0直接返回
