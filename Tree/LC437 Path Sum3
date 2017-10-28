@@ -1,0 +1,33 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int pathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        return pathSumFrom(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
+    }
+    public int pathSumFrom(TreeNode root, int sum) {
+        int count = 0;
+        if (root == null) {
+            return 0;
+        }
+        if (root.val == sum) {
+            count++;
+        }
+        count = count + pathSumFrom(root.left, sum - root.val) + pathSumFrom(root.right, sum - root.val);
+        return count;
+    }
+}
+
+//此题和原来的区别是 路径可以不从root开始 也可以不以leaf结尾
+//原来的题 是从root开始 类似的 写一个from方法 从某点开始路径 然后只要出现remain = val 则计数
+//然后因为有正有负 所以无论到root后remain是否等于0 都继续递归其左右 并加入count 返回
+//然后对主方法 只要root不为null 就调用from root方法  再对left 和right调用from root方法
