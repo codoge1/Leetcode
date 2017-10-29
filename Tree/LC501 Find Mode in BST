@@ -1,0 +1,59 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int count;
+    int max;
+    List<Integer> res;
+    TreeNode pre;
+    public int[] findMode(TreeNode root) {
+        if (root == null) {
+            return new int[0];
+        }
+        count = 0;
+        max = 0;
+        res = new ArrayList<>();
+        pre = null;
+        inorder(root);
+        if (count == max) {
+            res.add(pre.val);
+        } else if (count > max) {
+            res = new ArrayList<>();
+            res.add(pre.val);
+        }
+        int[] result = new int[res.size()];
+        for (int i = 0; i < res.size(); i++) {
+            result[i] = res.get(i);
+        }
+        return result;
+    }
+    public void inorder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        inorder(root.left);
+        if (pre == null || root.val == pre.val) {
+            count++;
+        } else {
+            if (count == max) {
+                res.add(pre.val);
+            } else if (count > max) {
+                max = count;
+                res = new ArrayList<>();
+                res.add(pre.val);
+            }
+            count = 1;
+        }
+        pre = root;
+        inorder(root.right);
+    }
+}
+
+//思路很好想 就对BST进行inorder 对每个root 和pre比较 若相等则count++ 不相等时 若count==max 则加到res里
+//若> 则更新max 新创list 加入进去  最后count重设为1 然后记得对最后一个结点的count也进行判断   最后list转数组即可
