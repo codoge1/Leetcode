@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) {
+            return null;
+        }
+        if (key > root.val) {
+            root.right = deleteNode(root.right, key);
+        } else if (key < root.val) {
+            root.left = deleteNode(root.left, key);
+        } else {
+            if (root.left == null) {
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+            } else {
+                int min = findMin(root.right);
+                root.val = min;
+                root.right = deleteNode(root.right, min);
+            }
+        }
+        return root;
+    }
+    public int findMin(TreeNode root) {
+        while (root.left != null) {
+            root = root.left;
+        }
+        return root.val;
+    }
+}
+
+//删除树结点 先在BST中找到key结点 需要注意的是 当key<root.val 即key在左边 则递归调用左边 但此方法是返回更新后的树 即若递归root.left
+//返回的是root.left  所以不能直接return function 而是 root.left = ^^^^^^^ 即接上root
+//找到后 若结点只有一边子树 则返回另一边子树 这个步骤实现了删除结点
+//若有两边 则无法直接删除结点 而采用替换 即树结构不变 在右边找到下一个最小值 覆盖原root.val
+//然后继续递归右子树删除min 因为min重复  这里也需要记得返回的是right 所以用root.right = delete() 接上root
+//找最小值的方法 即一直往左扫即可
