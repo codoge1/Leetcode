@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode addOneRow(TreeNode root, int v, int d) {
+        if (d == 1) {
+            TreeNode newHead = new TreeNode(v);
+            newHead.left = root;
+            return newHead;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        for (int i = 0; i < d - 2; i++) {
+            int size = q.size();
+            for (int j = 0; j < size; j++) {
+                TreeNode cur = q.poll();
+                if (cur.left != null) {
+                    q.offer(cur.left);
+                }
+                if (cur.right != null) {
+                    q.offer(cur.right);
+                }
+            }
+        }
+        while (!q.isEmpty()) {
+            TreeNode cur = q.poll();
+            TreeNode temp = cur.left;
+            cur.left = new TreeNode(v);
+            cur.left.left = temp;
+            temp = cur.right;
+            cur.right = new TreeNode(v);
+            cur.right.right = temp;
+        }
+        return root;
+    }
+}
+
+//此题关键就是找到d-1那一排  若d为1 单独处理
+//否则对树进行 BFS的层序遍历  即用队列  先把root加进去 然后每次记录当前层的size 然后size次循环 每次poll出一个 cur
+//然后把cur的非null左右加进队列  size次后 原来层全部poll出 剩下的为当前层
+//root的深度为1 所以要找到d-1层 需要进行d-2次操作
+//找到后 对每一个结点 记录temp左右 然后新赋值left right  然后让left.left连原来left  right同理即可~
