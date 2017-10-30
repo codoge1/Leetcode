@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    Map<String, Integer> map;
+    List<TreeNode> res;
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        map = new HashMap<>();
+        res = new ArrayList<>();
+        postorder(root);
+        return res;
+    }
+    public String postorder(TreeNode root) {
+        if (root == null) {
+            return "#";
+        }
+        String left = postorder(root.left);
+        String right = postorder(root.right);
+        String str = root.val + left + right;
+        if (map.containsKey(str) && map.get(str) == 1) {
+            res.add(root);
+        }
+        map.put(str, map.getOrDefault(str, 0) + 1);
+        return str;
+    }
+}
+
+//最近做的后序遍历很多  此题 类似对每个节点的subtree和 还类似对每个节点的tilt 都是后序
+//判断是否为相同 可以对每个节点 都用一个str表示 因为要结构一样 所以null节点 也需要用#占位
+//每个节点的str 为自己的值 和左str 右str加起来
+//判断重复的时候 若有多个重复 第一思路是用set来临时保存res 以免结果重复  但不行 set中保存treenode 每个treenode 都是不同的对象
+//所以只能用map  对出现的str都计数 只有当str次数为1时 即这次是第二次遇见 加到res 继续计数 
