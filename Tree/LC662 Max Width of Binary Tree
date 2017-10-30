@@ -1,0 +1,42 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<Integer> left;
+    List<Integer> right;
+    public int widthOfBinaryTree(TreeNode root) {
+        left = new ArrayList<>();
+        right = new ArrayList<>();
+        dfs(root, 0, 1);
+        int max = 0;
+        for (int i = 0; i < left.size(); i++) {
+            max = Math.max(max, right.get(i) - left.get(i) + 1);
+        }
+        return max;
+    }
+    public void dfs(TreeNode root, int level, int index) {
+        if (root == null) {
+            return;
+        }
+        if (left.size() == level) {
+            left.add(index);
+            right.add(index);
+        } else {
+            right.set(level, index);
+        }
+        dfs(root.left, level + 1, 2 * index);
+        dfs(root.right, level + 1, 2 * index + 1);
+    }
+}
+
+//求最大宽度 其实就是要找到每一层的最左边和最右边的结点 这个用dfs层序遍历即可实现
+//但注意 是需要得到左右两节点之间的长度 所以 left right存的不是值 而是索引
+//所以 dfs中 需要对每个节点多一个参数index root从1编号的话 每个节点的左 为2i 右为2i+1 即可编号
+//只有当出现新层 left添加index  若是新层 right加index 否则只设置right
+//最后对每层left right遍历 更新最大值
