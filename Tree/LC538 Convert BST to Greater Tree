@@ -1,0 +1,30 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    TreeNode pre;
+    public TreeNode convertBST(TreeNode root) {
+        inorder(root);
+        return root;
+    }
+    public void inorder(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        inorder(root.right);
+        if (pre != null) {
+            root.val = root.val + pre.val;
+        }
+        pre = root;
+        inorder(root.left);
+    }
+}
+
+//其实挺简单的 要求是把每一个结点的值 换为原结点加上所有比他大的结点的值
+//对bst来说 中序遍历 若右根左 顺序 是从大到小 以这个遍历顺序 每个结点都为 这个结点的值和前一个结点的和即可
