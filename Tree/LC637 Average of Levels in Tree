@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    List<List<Integer>> list;
+    public List<Double> averageOfLevels(TreeNode root) {
+        list = new ArrayList<>();
+        dfs(root, 0);
+        List<Double> res = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            double sum = 0;
+            for (int n : list.get(i)) {
+                sum = sum + n;
+            }
+            res.add(sum / list.get(i).size());
+        }
+        return res;
+    }
+    public void dfs(TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        if (list.size() == level) {
+            list.add(new ArrayList<>());
+        }
+        list.get(level).add(root.val);
+        dfs(root.left, level + 1);
+        dfs(root.right, level + 1);
+    }
+}
+
+//dfs层序遍历 得到每一层  之后再求每一层的均值即可!
