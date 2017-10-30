@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int max;
+    public int diameterOfBinaryTree(TreeNode root) {
+        maxDepth(root);
+        return max;
+    }
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        max = Math.max(max, left + right);
+        return 1 + Math.max(left, right);
+    }
+}
+
+//对每个节点求最大深度 其间更新一个max值即可  最大的直径 其实就是某结点 左右子树的最大深度之和
