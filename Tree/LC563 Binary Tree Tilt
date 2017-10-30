@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int res;
+    public int findTilt(TreeNode root) {
+        getSum(root);
+        return res;
+    }
+    public int getSum(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int left = getSum(root.left);
+        int right = getSum(root.right);
+        res = res + Math.abs(left - right);
+        return root.val + left + right;
+    }
+}
+
+//后序遍历 对每个节点来说 其值为left+right+val 然后其tilt为left-right的绝对值 加到res里
