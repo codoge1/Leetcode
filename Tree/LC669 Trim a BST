@@ -1,0 +1,28 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode trimBST(TreeNode root, int L, int R) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val < L) {
+            return trimBST(root.right, L, R);
+        }
+        if (root.val > R) {
+            return trimBST(root.left, L, R);
+        }
+        root.left = trimBST(root.left, L, root.val);
+        root.right = trimBST(root.right, root.val, R);
+        return root;
+    }
+}
+
+//递归完成 对root来说 若大于R 则root及右边全部trim 即递归左节点
+//若小于L 则返回递归右节点  else 则表示 root在L,R中 保留 递归更新其左右结点即可  递归题的起点 都是root为null 时返回null~
