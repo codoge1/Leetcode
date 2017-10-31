@@ -1,0 +1,23 @@
+class Solution {
+    public boolean isPalindrome(int x) {
+        int res = 0;
+        if (x != 0 && x % 10 == 0) {
+            return false;
+        }
+        while (x > res) {
+            int digit = x % 10;
+            res = 10 * res + digit;
+            x = x / 10;
+        }
+        if (res == x || res / 10 == x) {
+            return true;
+        }
+        return false;
+    }
+}
+
+//和reverse number 类似 判断回文 可以将原数完全reverse 后和本身相比
+//更好的方法是 reverse 等于或超过一半 进行比较
+//例如1221 当res 和x 相等 都为12 则退出循环 或121 当res大于x 即reverse超过一半 退出循环
+//判断res和x 或者超过一半时 让res/10 和x比较
+//这个方法 edge case是除0以外的以0结尾的数 因为涉及到首位0 所以单独判断
