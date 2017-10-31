@@ -1,0 +1,33 @@
+class Solution {
+    public int divide(int dividend, int divisor) {
+        int sign = 1;
+        if ((dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0)) {
+            sign = -1;
+        }
+        long ldividend = Math.abs((long)dividend);
+        long ldivisor = Math.abs((long)divisor);
+        long count = count(ldividend, ldivisor);
+        long res = count * sign;
+        if (res > Integer.MAX_VALUE || res < Integer.MIN_VALUE) {
+            return Integer.MAX_VALUE;
+        }
+        return (int) res;
+    }
+    public long count(long ldividend, long ldivisor) {
+        if (ldividend < ldivisor) {
+            return 0;
+        }
+        long count = 1;
+        long sum = ldivisor;
+        while (ldividend - 2 * sum >= 0) {
+            sum = 2 * sum;
+            count = 2 * count;
+        }
+        return count + count(ldividend - sum, ldivisor);
+    }
+}
+
+//还是先处理符号 然后转为long 求绝对值 除法即是看被除数中有多少个除数 
+//如果一个一个数 效率太慢 所以类似二分查找 count方法中
+//若被除数小于除数 则0 否则 从1倍开始 只要被除数 能大于2倍sum 则sum 和count都*2
+//即 判断被除数有2个 4个 8个 16个  剩下的递归即可
