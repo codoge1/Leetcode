@@ -1,0 +1,25 @@
+class Solution {
+    public int reverse(int x) {
+        boolean neg = false;
+        if (x < 0) {
+            neg = true;
+        }
+        long lx = Math.abs((long)x);
+        long res = 0;
+        while (lx != 0) {
+            long digit = lx % 10;
+            res = 10 * res + digit;
+            lx = lx / 10;
+        }
+        if (neg) {
+            res = - res;
+        }
+        if (res > Integer.MAX_VALUE || res < Integer.MIN_VALUE) {
+            return 0;
+        }
+        return (int)res;
+    }
+}
+
+//先判断符号 设置flag  然后涉及到绝对值的 一定要考虑 minvalue 求绝对值会overflow
+//所以转为long计算 最后把res加上符号 判断是否越界 不越界则转int返回   此题只要需要注意处理edge case
