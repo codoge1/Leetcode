@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int findSecondMinimumValue(TreeNode root) {
+        if (root == null || root.left == null) {
+            return -1;
+        }
+        int left = findSecondMinimumValue(root.left);
+        int right = findSecondMinimumValue(root.right);
+        if (root.left.val == root.right.val) {
+            if (left == -1 && right == -1) {
+                return -1;
+            }
+            if (left == -1 || right == -1) {
+                return Math.max(left, right);
+            }
+            return Math.min(left, right);
+        }
+        if (root.left.val == root.val) {
+            int val = left;
+            return (val == -1) ? root.right.val : Math.min(val, root.right.val);
+        } else {
+            int val = right;
+            return (val == -1) ? root.left.val : Math.min(val, root.left.val);
+        }
+    }
+}
+
+//原创解法 如果root为null 或没有子节点 则肯定-1
+//否则 若左右两节点相等 则递归左右 若都为-1 则-1
+//若有1个为-1  则另一个为所求     若都不为-1 则两者最小为所求
+//然后 else 左右不等 若左等于root 则根据树的特性 右子树无需再判断 只需递归左子树 若为-1 则right.val直接返回 否则 right还得和递归左判断取最小
+//同理 若右=root 则递归右子树和左节点判断
