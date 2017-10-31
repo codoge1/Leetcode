@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int max = 0;
+    public int longestUnivaluePath(TreeNode root) {
+        dfs(root);
+        return max;
+    }
+    public void dfs(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        int temp = count(root.left, root.val) + count(root.right, root.val);
+        max = Math.max(max, temp);
+        dfs(root.left);
+        dfs(root.right);
+    }
+    public int count(TreeNode node, int val) {
+        if (node == null || node.val != val) {
+            return 0;
+        }
+        int left = count(node.left, val);
+        int right = count(node.right, val);
+        return 1 + Math.max(left, right);
+    }
+}
+
+//并不easy 此题思路 类似前面有道题 对每个节点 都求通过其的最长路径
+//而求最长路径 则为往左和往右 数和当前结点相等的数量相加
+//count方法 则是固定一个val 若node和val相等则为1+递归左右的最大值
+//然后在dfs树 对每个节点都调用count 求左加右 更新max即可
