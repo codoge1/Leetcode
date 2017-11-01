@@ -1,0 +1,10 @@
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        if (n < 0) {
+            return false;
+        }
+        return Integer.bitCount(n) == 1;
+    }
+}
+
+//记得排除负数  然后数bit 1个即为2的乘方
