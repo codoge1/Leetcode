@@ -1,0 +1,14 @@
+class Solution {
+    public int trailingZeroes(int n) {
+        int count = 0;
+        while (n >= 5) {
+            count = count + n / 5;
+            n = n / 5;
+        }
+        return count;
+    }
+}
+
+//2和5构成末尾0  2比5多 所以就看1-n有多少个5
+//每个5 提供1个5  25提供2个5 125提供3个 以此类推
+//所以 设置count 先加上有多少个5 然后判断有多少个25时 原n先除以5 再继续循环 知道小于5结束
