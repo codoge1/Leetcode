@@ -1,0 +1,17 @@
+class Solution {
+    public int computeArea(int A, int B, int C, int D, int E, int F, int G, int H) {
+        int area = (D - B) * (C - A) + (H - F) * (G - E);
+        if (B >= H || F >= D || C <= E || A >= G) {
+            return area;
+        }
+        int left = Math.max(A, E);
+        int right = Math.min(C, G);
+        int up = Math.min(D, H);
+        int bottom = Math.max(B, F);
+        int cover = (right - left) * (up - bottom);
+        return area - cover;
+    }
+}
+
+//注意 是求总面积 所以先求两矩形面积和  若无相交 则返回
+//若有相交 则求相交部分 减去即可
