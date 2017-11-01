@@ -1,0 +1,37 @@
+class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        if (numerator == 0) {
+            return "0";
+        }
+        StringBuilder sb = new StringBuilder();
+        if ((numerator > 0 && denominator < 0) || (numerator < 0 && denominator > 0)) {
+            sb.append("-");
+        }
+        long lnumerator = Math.abs((long)numerator);
+        long ldenominator = Math.abs((long)denominator);
+        if (lnumerator % ldenominator == 0) {
+            sb.append(lnumerator / ldenominator);
+            return sb.toString();
+        }
+        long remain = lnumerator % ldenominator;
+        sb.append(lnumerator / ldenominator);
+        sb.append(".");
+        Map<Long, Integer> map = new HashMap<>();
+        map.put(remain, sb.length());
+        while (remain != 0) {
+            remain = remain * 10;
+            sb.append(remain / ldenominator);
+            remain = remain % ldenominator;
+            if (map.containsKey(remain)) {
+                sb.insert(map.get(remain), "(");
+                sb.append(")");
+                break;
+            }
+            map.put(remain, sb.length());
+        }
+        return sb.toString();
+    }
+}
+
+//绝对值时 转化为long  怪不得这么多踩 非得设置min这个edge case
+//基本思路就是 对循环的处理 每次记录余数和其下一位的索引 出现相同余数 则加括号 否则一直循环直到余数为0
