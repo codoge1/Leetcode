@@ -1,0 +1,18 @@
+public class Solution {
+    public int numberOfArithmeticSlices(int[] A) {
+        int curr = 0,sum = 0;
+        for (int i = 2;i < A.length;i++){
+            if (A[i] - A[i - 1] == A[i - 1] - A[i - 2]){
+                curr++;
+                sum = sum + curr;
+            }
+            else {
+                curr = 0;
+            }
+        }
+        return sum;
+    }
+}
+
+//DP 设置cur 和total  cur代表 若123 下一个是4  则其实加入了 234 和1234两个 即cur++  再接一个 则是3个
+//若不满足 则断了 cur归零
