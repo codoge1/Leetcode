@@ -1,0 +1,31 @@
+class Solution {
+    public boolean checkSubarraySum(int[] nums, int k) {
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] == 0 && nums[i + 1] == 0) return true;
+        }
+        if (k < 0){
+            k = -k;
+        }
+        Map<Integer,Integer> map = new HashMap<>();
+        map.put(0,-1);
+        int remain = 0;
+        for (int i = 0;i < nums.length;i++){
+            remain = remain + nums[i];
+            if (k != 0){
+                remain = remain % k;
+            }
+            Integer prev = map.get(remain);
+            if (prev != null){
+                if (i - prev > 1){
+                 return true;   
+                }
+            }
+            else {
+                map.put(remain,i);
+            }
+        }
+        return false;
+    }
+}
+
+//基本思路 一直累加数组并%k 得到每个余数的索引放入map  若当前余数出现过 且索引差大于1 即表明这一段 能被k整除
