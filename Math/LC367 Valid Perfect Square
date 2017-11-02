@@ -1,0 +1,19 @@
+class Solution {
+    public boolean isPerfectSquare(int num) {
+        int low = 1, high = num;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (mid * mid == num) {
+                return true;
+            } else if (mid < num / mid) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return false;
+    }
+}
+
+//很简单的二分查找 注意 设计平方 所以最好不用mid*mid和num来判断 因为左边可能overflow 影响结果
+//但判断相等时 必须这样
