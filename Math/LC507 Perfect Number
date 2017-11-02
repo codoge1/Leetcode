@@ -1,0 +1,21 @@
+public class Solution {
+    public boolean checkPerfectNumber(int num) {
+        if (num == 1){
+            return false;
+        }
+        int sum = 0;
+        for (int i = (int)Math.sqrt(num);i > 1;i--){
+            if (num % i == 0){
+                sum = sum + i;
+                if (i != num / i){
+                    sum = sum + num / i;
+                }
+            }
+        }
+        sum++;
+        return sum == num;
+    }
+}
+
+//因子都是成对出现的 所以从num的平方根开始 往前找即可  因为不能算上自己 所以到2就停止
+//为了避免完全平方数的情况重复加  需要判断i 和num/i是否相等
