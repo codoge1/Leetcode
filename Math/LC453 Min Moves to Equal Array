@@ -1,0 +1,15 @@
+public class Solution {
+    public int minMoves(int[] nums) {
+        int min = nums[0];
+        for (int n : nums){
+            min = Math.min(min,n);
+        }
+        int move = 0;
+        for (int n : nums){
+            move = move + n - min;
+        }
+        return move;
+    }
+}
+
+//把n-1个数加1  其实就是把一个数减一  所以找到最小值 其他数都移到最小值即可
