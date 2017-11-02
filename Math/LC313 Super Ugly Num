@@ -1,0 +1,28 @@
+class Solution {
+    public int nthSuperUglyNumber(int n, int[] primes) {
+        int[] ugly = new int[n];
+        ugly[0] = 1;
+        int[] indexs = new int[primes.length];
+        int[] groups = new int[primes.length];
+        for (int i = 0; i < groups.length; i++) {
+            groups[i] = primes[i];
+        }
+        for (int i = 1;i < n; i++) {
+            ugly[i] = groups[0];
+            for (int num : groups) {
+                if (num < ugly[i]) {
+                    ugly[i] = num;
+                }
+            }
+            for (int j = 0; j < groups.length; j++) {
+                if (ugly[i] == groups[j]) {
+                    indexs[j]++;
+                    groups[j] = primes[j] * ugly[indexs[j]];
+                }
+            }
+        }
+        return ugly[n - 1];
+    }
+}
+
+//基本和ugly2类似 只是prime自定 新设置group和index数组即可
