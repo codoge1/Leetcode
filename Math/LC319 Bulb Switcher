@@ -1,0 +1,7 @@
+class Solution {
+    public int bulbSwitch(int n) {
+        return (int)Math.sqrt(n);
+    }
+}
+
+//对一个数来说 有多少因子就会turn多少次  一般因子是成对的 除了完全平方数 所以就是求有多少个完全平方数
