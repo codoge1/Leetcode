@@ -1,0 +1,20 @@
+class Solution {
+    public int countNumbersWithUniqueDigits(int n) {
+        if (n == 0) {
+            return 1;
+        }
+        int total = 10;
+        int i = 1;
+        int pre = 9;
+        while (i < n) {
+            int cur = pre * (10 - i);
+            total = total + cur;
+            pre = cur;
+            i++;
+        }
+        return total;
+    }
+}
+
+//记录total 初始为10 即一位数
+//然后对后面每一位数 由i-1位数的pre  乘以还剩下的数字 即得到cur 然后total更新 进行下一位
