@@ -1,0 +1,28 @@
+public class Solution {
+    public boolean judgeSquareSum(int c) {
+        for (long i = 0;i * i <= c;i++){
+            int j = c - (int)(i * i);
+            if (binarySearch(0,j,j)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean binarySearch(long low,long high,int n){
+        while (low <= high){
+            long mid = low + (high - low) / 2;
+            if (mid * mid == n){
+                return true;
+            }
+            else if (mid * mid < n){
+                low = mid + 1;
+            }
+            else{
+                high = mid - 1;
+            }
+        }
+        return false;
+    }
+}
+
+//从0到i*i<=c 遍历 每次得到另一个可能的完全平方数 判断其是否为平方数即可 用二分查找
