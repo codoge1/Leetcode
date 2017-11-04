@@ -1,0 +1,25 @@
+class Solution {
+    public int maximumSwap(int num) {
+        char[] digits = (num + "").toCharArray();
+        for (int i = 0; i < digits.length; i++) {
+            char max = digits[i];
+            int index = i;
+            for (int j = i + 1; j < digits.length; j++) {
+                if (digits[j] >= max) {
+                    index = j;
+                    max = digits[j];
+                }
+            }
+            if (max > digits[i]) {
+                digits[index] = digits[i];
+                digits[i] = max;
+                break;
+            }
+        }
+        return Integer.parseInt(String.valueOf(digits));
+    }
+}
+
+//要想最大 就得高位优先swap  所以从最高位开始  对每一位 查找其后面的最大值 更新最大值和索引
+//若最大值大于这一位的数 则交换break即可！ 否则就不换这一位
+//注意在找最大值时 若后面最大值有重复 例如59349 的9  则5优先和最后的9交换 所以更新max时 只要大于等于max就更新
