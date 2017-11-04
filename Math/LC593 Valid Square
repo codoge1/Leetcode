@@ -1,0 +1,25 @@
+class Solution {
+    public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {
+        int[] lengths = new int[]{getSquareDistance(p1,p2),getSquareDistance(p1,p3),getSquareDistance(p1,p4),
+                                  getSquareDistance(p2,p3),getSquareDistance(p2,p4),getSquareDistance(p3,p4)};
+        int diagonal = Integer.MIN_VALUE,side = Integer.MAX_VALUE,count = 0;
+        for (int l : lengths){
+            diagonal = Math.max(diagonal,l);
+            side = Math.min(side,l);
+        }
+        for (int l : lengths){
+            if (l == diagonal){
+                count++;
+            }
+            else if (l != side){
+                return false;
+            }
+        }
+        return count == 2 ? true : false;
+    }
+    public int getSquareDistance(int[] a,int[] b){
+        return (int)Math.pow(a[0] - b[0],2) + (int)Math.pow(a[1] - b[1],2);
+    }
+}
+
+//求距离时 若开方 会出现近似运算 所以一般就用平方后的值判断~
