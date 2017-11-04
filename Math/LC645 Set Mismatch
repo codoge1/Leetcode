@@ -1,0 +1,20 @@
+class Solution {
+    public int[] findErrorNums(int[] nums) {
+        Set<Integer> set = new HashSet<>();
+        int[] res = new int[2];
+        for (int n : nums) {
+            if (!set.add(n)) {
+                res[0] = n;
+            }
+        }
+        for (int i = 1; i <= nums.length; i++) {
+            if (!set.contains(i)) {
+                res[1] = i;
+                break;
+            }
+        }
+        return res;
+    }
+}
+
+//用set 第一遍找重复 第二遍找缺失
