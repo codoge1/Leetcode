@@ -1,0 +1,21 @@
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+        for (String str : strs) {
+            char[] c = str.toCharArray();
+            Arrays.sort(c);
+            String key = String.valueOf(c);
+            if (!map.containsKey(key)) {
+                map.put(key, new ArrayList<>());
+            }
+            map.get(key).add(str);
+        }
+        List<List<String>> res = new ArrayList<>();
+        for (List<String> list : map.values()) {
+            res.add(list);
+        }
+        return res;
+    }
+}
+
+//用map  key为字典序排列的anagram  value为对应的list即可~
