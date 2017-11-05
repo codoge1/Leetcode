@@ -1,0 +1,21 @@
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> res = new ArrayList<>();
+        backtrack(res, "", 0, 0, n);
+        return res;
+    }
+    public void backtrack(List<String> res, String temp, int left, int right, int n) {
+        if (temp.length() == 2 * n) {
+            res.add(temp);
+            return;
+        }
+        if (left < n) {
+            backtrack(res, temp + "(", left + 1, right, n);
+        }
+        if (right < left) {
+            backtrack(res, temp + ")", left, right + 1, n);
+        }
+    }
+}
+
+//dfs回溯即可
