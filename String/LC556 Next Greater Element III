@@ -1,0 +1,29 @@
+class Solution {
+    public int nextGreaterElement(int n) {
+        char[] digits = (n + "").toCharArray();
+        int i;
+        for (i = digits.length - 1;i > 0;i--){
+            if (digits[i] > digits[i - 1]){
+                break;
+            }
+        }
+        if (i == 0){
+            return -1;
+        }
+        int min = i;
+        int j;
+        for (j = i + 1;j < digits.length;j++){
+            if (digits[j] > digits[i - 1] && digits[j] < digits[min]){
+                min = j;
+            }
+        }
+        char temp = digits[i - 1];
+        digits[i - 1] = digits[min];
+        digits[min] = temp;
+        Arrays.sort(digits,i,digits.length);
+        long res = Long.parseLong(String.valueOf(digits));
+        return res > Integer.MAX_VALUE ? -1 : (int) res;
+    }
+}
+
+//和greatest 比较  ：  若找寻最大的  则是尽量在高位交换   若是找稍微大的 则要找低位
