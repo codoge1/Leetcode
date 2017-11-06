@@ -1,0 +1,20 @@
+class Solution {
+    public boolean judgeCircle(String moves) {
+        int[] dir = new int[2];
+        for (char c : moves.toCharArray()){
+            if (c == 'R'){
+                dir[0]++;
+            }
+            else if (c == 'L'){
+                dir[0]--;
+            }
+            else if (c == 'U'){
+                dir[1]++;
+            }
+            else{
+                dir[1]--;
+            }
+        } 
+        return dir[0] == 0 && dir[1] == 0;
+    }
+}
