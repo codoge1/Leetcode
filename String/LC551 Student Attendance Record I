@@ -1,0 +1,18 @@
+public class Solution {
+    public boolean checkRecord(String s) {
+        char[] c = s.toCharArray();
+        int count = 0;
+        for (int i = 0;i < c.length;i++){
+            if (c[i] == 'A'){
+                count++;
+                if (count > 1){
+                    return false;
+                }
+            }
+            if (i > 1 && c[i] == 'L' && c[i - 1] == 'L' && c[i - 2] == 'L'){
+                return false;
+            }
+        }
+        return true;
+    }
+}
