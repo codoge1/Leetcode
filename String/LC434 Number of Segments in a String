@@ -1,0 +1,10 @@
+public class Solution {
+    public int countSegments(String s) {
+        String trimmed = s.trim();
+         if (trimmed == null || trimmed.length() == 0){
+            return 0;
+        }
+        String[] str = trimmed.split("\\s+");
+        return str.length;
+    }
+}
